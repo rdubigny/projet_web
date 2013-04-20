@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="theatre">
+    <wb-module deploy-name="gestion_places">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="context-root" value="theatre"/>
-        <property name="java-output-path" value="/theatre/build/classes"/>
+        <property name="java-output-path" value="/gestion_places/build/classes"/>
+        <property name="context-root" value="gestion_places"/>
     </wb-module>
 </project-modules>
