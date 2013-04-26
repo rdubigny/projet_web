@@ -76,10 +76,13 @@ public class DAOFactory {
     }
 
     /*
-     * Méthodes de récupération de l'implémentation des différents DAO (un seul
-     * pour le moment)
+     * Méthodes de récupération de l'implémentation des différents DAO
      */
     public UtilisateurDao getUtilisateurDao() {
 	return new UtilisateurDaoImpl(this);
+    }
+
+    public SpectacleDao getSpectacleDao() {
+	return new SpectacleDaoImpl(this);
     }
 }

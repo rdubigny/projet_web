@@ -20,11 +20,11 @@ import com.gr15.form.IdentificationForm;
 @WebServlet("/identification")
 public class Identification extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    // useless public static final String ATT_USER = "utilisateur";
     public static final String ATT_FORM = "form";
     public static final String ATT_SESSION_USER = "sessionUtilisateur";
 
     public static final String VUE = "/WEB-INF/identification.jsp";
+    public static final String REDIRECTION_ESPACE_CLIENT = "espaceClient";
     public static final String CONF_DAO_FACTORY = "daofactory";
 
     private UtilisateurDao utilisateurDao;
@@ -33,14 +33,6 @@ public class Identification extends HttpServlet {
 	/* Récupération d'une instance de notre DAO Utilisateur */
 	this.utilisateurDao = ((DAOFactory) getServletContext().getAttribute(
 		CONF_DAO_FACTORY)).getUtilisateurDao();
-    }
-
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Identification() {
-	super();
-	// TODO Auto-generated constructor stub
     }
 
     /**
@@ -69,21 +61,24 @@ public class Identification extends HttpServlet {
 	/* Récupération de la session depuis la requête */
 	HttpSession session = request.getSession();
 
+	request.setAttribute(ATT_FORM, form);
+
 	/**
 	 * Si aucune erreur de validation n'a eu lieu, alors ajout du bean
-	 * Utilisateur à la session, sinon suppression du bean de la session.
+	 * Utilisateur à la session puis redirection vers l'espace client, sinon
+	 * suppression du bean de la session et redirection vers la page
+	 * d'identification.
 	 */
+
 	if (form.getErreurs().isEmpty()) {
+	    // TODO conditionnelle qui teste si l'utilisateur est Admin
 	    session.setAttribute(ATT_SESSION_USER, utilisateur);
+	    response.sendRedirect(REDIRECTION_ESPACE_CLIENT);
 	} else {
 	    session.setAttribute(ATT_SESSION_USER, null);
+	    this.getServletContext().getRequestDispatcher(VUE)
+		    .forward(request, response);
 	}
-
-	request.setAttribute(ATT_FORM, form);
-	// USELESS : request.setAttribute(ATT_USER, utilisateur);
-
-	this.getServletContext().getRequestDispatcher(VUE)
-		.forward(request, response);
     }
 
 }

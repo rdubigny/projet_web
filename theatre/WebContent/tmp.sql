@@ -11,3 +11,12 @@ PRIMARY KEY ( login )
 ) ENGINE = INNODB;
 
 INSERT INTO tmp.Utilisateur (login, mot_de_passe, nom, prenom, email) VALUES ('root', 'root', 'root', 'root', 'chezRoot');
+
+CREATE TABLE tmp.Spectacle (
+nom VARCHAR( 60 ) NOT NULL,
+PRIMARY KEY ( nom )
+) ENGINE = INNODB;
+
+INSERT INTO tmp.Spectacle (nom) VALUES ('L Ecole des Femmes - Moliere');
+INSERT INTO tmp.Spectacle (nom) VALUES ('Troilus et Cressida - William Shakespeare');
+INSERT INTO tmp.Spectacle (nom) VALUES ('Ce que j appelle oubli - Laurent Mauvignier');

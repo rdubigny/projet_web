@@ -8,6 +8,14 @@
 	<link type="text/css" rel="stylesheet" href="inc/style.css" />
 </head>
 <body>
+	<c:choose>
+	<%-- Vérification de la présence d'un objet utilisateur en session --%>
+    <c:when test="${!empty sessionScope.sessionUtilisateur}">
+     			<%-- Si l'utilisateur existe en session, alors on affiche une page de déconnection. --%>
+    	<p class="info">(Vous êtes connecté(e) en tant que ${sessionScope.sessionUtilisateur.login})</p>
+    	<input type="button" value="Déconnexion" onclick="self.location.href='<c:url value='/deconnexion'/>'" />
+    </c:when>
+    <c:otherwise>
 	<form method="post" action="<c:url value="/identification"/>">
 	<fieldset>
 			<legend>Identification</legend>			
@@ -19,15 +27,9 @@
       				<p>Identifiez vous pour réserver vos places.</p>
       			</c:otherwise>
 			</c:choose>
-						
-			<%-- Vérification de la présence d'un objet utilisateur en session --%>
-     		<c:if test="${!empty sessionScope.sessionUtilisateur}">
-     			<%-- Si l'utilisateur existe en session, alors on affiche son adresse email. --%>
-         		<p class="info">(Vous êtes connecté(e) en tant que ${sessionScope.sessionUtilisateur.login})</p>
-      		</c:if>
 
 			<label for="nom">login <span class="requis">*</span></label>
-			<input type="text" id="login" name="login" value="<c:out value="${sessionScope.sessionUtilisateur.login}"/>" 
+			<input type="text" id="login" name="login" value="" 
 				size="20" maxlength="60" />
 			<span class="erreur">${form.erreurs['login']}</span> <br />
 			
@@ -44,5 +46,7 @@
 			<input type="submit" value="Connexion" class="sansLabel" /> <br />
    	</fieldset>
 	</form>
+    </c:otherwise>
+	</c:choose>
 </body>
 </html>
