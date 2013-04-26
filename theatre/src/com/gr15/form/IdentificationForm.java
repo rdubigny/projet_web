@@ -56,10 +56,15 @@ public class IdentificationForm {
 	Utilisateur utilisateur = null;
 	try {
 	    utilisateur = validationLogin(login);
-	    validationMotDePasse(motdepasse, utilisateur);
+	    try {
+		validationMotDePasse(motdepasse, utilisateur);
+	    } catch (FormValidationException e) {
+		setErreur(CHAMP_PASS, e.getMessage());
+	    }
 	} catch (FormValidationException e) {
 	    setErreur(CHAMP_LOGIN, e.getMessage());
 	}
+
 	return utilisateur;
     }
 
@@ -74,16 +79,20 @@ public class IdentificationForm {
 		throw new FormValidationException("Utilisateur inconnu.");
 	    }
 	} else {
-	    throw new FormValidationException(
-		    "Merci de saisir une adresse mail.");
+	    throw new FormValidationException("Merci de saisir votre login.");
 	}
     }
 
     /* Validation du mot de passe */
     private void validationMotDePasse(String motdepasse, Utilisateur utilisateur)
 	    throws FormValidationException {
-	if (!utilisateur.ValidateMotdepasse(motdepasse)) {
-	    throw new FormValidationException("Mot de passe incorrect.");
+	if (motdepasse != null) {
+	    if (!utilisateur.ValidateMotdepasse(motdepasse)) {
+		throw new FormValidationException("Mot de passe incorrect.");
+	    }
+	} else {
+	    throw new FormValidationException(
+		    "Merci de saisir votre mot de passe.");
 	}
     }
 

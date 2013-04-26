@@ -10,8 +10,16 @@
 <body>
 	<form method="post" action="<c:url value="/identification"/>">
 	<fieldset>
-			<legend>Identification</legend>
-			<p>Identifiez vous pour réserver vos places.</p>
+			<legend>Identification</legend>			
+			<c:choose>
+    			<c:when test="${!empty form.erreurs}">
+    				<p class="erreur">${form.resultat}</p>
+    			</c:when>
+      			<c:otherwise>
+      				<p>Identifiez vous pour réserver vos places.</p>
+      			</c:otherwise>
+			</c:choose>
+						
 			<%-- Vérification de la présence d'un objet utilisateur en session --%>
      		<c:if test="${!empty sessionScope.sessionUtilisateur}">
      			<%-- Si l'utilisateur existe en session, alors on affiche son adresse email. --%>
@@ -34,10 +42,6 @@
       		<br />
 			
 			<input type="submit" value="Connexion" class="sansLabel" /> <br />
-			
-			<c:if test="${!empty form.resultat}">
-         		<p class="erreur">${form.resultat}</p>
-      		</c:if>
    	</fieldset>
 	</form>
 </body>
