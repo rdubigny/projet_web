@@ -27,7 +27,7 @@
       		</c:if>
 
 			<label for="nom">login <span class="requis">*</span></label>
-			<input type="text" id="login" name="login" value="<c:out value="${requestScope.login}"/>" 
+			<input type="text" id="login" name="login" value="<c:out value="${sessionScope.sessionUtilisateur.login}"/>" 
 				size="20" maxlength="60" />
 			<span class="erreur">${form.erreurs['login']}</span> <br />
 			

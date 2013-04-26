@@ -80,7 +80,7 @@ public class Identification extends HttpServlet {
 	}
 
 	request.setAttribute(ATT_FORM, form);
-	// useless request.setAttribute(ATT_USER, utilisateur);
+	// USELESS : request.setAttribute(ATT_USER, utilisateur);
 
 	this.getServletContext().getRequestDispatcher(VUE)
 		.forward(request, response);
