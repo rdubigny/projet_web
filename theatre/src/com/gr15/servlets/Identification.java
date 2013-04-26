@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.gr15.beans.Utilisateur;
+import com.gr15.dao.DAOFactory;
+import com.gr15.dao.UtilisateurDao;
 import com.gr15.form.IdentificationForm;
 
 /**
@@ -23,6 +25,15 @@ public class Identification extends HttpServlet {
     public static final String ATT_SESSION_USER = "sessionUtilisateur";
 
     public static final String VUE = "/WEB-INF/identification.jsp";
+    public static final String CONF_DAO_FACTORY = "daofactory";
+
+    private UtilisateurDao utilisateurDao;
+
+    public void init() throws ServletException {
+	/* Récupération d'une instance de notre DAO Utilisateur */
+	this.utilisateurDao = ((DAOFactory) getServletContext().getAttribute(
+		CONF_DAO_FACTORY)).getUtilisateurDao();
+    }
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -50,7 +61,7 @@ public class Identification extends HttpServlet {
     protected void doPost(HttpServletRequest request,
 	    HttpServletResponse response) throws ServletException, IOException {
 	/* Préparation de l'objet formulaire */
-	IdentificationForm form = new IdentificationForm();
+	IdentificationForm form = new IdentificationForm(utilisateurDao);
 
 	/* Traitement de la requête et récupération du bean en résultant */
 	Utilisateur utilisateur = form.connecterUtilisateur(request);
