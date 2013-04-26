@@ -5,7 +5,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Identification</title>
-	<link type="text/css" rel="stylesheet" href="inc/form.css" />
+	<link type="text/css" rel="stylesheet" href="inc/style.css" />
 </head>
 <body>
 	<form method="post" action="<c:url value="/identification"/>">
