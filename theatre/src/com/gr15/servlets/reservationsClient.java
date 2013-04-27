@@ -1,6 +1,7 @@
 package com.gr15.servlets;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,30 +11,30 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class mesReservations
  */
-@WebServlet("/mesReservations")
+@WebServlet( "/reservationsClient" )
 public class reservationsClient extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+    private static final long  serialVersionUID = 1L;
+    public static final String VUE              = "/WEB-INF/reservationsClient.jsp";
+
     /**
-     * @see HttpServlet#HttpServlet()
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+     *      response)
      */
-    public reservationsClient() {
-        super();
-        // TODO Auto-generated constructor stub
+    protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException,
+            IOException {
+        // TODO Auto-generated method stub
+        /* Affichage de la page de réservation */
+        this.getServletContext().getRequestDispatcher( VUE )
+                .forward( request, response );
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException,
+            IOException {
+        // TODO Auto-generated method stub
+    }
 
 }
