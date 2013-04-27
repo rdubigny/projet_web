@@ -1,7 +1,7 @@
-CREATE DATABASE tmp DEFAULT CHARACTER SET utf8 COLLATE
+CREATE DATABASE bd DEFAULT CHARACTER SET utf8 COLLATE
 utf8_general_ci;
 
-CREATE TABLE tmp.Utilisateur (
+CREATE TABLE bd.Utilisateur (
 login VARCHAR( 20 ) NOT NULL,
 mot_de_passe VARCHAR( 56 ) NOT NULL,
 nom VARCHAR( 20 ) NOT NULL,
@@ -10,23 +10,23 @@ email VARCHAR( 60 ) NOT NULL,
 PRIMARY KEY ( login )
 ) ENGINE = INNODB;
 
-INSERT INTO tmp.Utilisateur (login, mot_de_passe, nom, prenom, email) VALUES ('root', 'root', 'root', 'root', 'chezRoot');
+INSERT INTO bd.Utilisateur (login, mot_de_passe, nom, prenom, email) VALUES ('root', 'root', 'root', 'root', 'chezRoot');
 
-CREATE TABLE tmp.Spectacle (
+CREATE TABLE bd.Spectacle (
 nom VARCHAR( 60 ) NOT NULL,
 PRIMARY KEY ( nom )
 ) ENGINE = INNODB;
 
-DROP DATABASE tmp;
+DROP DATABASE bd;
 
-CREATE DATABASE tmp DEFAULT CHARACTER SET utf8 COLLATE
+CREATE DATABASE bd DEFAULT CHARACTER SET utf8 COLLATE
 utf8_general_ci;
 
 
 
 -- ---- Entités Simple ------
 
-CREATE TABLE tmp.spectacle (
+CREATE TABLE bd.spectacle (
 id_spectacle INTEGER ,
 nom_spectacle VARCHAR( 200 ) NOT NULL,
 base_prix NUMERIC(4,2),
@@ -36,7 +36,7 @@ CHECK (base_prix > 0),
 PRIMARY KEY ( id_spectacle )
 ) ENGINE = INNODB;
 
-CREATE TABLE tmp.zone (
+CREATE TABLE bd.zone (
 id_zone INTEGER,
 categorie_prix VARCHAR( 200 ) NOT NULL ,
 pourcentage_prix INTEGER,
@@ -45,13 +45,13 @@ CHECK (id_zone > 0),
 PRIMARY KEY ( id_zone )
 ) ENGINE = INNODB;
 
-CREATE TABLE tmp.dossier (
+CREATE TABLE bd.dossier (
 id_dossier INTEGER,
 CHECK ( id_dossier > 0 ),
 PRIMARY KEY ( id_dossier )
 ) ENGINE = INNODB;
 
-CREATE TABLE tmp.utilisateur (
+CREATE TABLE bd.utilisateur (
 id_utilisateur INTEGER ,
 login VARCHAR( 56 ) NOT NULL,
 mot_de_passe VARCHAR( 56 ) NOT NULL,
@@ -65,7 +65,7 @@ PRIMARY KEY ( id_utilisateur )
 
 -- ---- Entités faibles ------
 
-CREATE TABLE tmp.representation(
+CREATE TABLE bd.representation(
 id_representation INTEGER ,
 id_spectacle INTEGER,
 moment_representation DATETIME,
@@ -77,9 +77,9 @@ FOREIGN KEY (id_spectacle) REFERENCES spectacle(id_spectacle)
 
 -- ---- Insertions------------
 
-INSERT INTO tmp.Spectacle (nom) VALUES ('L Ecole des Femmes - Moliere');
-INSERT INTO tmp.Spectacle (nom) VALUES ('Troilus et Cressida - William Shakespeare');
-INSERT INTO tmp.Spectacle (nom) VALUES ('Ce que j appelle oubli - Laurent Mauvignier');
+INSERT INTO bd.Spectacle (nom) VALUES ('L Ecole des Femmes - Moliere');
+INSERT INTO bd.Spectacle (nom) VALUES ('Troilus et Cressida - William Shakespeare');
+INSERT INTO bd.Spectacle (nom) VALUES ('Ce que j appelle oubli - Laurent Mauvignier');
 
 
 
