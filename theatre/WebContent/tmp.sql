@@ -77,9 +77,9 @@ FOREIGN KEY (id_spectacle) REFERENCES spectacle(id_spectacle)
 
 -- ---- Insertions------------
 
-INSERT INTO bd.Spectacle (nom) VALUES ('L Ecole des Femmes - Moliere');
-INSERT INTO bd.Spectacle (nom) VALUES ('Troilus et Cressida - William Shakespeare');
-INSERT INTO bd.Spectacle (nom) VALUES ('Ce que j appelle oubli - Laurent Mauvignier');
+INSERT INTO tmp.spectacle (id_spectacle, nom_spectacle, base_prix) VALUES ('1','L Ecole des Femmes - Moliere','20.00');
+INSERT INTO tmp.spectacle (id_spectacle, nom_spectacle, base_prix) VALUES ('2','Troilus et Cressida - William Shakespeare','30.00');
+INSERT INTO tmp.spectacle (id_spectacle, nom_spectacle, base_prix) VALUES ('3','Ce que j appelle oubli - Laurent Mauvignier','10.00');
 
 
 

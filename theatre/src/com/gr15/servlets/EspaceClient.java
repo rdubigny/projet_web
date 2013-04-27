@@ -26,7 +26,7 @@ public class EspaceClient extends HttpServlet {
     private SpectacleDao spectacleDao;
 
     public void init() throws ServletException {
-	/* Récupération d'une instance de notre DAO Utilisateur */
+	/* Récupération d'une instance de notre DAO Spectacle */
 	this.spectacleDao = ((DAOFactory) getServletContext().getAttribute(
 		CONF_DAO_FACTORY)).getSpectacleDao();
     }
