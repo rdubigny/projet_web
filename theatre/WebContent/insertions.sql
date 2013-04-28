@@ -1,4 +1,3 @@
-
 -- Spectacle -----------
 INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('L Ecole des Femmes - Moliere','20.00');
 INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('Troilus et Cressida - William Shakespeare','30.00');
@@ -8,4 +7,7 @@ INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('Ce que j ap
 INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('root', 'root', 'root', 'root', 'root@root.root', 'client');
 
 -- Représentation ------
+
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1',NOW());
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-05-28 15:00:00');
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-03-28 15:00:00');

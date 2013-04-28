@@ -36,8 +36,10 @@ public class RepresentationDaoImpl implements RepresentationDao {
 	    resultSet = preparedStatement.executeQuery();
 	    /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	    while (resultSet.next()) {
-		// TODO Vérifier que la date n'est pas passée moins une heure
-		listeRepresentation.add(map(resultSet));
+		/* on ne s'intéresse qu'aux représentation à venir */
+		if (!resultSet.getTimestamp("moment_representation").before(
+			DateTime.now().plusHours(1).toDate()))
+		    listeRepresentation.add(map(resultSet));
 	    }
 	} catch (SQLException e) {
 	    throw new DAOException(e);
@@ -56,7 +58,7 @@ public class RepresentationDaoImpl implements RepresentationDao {
 	representation.setId(resultSet.getLong("id_representation"));
 	representation.setIdSpectacle(resultSet.getLong("id_spectacle"));
 	representation.setDate(new DateTime(resultSet
-		.getDate("moment_representation")));
+		.getTimestamp("moment_representation")));
 	return representation;
     }
 

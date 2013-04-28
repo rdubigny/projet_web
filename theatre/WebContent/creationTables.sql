@@ -1,7 +1,6 @@
 DROP DATABASE projweb_db;
 CREATE DATABASE projweb_db DEFAULT CHARACTER SET utf8 COLLATE
 utf8_general_ci;
-
 CREATE TABLE projweb_db.spectacle (
 id_spectacle INTEGER AUTO_INCREMENT,
 nom_spectacle VARCHAR( 200 ) NOT NULL,

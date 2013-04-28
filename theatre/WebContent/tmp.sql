@@ -27,7 +27,7 @@ utf8_general_ci;
 -- ---- Entités Simple ------
 
 CREATE TABLE bd.spectacle (
-id_spectacle INTEGER ,
+id_spectacle INTEGER AUTO_INCREMENT,
 nom_spectacle VARCHAR( 200 ) NOT NULL,
 base_prix NUMERIC(4,2),
 CHECK (id_spectacle > 0),
@@ -37,7 +37,7 @@ PRIMARY KEY ( id_spectacle )
 ) ENGINE = INNODB;
 
 CREATE TABLE bd.zone (
-id_zone INTEGER,
+id_zone INTEGER AUTO_INCREMENT,
 categorie_prix VARCHAR( 200 ) NOT NULL ,
 pourcentage_prix INTEGER,
 CHECK (pourcentage_prix >= 0 && pourcentage_prix <= 100 ),
@@ -46,13 +46,13 @@ PRIMARY KEY ( id_zone )
 ) ENGINE = INNODB;
 
 CREATE TABLE bd.dossier (
-id_dossier INTEGER,
+id_dossier INTEGER AUTO_INCREMENT,
 CHECK ( id_dossier > 0 ),
 PRIMARY KEY ( id_dossier )
 ) ENGINE = INNODB;
 
 CREATE TABLE bd.utilisateur (
-id_utilisateur INTEGER ,
+id_utilisateur INTEGER AUTO_INCREMENT,
 login VARCHAR( 56 ) NOT NULL,
 mot_de_passe VARCHAR( 56 ) NOT NULL,
 nom VARCHAR( 20 ) NOT NULL,
@@ -66,7 +66,7 @@ PRIMARY KEY ( id_utilisateur )
 -- ---- Entités faibles ------
 
 CREATE TABLE bd.representation(
-id_representation INTEGER ,
+id_representation INTEGER AUTO_INCREMENT,
 id_spectacle INTEGER,
 moment_representation DATETIME,
 CHECK ( id_representation > 0 ),
