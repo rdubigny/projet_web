@@ -20,7 +20,6 @@ SELECT s.nom_spectacle FROM projweb_db.spectacle s ;
 
 SELECT s.nom_spectacle, r.moment_representation FROM projweb_db.representation r, projweb_db.spectacle s
  WHERE s.id_spectacle = r.id_spectacle AND CURTIME() < SUBTIME(r.moment_representation, '0 01:00:00');
-SELECT SUBTIME(r.moment_representation, '0 01:00:00') FROM projweb_db.representation r;
 
 -- Liste réservations
 
