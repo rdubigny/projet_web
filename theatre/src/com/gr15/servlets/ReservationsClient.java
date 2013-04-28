@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
  * Servlet implementation class mesReservations
  */
 @WebServlet( "/reservationsClient" )
-public class reservationsClient extends HttpServlet {
+public class ReservationsClient extends HttpServlet {
     private static final long  serialVersionUID = 1L;
     public static final String VUE              = "/WEB-INF/reservationsClient.jsp";
 

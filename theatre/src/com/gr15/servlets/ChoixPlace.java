@@ -12,14 +12,14 @@ import javax.servlet.http.HttpServletResponse;
  * Servlet implementation class choixPlace
  */
 @WebServlet( "/choixPlace" )
-public class choixPlace extends HttpServlet {
+public class ChoixPlace extends HttpServlet {
     private static final long  serialVersionUID = 1L;
     public static final String VUE              = "/WEB-INF/choixPlace.jsp";
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public choixPlace() {
+    public ChoixPlace() {
         super();
         // TODO Auto-generated constructor stub
     }

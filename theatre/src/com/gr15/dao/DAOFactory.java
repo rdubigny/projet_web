@@ -85,4 +85,8 @@ public class DAOFactory {
     public SpectacleDao getSpectacleDao() {
 	return new SpectacleDaoImpl(this);
     }
+
+    public RepresentationDao getRepresentationDao() {
+	return new RepresentationDaoImpl(this);
+    }
 }

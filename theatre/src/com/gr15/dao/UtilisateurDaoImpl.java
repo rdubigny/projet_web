@@ -12,7 +12,7 @@ import com.gr15.beans.Utilisateur;
 
 public class UtilisateurDaoImpl implements UtilisateurDao {
     private DAOFactory daoFactory;
-    private static final String SQL_SELECT_PAR_LOGIN = "SELECT login, nom, prenom, email, mot_de_passe FROM Utilisateur WHERE login = ?";
+    private static final String SQL_SELECT_PAR_LOGIN = "SELECT id_utilisateur, login, mot_de_passe, nom, prenom, mail, type_utilisateur FROM Utilisateur WHERE login = ?";
 
     UtilisateurDaoImpl(DAOFactory daoFactory) {
 	this.daoFactory = daoFactory;
@@ -52,18 +52,13 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
      */
     private static Utilisateur map(ResultSet resultSet) throws SQLException {
 	Utilisateur utilisateur = new Utilisateur();
+	utilisateur.setId(resultSet.getLong("id_utilisateur"));
 	utilisateur.setLogin(resultSet.getString("login"));
+	utilisateur.setMotdepasse(resultSet.getString("mot_de_passe"));
 	utilisateur.setNom(resultSet.getString("nom"));
 	utilisateur.setPrenom(resultSet.getString("prenom"));
-	utilisateur.setEmail(resultSet.getString("email"));
-	utilisateur.setMotdepasse(resultSet.getString("mot_de_passe"));
+	utilisateur.setEmail(resultSet.getString("mail"));
+	utilisateur.setTypeUtilisateur(resultSet.getString("type_utilisateur"));
 	return utilisateur;
-    }
-
-    /* Implémentation de la méthode définie dans l'interface UtilisateurDao */
-    @Override
-    public void setEstAdmin(Utilisateur utilisateur) throws DAOException {
-	// TODO Auto-generated method stub
-
     }
 }

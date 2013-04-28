@@ -3,11 +3,11 @@ package com.gr15.beans;
 public class Utilisateur {
     private long id;
     private String login;
+    private String motdepasse;
     private String nom;
     private String prenom;
     private String email;
-    private Boolean estadmin;
-    private String motdepasse;
+    private String typeUtilisateur;
 
     public long getId() {
 	return id;
@@ -49,14 +49,6 @@ public class Utilisateur {
 	this.email = email;
     }
 
-    public Boolean getEstAdmin() {
-	return estadmin;
-    }
-
-    public void setEstAdmin(Boolean estAdmin) {
-	estadmin = estAdmin;
-    }
-
     /**
      * @param motdepasse
      * @return true si le mot de passe est correct
@@ -68,5 +60,17 @@ public class Utilisateur {
 
     public void setMotdepasse(String motdepasse) {
 	this.motdepasse = motdepasse;
+    }
+
+    public String getTypeUtilisateur() {
+	return typeUtilisateur;
+    }
+
+    public void setTypeUtilisateur(String typeUtilisateur) {
+	this.typeUtilisateur = typeUtilisateur;
+    }
+
+    public boolean estResponsable() {
+	return typeUtilisateur.equals("responsable");
     }
 }
