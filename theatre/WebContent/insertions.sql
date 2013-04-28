@@ -1,9 +1,11 @@
 -- Spectacle -----------
+
 INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('L Ecole des Femmes - Moliere','20.00');
 INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('Troilus et Cressida - William Shakespeare','30.00');
 INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('Ce que j appelle oubli - Laurent Mauvignier','10.00');
 
 -- Utilisateur ---------
+
 INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('root', 'root', 'root', 'root', 'root@root.root', 'client');
 INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('dubignyr', 'dubigny', 'raphael', 'raphael', 'raphael@dubigny.fr', 'responsables');
 
@@ -13,7 +15,6 @@ INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALU
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-05-28 15:00:00');
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-03-28 15:00:00');
 
-
 -- Zones --------------
 
 INSERT INTO projweb_db.zone (categorie_prix, base_pourcentage_prix) VALUES ('Platine',1);
@@ -21,10 +22,7 @@ INSERT INTO projweb_db.zone (categorie_prix, base_pourcentage_prix) VALUES ('Or'
 INSERT INTO projweb_db.zone (categorie_prix, base_pourcentage_prix) VALUES ('Argent',3);
 INSERT INTO projweb_db.zone (categorie_prix, base_pourcentage_prix) VALUES ('Cuivre',4);
 
-
 -- Places --------------
-
-
 
 INSERT INTO projweb_db.place (numero_rang, numero_siege, id_zone) VALUES (1,1,2);
 INSERT INTO projweb_db.place (numero_rang, numero_siege, id_zone) VALUES (1,2,2);
