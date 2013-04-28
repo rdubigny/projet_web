@@ -32,7 +32,7 @@ menera à l'url choixPlace/ -->
                 <%-- Simple test de parité sur l'index de parcours, pour alterner la couleur de fond de chaque ligne du tableau. --%>
                 <tr class="${boucle.index % 2 == 0 ? 'pair' : 'impair'}">
                     <%-- Affichage du nom des spectacles --%>
-                    <td><joda:format value="${ representation.date }" pattern="dd/MM/yyyy HH:mm:ss"/></td>
+                    <td><joda:format value="${ representation.date }" pattern="EEEE dd MMMM yyyy 'à' HH 'heures'"/></td>
                     <%-- Lien vers la page de réservation de la représentation appropriée. --%>
                     <td class="action">
                         <input type="button" value="Sélectionner" 
