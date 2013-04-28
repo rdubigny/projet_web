@@ -1,6 +1,6 @@
-DROP DATABASE projweb_db;
-CREATE DATABASE projweb_db DEFAULT CHARACTER SET utf8 COLLATE
-utf8_general_ci;
+ DROP DATABASE projweb_db;
+ CREATE DATABASE projweb_db DEFAULT CHARACTER SET utf8 COLLATE
+ utf8_general_ci;
 
 CREATE TABLE projweb_db.spectacle (
 id_spectacle INTEGER AUTO_INCREMENT,
@@ -62,35 +62,15 @@ PRIMARY KEY ( id_place),
 FOREIGN KEY (id_zone) REFERENCES zone(id_zone) ON DELETE CASCADE
 ) ENGINE = INNODB;
 
+
 CREATE TABLE projweb_db.ticket(
-id_place INTEGER AUTO_INCREMENT,
+id_ticket INTEGER AUTO_INCREMENT,
 moment_vente DATETIME,
-id_representation INTEGER,
-PRIMARY KEY (id_place),
-FOREIGN KEY (id_place) REFERENCES place(id_place) ON DELETE CASCADE,
-FOREIGN KEY (id_representation) REFERENCES representation(id_representation) ON DELETE CASCADE
+CHECK ( id_ticket > 0 ),
+PRIMARY KEY (id_ticket)
 ) ENGINE = INNODB;
 
 -- Associations --------------
-
-	CREATE TABLE projweb_db.place_reservee(
-id_reservation INTEGER AUTO_INCREMENT,
-if_representation INTEGER,
-id_place INTEGER,
-id_utilisateur INTEGER,
-id_dossier INTEGER,
-PRIMARY KEY ( id_reservation ),
-FOREIGN KEY (id_place) REFERENCES place(id_place) ON DELETE CASCADE,
-FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id_utilisateur) ON DELETE CASCADE,
-FOREIGN KEY (id_dossier) REFERENCES dossier(id_dossier) ON DELETE CASCADE
-) ENGINE = INNODB;
-
-
-
-• reservation(id_reservation, id_place, id_utilisateur)
--  id_reservation > 0
-- id_place clef étrangère référence à place(id_place).
-- id_utilisateur clef étrangère référence à utilisateur(id_utilisateur).
 
 CREATE TABLE projweb_db.reservation(
 id_reservation INTEGER AUTO_INCREMENT,
@@ -98,9 +78,9 @@ id_representation INTEGER,
 id_place INTEGER,
 id_utilisateur INTEGER,
 PRIMARY KEY ( id_reservation ),
+FOREIGN KEY (id_representation) REFERENCES representation(id_representation) ON DELETE CASCADE,
 FOREIGN KEY (id_place) REFERENCES place(id_place) ON DELETE CASCADE,
-FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id_utilisateur) ON DELETE CASCADE,
-FOREIGN KEY (id_representation) REFERENCES representation(id_representation) ON DELETE CASCADE
+FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id_utilisateur) ON DELETE CASCADE
 ) ENGINE = INNODB;
 
 
@@ -109,10 +89,13 @@ id_achat INTEGER AUTO_INCREMENT,
 id_representation INTEGER,
 id_place INTEGER,
 id_dossier INTEGER,
+id_ticket INTEGER,
 id_utilisateur INTEGER,
-PRIMARY KEY ( id_reservation ),
+PRIMARY KEY ( id_achat ),
 FOREIGN KEY (id_place) REFERENCES place(id_place) ON DELETE CASCADE,
 FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id_utilisateur) ON DELETE CASCADE,
 FOREIGN KEY (id_representation) REFERENCES representation(id_representation) ON DELETE CASCADE,
-FOREIGN KEY (id_dossier) REFERENCES dossier(id_dossier) ON DELETE CASCADE
+FOREIGN KEY (id_dossier) REFERENCES dossier(id_dossier) ON DELETE CASCADE,
+FOREIGN KEY (id_ticket) REFERENCES ticket(id_ticket) ON DELETE CASCADE
 ) ENGINE = INNODB;
+
