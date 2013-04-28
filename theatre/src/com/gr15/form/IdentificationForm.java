@@ -39,7 +39,6 @@ public class IdentificationForm {
 	try {
 	    utilisateur = traiterIdentifiants(login, motDePasse);
 	    if (erreurs.isEmpty()) {
-		utilisateurDao.setEstAdmin(utilisateur);
 		resultat = "Succès de l'identification.";
 	    } else {
 		resultat = "Échec de l'identification.";

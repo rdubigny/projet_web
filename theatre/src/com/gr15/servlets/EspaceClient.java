@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.gr15.beans.Spectacle;
 import com.gr15.dao.DAOFactory;
 import com.gr15.dao.SpectacleDao;
 
@@ -26,7 +27,7 @@ public class EspaceClient extends HttpServlet {
     private SpectacleDao spectacleDao;
 
     public void init() throws ServletException {
-	/* Récupération d'une instance de notre DAO Spectacle */
+	/* Récupération d'une instance du DAO spectacle */
 	this.spectacleDao = ((DAOFactory) getServletContext().getAttribute(
 		CONF_DAO_FACTORY)).getSpectacleDao();
     }
@@ -38,7 +39,8 @@ public class EspaceClient extends HttpServlet {
     protected void doGet(HttpServletRequest request,
 	    HttpServletResponse response) throws ServletException, IOException {
 	/* calcule la liste des spectacles disponibles */
-	List<String> listeSpectacle = new ArrayList<String>();
+	/* à faire dans un objet métier non ? */
+	List<Spectacle> listeSpectacle = new ArrayList<Spectacle>();
 	spectacleDao.lister(listeSpectacle);
 
 	request.setAttribute(ATT_SPECTACLES, listeSpectacle);

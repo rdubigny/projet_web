@@ -44,6 +44,9 @@
       		<br />
 			
 			<input type="submit" value="Connexion" class="sansLabel" /> <br />
+			
+			<!-- Si on a été redirigé parce qu'on a essayé d'accéder à une page restreinte -->
+			<p><span class ="erreur">${erreur}</span></p>
    	</fieldset>
 	</form>
     </c:otherwise>

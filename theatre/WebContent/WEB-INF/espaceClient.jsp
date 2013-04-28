@@ -29,12 +29,14 @@
                 <%-- Simple test de parité sur l'index de parcours, pour alterner la couleur de fond de chaque ligne du tableau. --%>
                 <tr class="${boucle.index % 2 == 0 ? 'pair' : 'impair'}">
                     <%-- Affichage du nom des spectacles --%>
-                    <td><c:out value="${ spectacle }"/></td>
+                    <td><c:out value="${ spectacle.nom }"/></td>
                     <%-- Lien vers la page de réservation du spectacle approprié. --%>
                     <td class="action">
-                        <input type="button" value="Réserver" 
+                        <input type="button" value="Sélectionner" 
                         	onclick="self.location.href=
-                        	'<c:url value='/choixRepresentation'><c:param name='nomSpectacle' value='${ spectacle }' /></c:url>'"
+                        	'<c:url value='/choixRepresentation'>
+                        		<c:param name='id' value='${ spectacle.id }' />
+                        	</c:url>'"
                        	/>
                     </td>
                 </tr>

@@ -25,6 +25,7 @@ public class Identification extends HttpServlet {
 
     public static final String VUE = "/WEB-INF/identification.jsp";
     public static final String REDIRECTION_ESPACE_CLIENT = "espaceClient";
+    public static final String REDIRECTION_ESPACE_RESPONSABLE = "espaceClient";
     public static final String CONF_DAO_FACTORY = "daofactory";
 
     private UtilisateurDao utilisateurDao;
@@ -71,9 +72,11 @@ public class Identification extends HttpServlet {
 	 */
 
 	if (form.getErreurs().isEmpty()) {
-	    // TODO conditionnelle qui teste si l'utilisateur est Admin
 	    session.setAttribute(ATT_SESSION_USER, utilisateur);
-	    response.sendRedirect(REDIRECTION_ESPACE_CLIENT);
+	    if (utilisateur.estResponsable())
+		response.sendRedirect(REDIRECTION_ESPACE_RESPONSABLE);
+	    else
+		response.sendRedirect(REDIRECTION_ESPACE_CLIENT);
 	} else {
 	    session.setAttribute(ATT_SESSION_USER, null);
 	    this.getServletContext().getRequestDispatcher(VUE)
