@@ -104,7 +104,7 @@ FOREIGN KEY (id_representation) REFERENCES representation(id_representation) ON 
 ) ENGINE = INNODB;
 
 
-CREATE TABLE projweb_db.reservation(
+CREATE TABLE projweb_db.achat(
 id_achat INTEGER AUTO_INCREMENT,
 id_representation INTEGER,
 id_place INTEGER,
