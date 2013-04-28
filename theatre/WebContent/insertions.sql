@@ -7,13 +7,15 @@ INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('Ce que j ap
 -- Utilisateur ---------
 
 INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('root', 'root', 'root', 'root', 'root@root.root', 'client');
-INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('dubignyr', 'dubigny', 'raphael', 'raphael', 'raphael@dubigny.fr', 'responsables');
+INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('dubignyr', 'dubigny', 'raphael', 'raphael', 'raphael@dubigny.fr', 'responsable');
 
 -- Représentation ------
 
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1',NOW());
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-05-28 15:00:00');
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-03-28 15:00:00');
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES 
+('1',ADDTIME( TIME(NOW()), '00:50:00'));
 
 -- Zones --------------
 
