@@ -15,7 +15,7 @@ import com.gr15.beans.Representation;
 
 public class RepresentationDaoImpl implements RepresentationDao {
     private DAOFactory daoFactory;
-    private static final String SQL_SELECT = "SELECT * FROM representation WHERE id_representation=?";
+    private static final String SQL_SELECT = "SELECT * FROM representation WHERE id_spectacle=?";
 
     RepresentationDaoImpl(DAOFactory daoFactory) {
 	this.daoFactory = daoFactory;
