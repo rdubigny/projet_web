@@ -32,3 +32,11 @@ CHECK (DATE_FORMAT(moment_representation, "%Y-%m-%d") >= '2013-09-01'),
 PRIMARY KEY ( id_representation ),
 FOREIGN KEY (id_spectacle) REFERENCES spectacle(id_spectacle) ON DELETE CASCADE
 ) ENGINE = INNODB;
+
+CREATE TABLE projweb_db.zone(
+id_zone INTEGER AUTO_INCREMENT,
+categorie_prix VARCHAR (60) NOT NULL,
+base_pourcentage_prix INTEGER,
+CHECK ( base_pourcentage_prix >= 0 && base_pourcentage_prix <= 100),
+PRIMARY KEY (id_zone)
+) ENGINE = INNODB;
