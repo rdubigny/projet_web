@@ -40,7 +40,7 @@
                         <input type="button" value="Sélectionner" 
                         	onclick="self.location.href=
                         	'<c:url value='/choixRepresentation'>
-                        		<c:param name='id' value='${ spectacle.id }' />
+                        		<c:param name='nom' value='${spectacle.id }' />
                         	</c:url>'"
                        	/>
                     </td>

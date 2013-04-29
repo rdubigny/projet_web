@@ -40,9 +40,13 @@ public class ChoixPlace extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
      *      response)
      */
+
     protected void doGet(HttpServletRequest request,
 	    HttpServletResponse response) throws ServletException, IOException {
-
+	// TODO Auto-generated method stub
+	/* Affichage de la page d'acceuil client */
+	this.getServletContext().getRequestDispatcher(VUE)
+		.forward(request, response);
 	/* réscupération de la représentation sélectionnée */
 	Representation representation = representationDao.trouver(request
 		.getParameter(PARAM_REPRESENTATION_ID));
