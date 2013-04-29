@@ -25,7 +25,7 @@ menera à l'url choixPlace/ -->
             <table>
                 <tr>
                     <th>Date</th>
-                    <th class="action">Acheter / Réserver</th>                    
+                    <th class="action">Acheter / Réserver</th>            
                 </tr>
                 <%-- Parcours de la listes des représentations en requête, et utilisation de l'objet varStatus. --%>
                 <c:forEach items="${ requestScope.representations }" var="representation" varStatus="boucle">
