@@ -57,7 +57,7 @@ SELECT * from projweb_db.reservation;
 -- liste representations ordre chronologique 
 
 SELECT s.nom_spectacle, r.moment_representation FROM projweb_db.spectacle s, projweb_db.representation r 
-WHERE r.id_spectacle = s.id_spectacle ORDER BY r.moment_representation;SELECT * FROM projweb_db.spectacle s ;
+WHERE r.id_spectacle = s.id_spectacle ORDER BY r.moment_representation;
 
 -- suppression reservation
 DELETE FROM projweb_db.reservation where id_reservation = ? 
