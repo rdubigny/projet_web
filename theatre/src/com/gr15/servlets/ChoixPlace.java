@@ -43,11 +43,8 @@ public class ChoixPlace extends HttpServlet {
 
     protected void doGet(HttpServletRequest request,
 	    HttpServletResponse response) throws ServletException, IOException {
-	// TODO Auto-generated method stub
-	/* Affichage de la page d'acceuil client */
-	this.getServletContext().getRequestDispatcher(VUE)
-		.forward(request, response);
-	/* réscupération de la représentation sélectionnée */
+
+	/* récupération de la représentation sélectionnée */
 	Representation representation = representationDao.trouver(request
 		.getParameter(PARAM_REPRESENTATION_ID));
 	HttpSession session = request.getSession();
@@ -64,8 +61,6 @@ public class ChoixPlace extends HttpServlet {
 	// ArrayList<Representation>();
 	// representationDao.listerParSpectacle(spectacle.getId(),
 	// listeRepresentation);
-
-	int i = matricePlace.length;
 
 	/* on transmet la matrice en attribut */
 	request.setAttribute(ATT_PLACES, matricePlace);

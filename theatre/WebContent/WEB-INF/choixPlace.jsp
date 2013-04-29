@@ -16,16 +16,29 @@ deux boutons input = submit : un pour acheter, un pour reserver -->
 		<joda:format value="${ sessionScope.representation.date }" pattern="EEEE dd MMMM yyyy 'à' HH 'heures'"/>.
 	</div>
 	<div id="corps">
+		<form action="/choixPlace" method="get">
     	<table>
-        	<c:forEach var="i" begin="0" end=${ places.length}>   
+        	<c:forEach items="${ places }" var="rang">   
         		<tr>
-<!--             	<tr background-color=#0af>              -->
-         			<c:forEach var="j" begin="0" end=${ places[i].length}>
-            			<td>${ place[i][j].zone }</td>
+         			<c:forEach items="${ rang }" var="place">
+            			<td bgcolor=<c:choose>
+            							<c:when test="${place.zone == 1}">"#DAA520"</c:when>
+            							<c:when test="${place.zone == 2}">"#CC6666"</c:when>
+            							<c:when test="${place.zone == 3}">"#D2B48C"</c:when>
+            							<c:when test="${place.zone == 4}">"#BC8F8F"</c:when>
+            							<c:when test="${place.zone == 5}">"#8FBC8F"</c:when>
+            							<c:when test="${place.zone == 6}">"#CD853F"</c:when>
+            						</c:choose>>
+            				<c:if test="${place.zone != 2}">
+            					<input type="checkbox" name="id" value="${ place.zone }" />
+            				</c:if>
+                        </td>
             		</c:forEach>
             	</tr>
         	</c:forEach>
        	</table>
+       	<input type="submit" value="Submit">
+       	</form>
 	</div>
 </body>
 </html>
