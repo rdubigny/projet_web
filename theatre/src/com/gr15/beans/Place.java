@@ -1,17 +1,23 @@
 package com.gr15.beans;
 
 public class Place {
+    private int id;
     private int zone;
     private boolean occupe;
 
-    public Place() {
+    public Place(int id, int zone) {
 	super();
+	this.id = id;
+	this.zone = zone;
 	occupe = false;
     }
 
-    public Place(int zone) {
-	super();
-	this.zone = zone;
+    public int getId() {
+	return id;
+    }
+
+    public void setId(int id) {
+	this.id = id;
     }
 
     public int getZone() {
@@ -26,7 +32,7 @@ public class Place {
 	return occupe;
     }
 
-    public void setOccupe(boolean occupe) {
-	this.occupe = occupe;
+    public void setOccupe() {
+	this.occupe = true;
     }
 }

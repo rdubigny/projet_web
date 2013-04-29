@@ -89,4 +89,8 @@ public class DAOFactory {
     public RepresentationDao getRepresentationDao() {
 	return new RepresentationDaoImpl(this);
     }
+
+    public PlaceDao getPlaceDao() {
+	return new PlaceDaoImpl(this);
+    }
 }
