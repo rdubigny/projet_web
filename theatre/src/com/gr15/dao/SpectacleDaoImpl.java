@@ -15,7 +15,7 @@ public class SpectacleDaoImpl implements SpectacleDao {
     private DAOFactory daoFactory;
     private static final String SQL_SELECT = "SELECT * FROM spectacle";
     private static final String SQL_SELECT_PAR_ID = "SELECT * FROM spectacle WHERE id_spectacle=?";
-
+   
     SpectacleDaoImpl(DAOFactory daoFactory) {
 	this.daoFactory = daoFactory;
     }

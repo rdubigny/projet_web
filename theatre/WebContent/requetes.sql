@@ -26,7 +26,8 @@ SELECT * FROM projweb_db.spectacle s ;
 SELECT s.nom_spectacle, r.moment_representation 
 	FROM projweb_db.representation r, projweb_db.utilisateur u, projweb_db.spectacle s
 	WHERE s.id_spectacle = r.id_spectacle 
-		AND u.id_utilisateur = '?' 
+		AND s.id_spectacle = ?
+		AND u.id_utilisateur = ? 
 		AND CURTIME() < r.moment_representation 
 		AND ((u.type_utilisateur = 'client' AND CURTIME() < SUBTIME(r.moment_representation, '0 01:00:00')
 				 OR (u.type_utilisateur = 'guichet')));
