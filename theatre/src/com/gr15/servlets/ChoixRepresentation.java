@@ -13,9 +13,11 @@ import javax.servlet.http.HttpSession;
 
 import com.gr15.beans.Representation;
 import com.gr15.beans.Spectacle;
+import com.gr15.beans.Utilisateur;
 import com.gr15.dao.DAOFactory;
 import com.gr15.dao.RepresentationDao;
 import com.gr15.dao.SpectacleDao;
+import com.gr15.dao.UtilisateurDao;
 
 /**
  * Servlet implementation class ChoixRepresentation
@@ -31,9 +33,8 @@ public class ChoixRepresentation extends HttpServlet {
 
     private SpectacleDao spectacleDao;
     private RepresentationDao representationDao;
-
     public void init() throws ServletException {
-	/* Récupération d'une instance des DAO spectacle et représentation */
+	/* Récupération d'une instance des DAO spectacle et représentation et utilisateur*/
 	this.spectacleDao = ((DAOFactory) getServletContext().getAttribute(
 		CONF_DAO_FACTORY)).getSpectacleDao();
 	this.representationDao = ((DAOFactory) getServletContext()
@@ -59,7 +60,9 @@ public class ChoixRepresentation extends HttpServlet {
 	 * d'une heure
 	 */
 	List<Representation> listeRepresentation = new ArrayList<Representation>();
-	representationDao.listerParSpectacle(spectacle.getId(),
+	HttpSession session1 = request.getSession();
+	
+	representationDao.listerParSpectacle(spectacle.getId(), (((Utilisateur)session1.getAttribute("sessionUtilisateur"))).getId(),
 		listeRepresentation);
 
 	/* on transmet la liste en attribut */

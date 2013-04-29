@@ -8,7 +8,7 @@ public interface RepresentationDao {
 
     public void lister( List<Representation> listeRepresentation );
 
-    public void listerParSpectacle( long idSpectacle,
+    public void listerParSpectacle( long idSpectacle, long idUtilisateur,
             List<Representation> listeRepresentation );
 
     public Representation trouver( String id );
