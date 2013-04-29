@@ -6,9 +6,11 @@ import com.gr15.beans.Representation;
 
 public interface RepresentationDao {
 
-    public void listerParSpectacle(long idSpectacle,
-	    List<Representation> listeRepresentation);
+    public void lister( List<Representation> listeRepresentation );
 
-    public Representation trouver(String id);
+    public void listerParSpectacle( long idSpectacle,
+            List<Representation> listeRepresentation );
+
+    public Representation trouver( String id );
 
 }
