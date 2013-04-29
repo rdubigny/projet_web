@@ -26,13 +26,33 @@ public class RepresentationDaoImpl implements RepresentationDao {
 			"		AND CURTIME() < r.moment_representation "+
 			"		AND ((u.type_utilisateur = 'client' AND CURTIME() < SUBTIME(r.moment_representation, '0 01:00:00') "+
 			"				 OR (u.type_utilisateur = 'guichet')))"; 
+ private static final String SQL_SELECT_CHRONO = "SELECT id_representation, s.nom_spectacle, r.moment_representation FROM projweb_db.spectacle s, projweb_db.representation r WHERE r.id_spectacle = s.id_spectacle ORDER BY r.moment_representation";
 
 	RepresentationDaoImpl( DAOFactory daoFactory ) {
 		this.daoFactory = daoFactory;
 	}
 
-	public void lister( List<Representation> listeRepresentation ) {
-	}	
+   public void lister( List<Representation> listeRepresentation ) {
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            /* Récupération d'une connexion depuis la Factory */
+            connexion = daoFactory.getConnection();
+            preparedStatement = initialisationRequetePreparee( connexion,
+                    SQL_SELECT_CHRONO, false );
+            resultSet = preparedStatement.executeQuery();
+            /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+            while ( resultSet.next() ) {
+                listeRepresentation.add( map_admin( resultSet ) );
+            }
+        } catch ( SQLException e ) {
+            throw new DAOException( e );
+        } finally {
+            fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+        }
+
+    }
 
 	@Override
 	public void listerParSpectacle( long idSpectacle, long idUtilisateur,
@@ -81,7 +101,6 @@ public class RepresentationDaoImpl implements RepresentationDao {
 		}
 		return representation;
 	}
-
 
 
 	//    @Override
@@ -147,4 +166,20 @@ public class RepresentationDaoImpl implements RepresentationDao {
 				.getTimestamp( "moment_representation" ) ) );
 		return representation;
 	}
+    /*
+     * A terme il serait peut être judicieux de fusionner ces deux méthodes
+     * utilitaires en une seule. en effet, il faudrait faire un test avant
+     * chaque setter pour vérifier que dans la requête on a bien récuperer le
+     * champ correspondant ...
+     */
+
+    private static Representation map_admin( ResultSet resultSet ) throws SQLException {
+        Representation representation = new Representation();
+        representation.setId( resultSet.getLong( "id_representation" ) );
+        representation.setDate( new DateTime( resultSet
+                .getTimestamp( "moment_representation" ) ) );
+        representation.setNomSpectacle( resultSet.getString( "nom_spectacle" ) );
+        return representation;
+    }
+
 }
