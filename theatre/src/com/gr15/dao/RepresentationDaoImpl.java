@@ -16,6 +16,7 @@ import com.gr15.beans.Representation;
 public class RepresentationDaoImpl implements RepresentationDao {
     private DAOFactory daoFactory;
     private static final String SQL_SELECT = "SELECT * FROM representation WHERE id_spectacle=?";
+    private static final String SQL_SELECT_PAR_ID = "SELECT * FROM representation WHERE id_representation=?";
 
     RepresentationDaoImpl(DAOFactory daoFactory) {
 	this.daoFactory = daoFactory;
@@ -46,6 +47,31 @@ public class RepresentationDaoImpl implements RepresentationDao {
 	} finally {
 	    fermeturesSilencieuses(resultSet, preparedStatement, connexion);
 	}
+    }
+
+    @Override
+    public Representation trouver(String id) {
+	Connection connexion = null;
+	PreparedStatement preparedStatement = null;
+	ResultSet resultSet = null;
+	Representation representation = null;
+
+	try {
+	    /* Récupération d'une connexion depuis la Factory */
+	    connexion = daoFactory.getConnection();
+	    preparedStatement = initialisationRequetePreparee(connexion,
+		    SQL_SELECT_PAR_ID, false, id);
+	    resultSet = preparedStatement.executeQuery();
+	    /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+	    if (resultSet.next()) {
+		representation = map(resultSet);
+	    }
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermeturesSilencieuses(resultSet, preparedStatement, connexion);
+	}
+	return representation;
     }
 
     /*

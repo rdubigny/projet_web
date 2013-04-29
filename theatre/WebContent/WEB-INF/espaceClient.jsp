@@ -9,6 +9,11 @@
 </head>
 <body>
 	<div id="menu">
+<!-- 		ligne de débug, à supprimer -->
+		${sessionScope.sessionUtilisateur.login} - ${sessionScope.sessionUtilisateur.typeUtilisateur}		
+		${sessionScope.sessionUtilisateur.estResponsable()}<br/>
+		
+		
 		Liste des spectacles.
 	</div>
 	<div id="corps">
