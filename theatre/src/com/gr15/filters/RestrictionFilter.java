@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
  * Servlet Filter implementation class RestrictionFilter. Filtre l'accès à
  * l'application.
  */
-@WebFilter( urlPatterns = "/*" )
+// @WebFilter( urlPatterns = "/*" )
 public class RestrictionFilter implements Filter {
     public static final String ACCES_CONNEXION  = "/identification";
     public static final String ATT_ERREUR       = "erreur";
