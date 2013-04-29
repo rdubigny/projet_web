@@ -18,11 +18,19 @@ SELECT s.nom_spectacle FROM projweb_db.spectacle s ;
 
 SELECT * FROM projweb_db.spectacle s ;
 
--- Liste representations
+-- ------------- Liste representations
 
-SELECT s.nom_spectacle, r.moment_representation FROM projweb_db.representation r, projweb_db.spectacle s
- WHERE s.id_spectacle = r.id_spectacle AND CURTIME() < SUBTIME(r.moment_representation, '0 01:00:00');
-SELECT SUBTIME(r.moment_representation, '0 01:00:00') FROM projweb_db.representation r;
+-- Liste representations renvoie toutes les représentations futures si l'utilisateur est de type guichet, 
+-- les représentations futures se déroulant dans moins d'une heure si l'utilisateur est de type client
+
+SELECT s.nom_spectacle, r.moment_representation 
+	FROM projweb_db.representation r, projweb_db.utilisateur u, projweb_db.spectacle s
+	WHERE s.id_spectacle = r.id_spectacle 
+		AND s.id_spectacle = ?
+		AND u.id_utilisateur = ? 
+		AND CURTIME() < r.moment_representation 
+		AND ((u.type_utilisateur = 'client' AND CURTIME() < SUBTIME(r.moment_representation, '0 01:00:00')
+				 OR (u.type_utilisateur = 'guichet')));
 
 -- Liste réservations -- 
 
@@ -54,10 +62,10 @@ INSERT INTO projweb_db.achat (id_representation ,id_place ,id_dossier ,id_ticket
 -- liste reservations
 SELECT * from projweb_db.reservation;
 
--- liste spectacles
+-- liste representations ordre chronologique 
 
-SELECT s.nom_spectacle FROM projweb_db.spectacle s ;
-SELECT * FROM projweb_db.spectacle s ;
+SELECT s.nom_spectacle, r.moment_representation FROM projweb_db.spectacle s, projweb_db.representation r 
+WHERE r.id_spectacle = s.id_spectacle ORDER BY r.moment_representation;
 
 -- suppression reservation
 DELETE FROM projweb_db.reservation where id_reservation = ? 
