@@ -18,7 +18,8 @@ deux boutons input = submit : un pour acheter, un pour reserver -->
 	<div id="corps">
     	<table>
         	<c:forEach var="i" begin="0" end=${ places.length}>   
-            	<tr background-color=#0af>             
+        		<tr>
+<!--             	<tr background-color=#0af>              -->
          			<c:forEach var="j" begin="0" end=${ places[i].length}>
             			<td>${ place[i][j].zone }</td>
             		</c:forEach>

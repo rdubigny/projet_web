@@ -54,10 +54,10 @@ INSERT INTO projweb_db.achat (id_representation ,id_place ,id_dossier ,id_ticket
 -- liste reservations
 SELECT * from projweb_db.reservation;
 
--- liste spectacles
+-- liste representations ordre chronologique 
 
-SELECT s.nom_spectacle FROM projweb_db.spectacle s ;
-SELECT * FROM projweb_db.spectacle s ;
+SELECT s.nom_spectacle, r.moment_representation FROM projweb_db.spectacle s, projweb_db.representation r 
+WHERE r.id_spectacle = s.id_spectacle ORDER BY r.moment_representation;SELECT * FROM projweb_db.spectacle s ;
 
 -- suppression reservation
 DELETE FROM projweb_db.reservation where id_reservation = ? 
