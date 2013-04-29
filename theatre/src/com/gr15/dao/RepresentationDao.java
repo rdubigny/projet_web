@@ -9,4 +9,6 @@ public interface RepresentationDao {
     public void listerParSpectacle(long idSpectacle,
 	    List<Representation> listeRepresentation);
 
+    public Representation trouver(String id);
+
 }
