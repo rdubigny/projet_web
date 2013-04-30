@@ -12,7 +12,7 @@
 pour ce spectacle. Devant chaque représentation il y'aura un bouton "acheter/reserver" qui 
 menera à l'url choixPlace/ -->
 	<div id="menu">
-		Liste des représentations à venir pour ${ sessionScope.spectacle.nom }.
+		Liste des représentations à venir pour ${ requestScope.representations[0].nomSpectacle }.
 	</div>
 	<div id="corps">
         <c:choose>

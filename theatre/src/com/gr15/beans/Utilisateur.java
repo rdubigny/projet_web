@@ -73,4 +73,8 @@ public class Utilisateur {
     public boolean estResponsable() {
 	return typeUtilisateur.equals("responsable");
     }
+
+    public boolean estGuichet() {
+	return typeUtilisateur.equals("guichet");
+    }
 }

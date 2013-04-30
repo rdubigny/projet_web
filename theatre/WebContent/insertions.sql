@@ -1,8 +1,8 @@
 -- Spectacle -----------
 
-INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('L\'Ecole des Femmes - Moliere','20.00');
+INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('L Ecole des Femmes - Moliere','20.00');
 INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('Troilus et Cressida - William Shakespeare','30.00');
-INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('Ce que j\'appelle oubli - Laurent Mauvignier','10.00');
+INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('Ce que j appelle oubli - Laurent Mauvignier','10.00');
 
 -- Utilisateur ---------
 
@@ -10,11 +10,11 @@ INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type
 INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('dubignyr', 'dubigny', 'raphael', 'raphael', 'raphael@dubigny.fr', 'responsable');
 INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('guichet', 'guichet', 'guichet', 'guichet', 'guichet@guichet.fr', 'guichet');
 
--- Représentation ------
+-- ReprÃ©sentation ------
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1',NOW());
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-04-29 20:00:00');
-INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-04-27 20:00:00');
-INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-04-26 20:00:00');
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-05-27 20:00:00');
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-05-26 20:00:00');
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES 
 ('1',ADDTIME( TIME(NOW()), '00:50:00'));
 -- Zones --------------

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import com.gr15.beans.Place;
 import com.gr15.beans.Representation;
+import com.gr15.beans.Utilisateur;
 import com.gr15.dao.DAOFactory;
 import com.gr15.dao.PlaceDao;
 import com.gr15.dao.RepresentationDao;
@@ -23,6 +24,8 @@ import com.gr15.dao.RepresentationDao;
 public class ChoixPlace extends HttpServlet {
     private static final long serialVersionUID = 1L;
     public static final String ATT_PLACES = "places";
+    public static final String ATT_SESSION_UTILISATEUR = "sessionUtilisateur";
+    public static final String ATT_EST_GUICHET = "estGuichet";
     public static final String ATT_REPRESENTATION_CHOISIE = "representation";
     public static final String PARAM_REPRESENTATION_ID = "id";
     public static final String VUE = "/WEB-INF/choixPlace.jsp";
@@ -65,6 +68,14 @@ public class ChoixPlace extends HttpServlet {
 
 	/* on transmet la matrice en attribut */
 	request.setAttribute(ATT_PLACES, matricePlace);
+
+	/*
+	 * on transmet l' type d'utilisateur en attribut pour pouvoir empêcher
+	 * la réservation par le guichet
+	 */
+	Utilisateur utilisateur = (Utilisateur) session
+		.getAttribute(ATT_SESSION_UTILISATEUR);
+	request.setAttribute(ATT_EST_GUICHET, utilisateur.estGuichet());
 
 	/* Affichage de la page d'acceuil client */
 	this.getServletContext().getRequestDispatcher(VUE)
