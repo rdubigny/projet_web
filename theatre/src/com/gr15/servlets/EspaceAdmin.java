@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class espaceAdmin
  */
-@WebServlet( "/espaceAdmin" )
+@WebServlet( "/admin/espaceAdmin" )
 public class EspaceAdmin extends HttpServlet {
     private static final long  serialVersionUID = 1L;
     public static final String VUE              = "/WEB-INF/espaceAdmin.jsp";

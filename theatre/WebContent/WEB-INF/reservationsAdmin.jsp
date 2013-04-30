@@ -7,6 +7,7 @@
 <title>Reservations effectués par les clients </title>
 </head>
 <body>
+	<c:import url="/inc/header.jsp" />
 
 </body>
 </html>

@@ -8,23 +8,27 @@
 	<link type="text/css" rel="stylesheet" href="inc/style.css" />
 </head>
 <body>
-	<c:choose>
-	<%-- Vérification de la présence d'un objet utilisateur en session --%>
-    <c:when test="${!empty sessionScope.sessionUtilisateur}">
-     			<%-- Si l'utilisateur existe en session, alors on affiche une page de déconnection. --%>
-    	<p class="info">(Vous êtes connecté(e) en tant que ${sessionScope.sessionUtilisateur.login})</p>
-    	<input type="button" value="Déconnexion" onclick="self.location.href='<c:url value='/deconnexion'/>'" />
-    </c:when>
-    <c:otherwise>
+	<c:import url="/inc/header.jsp" />
 	<form method="post" action="<c:url value="/identification"/>">
 	<fieldset>
-			<legend>Identification</legend>			
+		<legend>Identification</legend>			
 			<c:choose>
-    			<c:when test="${!empty form.erreurs}">
-    				<p class="erreur">${form.resultat}</p>
-    			</c:when>
-      			<c:otherwise>
-      				<p>Identifiez vous pour réserver vos places.</p>
+				<c:when test="${ param.redirect == 1 }">
+					<!-- Si on a été redirigé parce qu'on a essayé d'accéder à une page restreinte -->
+					<p class ="erreur">Vous devez vous identifier pour accéder à votre espace</p>
+				</c:when>
+				<c:otherwise>
+					<c:choose>
+    					<c:when test="${!empty form.erreurs}">
+							<!-- Message affiché si les identifiants entrés par l'utilisateur  -->
+							<!-- ne sont pas valides -->
+    						<p class="erreur">${form.resultat}</p>
+    					</c:when>
+      					<c:otherwise>
+							<!-- Message d'acceuil par défaut -->
+      						<p>Identifiez vous pour réserver vos places.</p>
+      					</c:otherwise>
+      				</c:choose>
       			</c:otherwise>
 			</c:choose>
 
@@ -45,11 +49,7 @@
 			
 			<input type="submit" value="Connexion" class="sansLabel" /> <br />
 			
-			<!-- Si on a été redirigé parce qu'on a essayé d'accéder à une page restreinte -->
-			<p><span class ="erreur">${erreur}</span></p>
    	</fieldset>
 	</form>
-    </c:otherwise>
-	</c:choose>
 </body>
 </html>

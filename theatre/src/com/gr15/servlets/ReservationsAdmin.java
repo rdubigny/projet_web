@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class reservationsAdmin
  */
-@WebServlet( "/reservationsAdmin" )
+@WebServlet( "/admin/reservationsAdmin" )
 public class ReservationsAdmin extends HttpServlet {
     private static final long  serialVersionUID = 1L;
     public static final String VUE              = "/WEB-INF/reservationsAdmin.jsp";
