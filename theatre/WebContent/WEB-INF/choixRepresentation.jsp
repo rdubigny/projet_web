@@ -36,7 +36,7 @@ menera à l'url choixPlace/ -->
                     <td><joda:format value="${ representation.date }" pattern="EEEE dd MMMM yyyy 'à' HH 'heures'"/></td>
                     <%-- Lien vers la page de réservation de la représentation appropriée. --%>
                     <td class="action">
-                        <input type="button" value="Sélectionner" 
+                        <input type="button" class="swag" value="Sélectionner" 
                         	onclick="self.location.href=
                         	'<c:url value='/choixPlace'>
                         		<c:param name='id' value='${ representation.id }' />
