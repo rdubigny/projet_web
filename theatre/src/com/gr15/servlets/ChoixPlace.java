@@ -59,12 +59,11 @@ public class ChoixPlace extends HttpServlet {
 
 	/* récupération de la répartition des zones */
 	Place matricePlace[][] = (Place[][]) session.getAttribute(ATT_PLACES);
-	if (matricePlace == null) {
+	if (matricePlace == null)
 	    matricePlace = placeDao.genererPlan();
-	}
 
 	/* calcule la matrice des places */
-	placeDao.updateDisponibilite(matricePlace);
+	placeDao.updateDisponibilite(matricePlace, representation);
 
 	/* on transmet la matrice en attribut */
 	request.setAttribute(ATT_PLACES, matricePlace);

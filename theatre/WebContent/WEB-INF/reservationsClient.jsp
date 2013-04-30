@@ -7,6 +7,7 @@
 <title>Mes réservations</title>
 </head>
 <body>
+	<c:import url="/inc/header.jsp" />
 <!-- Ici on affiche la liste des réservations du client logé, avec possibilités d'annuler -->
 </body>
 </html>

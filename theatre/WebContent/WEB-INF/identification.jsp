@@ -8,14 +8,7 @@
 	<link type="text/css" rel="stylesheet" href="inc/style.css" />
 </head>
 <body>
-	<c:choose>
-	<%-- Vérification de la présence d'un objet utilisateur en session --%>
-    <c:when test="${!empty sessionScope.sessionUtilisateur}">
-     			<%-- Si l'utilisateur existe en session, alors on affiche une page de déconnection. --%>
-    	<p class="info">(Vous êtes connecté(e) en tant que ${sessionScope.sessionUtilisateur.login})</p>
-    	<input type="button" value="Déconnexion" onclick="self.location.href='<c:url value='/deconnexion'/>'" />
-    </c:when>
-    <c:otherwise>
+	<c:import url="/inc/header.jsp" />
 	<form method="post" action="<c:url value="/identification"/>">
 	<fieldset>
 		<legend>Identification</legend>			
@@ -58,7 +51,5 @@
 			
    	</fieldset>
 	</form>
-    </c:otherwise>
-	</c:choose>
 </body>
 </html>

@@ -7,6 +7,7 @@
 <title>Confirmation de votre commande</title>
 </head>
 <body>
+	<c:import url="/inc/header.jsp" />
 <!-- Ici, on résume la commande, qui est issue soit d'une réservation, soit d'un achat -->
 </body>
 </html>

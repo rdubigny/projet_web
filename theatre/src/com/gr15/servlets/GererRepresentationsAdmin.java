@@ -17,7 +17,7 @@ import com.gr15.dao.RepresentationDao;
 /**
  * Servlet implementation class gererRepresentationsAdmin
  */
-@WebServlet( "/gererRepresentationsAdmin" )
+@WebServlet( "/admin/gererRepresentationsAdmin" )
 public class GererRepresentationsAdmin extends HttpServlet {
     private static final long  serialVersionUID   = 1L;
     public static final String VUE                = "/WEB-INF/gererRepresentationsAdmin.jsp";

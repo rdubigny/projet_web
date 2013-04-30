@@ -13,15 +13,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- * Servlet Filter implementation class RestrictionFilter. Filtre l'accès à
- * l'application.
- */
+import com.gr15.beans.Utilisateur;
 
-@WebFilter(urlPatterns = "/*")
-public class RestrictionFilter implements Filter {
-    public static final String ACCES_CONNEXION = "/identification";
+/**
+ * Servlet Filter implementation class AdminFilter
+ */
+@WebFilter(urlPatterns = "/admin/*")
+public class AdminFilter implements Filter {
+    public static final String ACCES_ESPACE_CLIENT = "/espaceClient";
     public static final String ATT_SESSION_USER = "sessionUtilisateur";
+
+    /**
+     * @see Filter#destroy()
+     */
+    public void destroy() {
+    }
 
     /**
      * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
@@ -32,27 +38,20 @@ public class RestrictionFilter implements Filter {
 	HttpServletRequest request = (HttpServletRequest) req;
 	HttpServletResponse response = (HttpServletResponse) res;
 
-	/* Non-filtrage des ressources statiques et de la page de login */
-	String chemin = request.getRequestURI().substring(
-		request.getContextPath().length());
-	if (chemin.startsWith("/inc") || chemin.contentEquals(ACCES_CONNEXION)
-		|| chemin.contentEquals("/")) {
-	    chain.doFilter(request, response);
-	    return;
-	}
-
 	/* Récupération de la session depuis la requête */
 	HttpSession session = request.getSession();
 
 	/*
-	 * Si l'objet utilisateur n'existe pas dans la session en cours, alors
-	 * l'utilisateur n'est pas connecté.
+	 * Si l'objet utilisateur existe et n'est pas de type admin, alors
+	 * l'utilisateur est redirigé.
 	 */
-	if (session.getAttribute(ATT_SESSION_USER) == null) {
+	Utilisateur utilisateur = (Utilisateur) session
+		.getAttribute(ATT_SESSION_USER);
+	if (utilisateur != null && !utilisateur.estResponsable()) {
 
 	    /* Redirection vers la page d'identification */
-	    response.sendRedirect(request.getContextPath() + ACCES_CONNEXION
-		    + "?redirect=1");
+	    response.sendRedirect(request.getContextPath()
+		    + ACCES_ESPACE_CLIENT + "?redirect=1");
 
 	} else {
 
@@ -62,15 +61,10 @@ public class RestrictionFilter implements Filter {
 	}
     }
 
-    @Override
-    public void destroy() {
-	// TODO Auto-generated method stub
-
+    /**
+     * @see Filter#init(FilterConfig)
+     */
+    public void init(FilterConfig fConfig) throws ServletException {
     }
 
-    @Override
-    public void init(FilterConfig arg0) throws ServletException {
-	// TODO Auto-generated method stub
-
-    }
 }

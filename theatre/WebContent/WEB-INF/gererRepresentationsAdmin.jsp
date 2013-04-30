@@ -8,6 +8,7 @@
 <title>Gestion des représentations</title>
 </head>
 <body>
+	<c:import url="/inc/header.jsp" />
       <c:choose>
             <%-- Si aucune représentation n'est transmise en requète, affichage d'un message par défaut. --%>
             <c:when test="${ empty requestScope.representationsAdmin }">

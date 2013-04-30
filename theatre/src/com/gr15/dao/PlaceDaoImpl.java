@@ -59,7 +59,13 @@ public class PlaceDaoImpl implements PlaceDao {
     }
 
     @Override
-    public void updateDisponibilite(Place[][] matricePlace) {
+    public void updateDisponibilite(Place[][] matricePlace,
+	    Representation representation) {
+	for (Place[] i : matricePlace) {
+	    for (Place j : i) {
+		j.setLibre();
+	    }
+	}
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
 	ResultSet resultSet = null;
@@ -67,7 +73,7 @@ public class PlaceDaoImpl implements PlaceDao {
 	    /* Récupération d'une connexion depuis la Factory */
 	    connexion = daoFactory.getConnection();
 	    preparedStatement = initialisationRequetePreparee(connexion,
-		    SQL_SELECT_PLACE_OCCUPEES, false);
+		    SQL_SELECT_PLACE_OCCUPEES, false, representation);
 	    resultSet = preparedStatement.executeQuery();
 	    /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	    while (resultSet.next()) {
@@ -81,12 +87,13 @@ public class PlaceDaoImpl implements PlaceDao {
 	}
     }
 
+    @SuppressWarnings("resource")
     @Override
     public void reserver(Utilisateur utilisateur,
 	    Representation representation, String[] ids, boolean achat) {
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
-	ResultSet resultSet = null;
+	ResultSet valeursAutoGenerees = null;
 	try {
 	    /* Récupération d'une connexion depuis la Factory */
 	    connexion = daoFactory.getConnection();
@@ -94,36 +101,37 @@ public class PlaceDaoImpl implements PlaceDao {
 	    for (String s : ids) {
 		if (achat)
 		    preparedStatement = initialisationRequetePreparee(
-			    connexion, SQL_ACHAT, false);
-		else {
+			    connexion, SQL_ACHAT, true);
+		else
 		    preparedStatement = initialisationRequetePreparee(
-			    connexion, SQL_RESERVATION, false,
+			    connexion, SQL_RESERVATION, true,
 			    representation.getId(), s, utilisateur.getId());
-		    resultSet = preparedStatement.executeQuery();
-		    /*
-		     * Parcours de la ligne de données de l'éventuel ResulSet
-		     * retourné
-		     */
-		    while (resultSet.next()) {
-			// matricePlace[resultSet.getInt("numero_rang") -
-			// 1][resultSet
-			// .getInt("numero_siege") - 1].setOccupe();
-		    }
+		int statut = preparedStatement.executeUpdate();
+		if (statut == 0) {
+		    throw new DAOException(
+			    "Échec de la manipulation, votre achat n'as pas été enregistré.");
+		}
+		valeursAutoGenerees = preparedStatement.getGeneratedKeys();
+		if (valeursAutoGenerees.next()) {
+		    // client.setId(valeursAutoGenerees.getLong(1));
+		} else {
+		    throw new DAOException(
+			    "Échec de la manipulation, aucun ID auto-généré retourné.");
 		}
 	    }
 	    connexion.commit();
-	} catch (SQLException e) {
-	    // if (con != null) {
-	    // try {
-	    // con.rollback();
-	    // } catch (SQLException ex1) {
-	    // Logger lgr = Logger.getLogger(Transaction.class.getName());
-	    // lgr.log(Level.WARNING, ex1.getMessage(), ex1);
-	    // }
-	    // }
+	} catch (SQLException | DAOException e) {
+	    if (connexion != null) {
+		try {
+		    connexion.rollback();
+		} catch (SQLException exp) {
+		    throw new DAOException(exp);
+		}
+	    }
 	    throw new DAOException(e);
 	} finally {
-	    fermeturesSilencieuses(resultSet, preparedStatement, connexion);
+	    fermeturesSilencieuses(valeursAutoGenerees, preparedStatement,
+		    connexion);
 	}
     }
 

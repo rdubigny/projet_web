@@ -8,15 +8,16 @@
 	<link type="text/css" rel="stylesheet" href="<c:url value="/inc/style.css"/>" />
 </head>
 <body>
+	<c:import url="/inc/header.jsp" />
 <!--  ici on affichera le nom du spectacle choisi, et un plan de la salle avec des
 check box pour choisir la ou les places (sous la forme d'un formulaire). En bas de la page
 deux boutons input = submit : un pour acheter, un pour reserver -->
 	<div id="menu">
-		Choisissez votre place pour ${ sessionScope.spectacle.nom } le
+		Choisissez votre place pour ${ sessionScope.representation.nomSpectacle } le
 		<joda:format value="${ sessionScope.representation.date }" pattern="EEEE dd MMMM yyyy 'à' HH 'heures'"/>.
 	</div>
 	<div id="corps">
-		<form action="/confirmation" method="get">
+		<form action="<c:url value='/confirmation'/>" method="get">
     	<table>
         	<c:forEach items="${ places }" var="rang">   
         		<tr>

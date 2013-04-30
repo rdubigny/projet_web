@@ -8,11 +8,13 @@
 	<link type="text/css" rel="stylesheet" href="<c:url value="/inc/style.css"/>" />
 </head>
 <body>
-	<div id="menu">
-
-			
+	<c:import url="/inc/header.jsp" />
+	<div id="menu">			
 		Liste des spectacles.
 	</div>
+	<c:if test="${param.redirect == 1}">
+		<p class="erreur">Vous n'avez pas les droits nécessaires pour acceder à cette page.</p>
+	</c:if>
 	<div id="corps">
         <c:choose>
             <%-- Si aucun spectacle n'est transmit en requète, affichage d'un message par défaut. --%>

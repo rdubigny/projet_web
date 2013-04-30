@@ -6,9 +6,10 @@ import com.gr15.beans.Utilisateur;
 
 public interface PlaceDao {
 
-    public Place[][] genererPlan();
+    Place[][] genererPlan();
 
-    public void updateDisponibilite(Place[][] matricePlace);
+    public void updateDisponibilite(Place[][] matricePlace,
+	    Representation representation);
 
     public void reserver(Utilisateur utilisateur,
 	    Representation representation, String[] ids, boolean achat);

@@ -23,6 +23,7 @@ public class Confirmation extends HttpServlet {
     public static final String VUE = "/WEB-INF/confirmation.jsp";
     public static final String PARAM_PLACE_ID = "id";
     public static final String PARAM_ACTION = "action";
+    public static final String PARAM_RESERVATION = "reservation";
     public static final String ATT_SESSION_USER = "sessionUtilisateur";
     public static final String ATT_REPRESENTATION = "representation";
     public static final String CONF_DAO_FACTORY = "daofactory";
@@ -44,10 +45,10 @@ public class Confirmation extends HttpServlet {
 	String[] ids = request.getParameterValues(PARAM_PLACE_ID);
 	HttpSession session = request.getSession();
 	Utilisateur utilisateur = (Utilisateur) session
-		.getAttribute("ATT_SESSION_USER");
+		.getAttribute(ATT_SESSION_USER);
 	Representation representation = (Representation) session
-		.getAttribute("ATT_REPRESENTATION");
-	if (request.getParameter(PARAM_ACTION).equals("reservation"))
+		.getAttribute(ATT_REPRESENTATION);
+	if (request.getParameter(PARAM_ACTION).equals(PARAM_RESERVATION))
 	    placeDao.reserver(utilisateur, representation, ids, false);
 	else
 	    placeDao.reserver(utilisateur, representation, ids, false);
