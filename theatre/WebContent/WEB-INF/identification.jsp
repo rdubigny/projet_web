@@ -26,13 +26,13 @@
     					</c:when>
       					<c:otherwise>
 							<!-- Message d'acceuil par défaut -->
-      						<p>Identifiez vous pour réserver vos places.</p>
+      						<h3>Identifiez vous pour réserver vos places.</h3>
       					</c:otherwise>
       				</c:choose>
       			</c:otherwise>
 			</c:choose>
 
-			<label for="nom">login <span class="requis">*</span></label>
+			<label for="nom">Login <span class="requis">*</span></label>
 			<input type="text" id="login" name="login" value="" 
 				size="20" maxlength="60" />
 			<span class="erreur">${form.erreurs['login']}</span> <br />

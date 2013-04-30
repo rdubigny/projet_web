@@ -10,6 +10,17 @@
 <body>
 	<c:import url="/inc/header.jsp" />
 	<!-- Ici, on résume la commande, qui est issue soit d'une réservation, soit d'un achat -->
+	
+	<!-- affichage du message de résultat -->
+	<p></p>
+	
+	<!-- affichage de l'erreur s'il y a lieu -->
+	
+	<!--  sinon affichage de la liste des tickets si elle existe -->
+	<c:if test="${requestScope.tickets != null }">
+		
+	</c:if>
+	
 	<input type="button" value="Retour à l'espace client" onclick="self.location.href='<c:url value='/espaceClient'/>'" />
 </body>
 </html>

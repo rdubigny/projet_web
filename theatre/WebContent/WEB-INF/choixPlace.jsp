@@ -11,10 +11,11 @@
 	<c:import url="/inc/header.jsp" />
 <!--  ici on affichera le nom du spectacle choisi, et un plan de la salle avec des
 check box pour choisir la ou les places (sous la forme d'un formulaire). En bas de la page
-deux boutons input = submit : un pour acheter, un pour reserver -->
-	<div id="menu">
-		Choisissez votre place pour ${ sessionScope.representation.nomSpectacle } le
-		<joda:format value="${ sessionScope.representation.date }" pattern="EEEE dd MMMM yyyy 'à' HH 'heures'"/>.
+deux boutons input = submit : un pour acheter, un pour reserver -->	
+	<fieldset>
+		<legend>Choix des places</legend>
+	<h3>Choisissez votre place pour ${ sessionScope.representation.nomSpectacle } le
+		<joda:format value="${ sessionScope.representation.date }" pattern="EEEE dd MMMM yyyy 'à' HH 'heures'"/>.</h3>
 	</div>
 	<div id="corps">
 		<form action="<c:url value='/confirmation'/>" method="post">
@@ -38,11 +39,13 @@ deux boutons input = submit : un pour acheter, un pour reserver -->
             	</tr>
         	</c:forEach>
        	</table>
+       	<br/>
+       		<input type="submit" value="Acheter">
        	<c:if test="${! estGuichet}">
-        	<input type="checkbox" name="action" value="reservation" > je veux seulement réserver, je paierai plus tard <br/>
-        </c:if>
-       	<input type="submit" value="Acheter">		
+        	<input type="checkbox" name="action" value="reservation" > je veux seulement réserver, je paierai plus tard
+        </c:if>	
        	</form>
 	</div>
+	</fieldset>
 </body>
 </html>

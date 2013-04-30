@@ -8,6 +8,7 @@
 <title>Annulation Reservation</title>
 </head>
 <body>
+	<c:import url="/inc/header.jsp" />
 La représentation du spectacle "${ param.representation.nomSpectacle }" le ${param.representation.momentSpectacle} est bien annulée.  
 </body>
 </html>
