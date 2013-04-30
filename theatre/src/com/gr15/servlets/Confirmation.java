@@ -17,7 +17,7 @@ import com.gr15.dao.PlaceDao;
 /**
  * Servlet implementation class Confirmation
  */
-@WebServlet("/Confirmation")
+@WebServlet("/confirmation")
 public class Confirmation extends HttpServlet {
     private static final long serialVersionUID = 1L;
     public static final String VUE = "/WEB-INF/confirmation.jsp";

@@ -8,6 +8,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -17,7 +18,7 @@ import javax.servlet.http.HttpSession;
  * l'application.
  */
 
-// @WebFilter( urlPatterns = "/*" )
+@WebFilter(urlPatterns = "/*")
 public class RestrictionFilter implements Filter {
     public static final String ACCES_CONNEXION = "/identification";
     public static final String ATT_ERREUR = "erreur";
@@ -32,10 +33,11 @@ public class RestrictionFilter implements Filter {
 	HttpServletRequest request = (HttpServletRequest) req;
 	HttpServletResponse response = (HttpServletResponse) res;
 
-	/* Non-filtrage des ressources statiques */
+	/* Non-filtrage des ressources statiques et de la page de login */
 	String chemin = request.getRequestURI().substring(
 		request.getContextPath().length());
-	if (chemin.startsWith("/inc")) {
+	if (chemin.startsWith("/inc") || chemin.contentEquals(ACCES_CONNEXION)
+		|| chemin.contentEquals("/")) {
 	    chain.doFilter(request, response);
 	    return;
 	}
@@ -43,31 +45,21 @@ public class RestrictionFilter implements Filter {
 	/* Récupération de la session depuis la requête */
 	HttpSession session = request.getSession();
 
-	/**
+	/*
 	 * Si l'objet utilisateur n'existe pas dans la session en cours, alors
 	 * l'utilisateur n'est pas connecté.
 	 */
-	String erreur = "Vous devez vous identifier pour accéder à votre espace";
-
 	if (session.getAttribute(ATT_SESSION_USER) == null) {
-	    /*
-	     * si la page qu'on cherche à avoir est différente de theatre/ ou
-	     * identification/
-	     */
-	    if (!chemin.contentEquals(ACCES_CONNEXION)
-		    && !chemin.contentEquals("/")) {
-		/* on envoie à la page suivante qu'il ya eu une erreur */
-		request.setAttribute(ATT_ERREUR, erreur);
-	    }
+
 	    /* Redirection vers la page d'identification */
-	    // response.sendRedirect(request.getContextPath() +
-	    // ACCES_CONNEXION);
-	    request.getRequestDispatcher(ACCES_CONNEXION).forward(request,
-		    response);
+	    response.sendRedirect(request.getContextPath() + ACCES_CONNEXION
+		    + "?redirect=1");
 
 	} else {
-	    /* Affichage de la page restreinte */
+
+	    /* accès à la zone restreinte */
 	    chain.doFilter(request, response);
+
 	}
     }
 

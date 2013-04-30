@@ -37,7 +37,9 @@ deux boutons input = submit : un pour acheter, un pour reserver -->
             	</tr>
         	</c:forEach>
        	</table>
-        <input type="checkbox" name="action" value="reservation" > je veux seulement réserver, je paierai plus tard <br/>
+       	<c:if test="${! estGuichet}">
+        	<input type="checkbox" name="action" value="reservation" > je veux seulement réserver, je paierai plus tard <br/>
+        </c:if>
        	<input type="submit" value="Acheter">		
        	</form>
 	</div>

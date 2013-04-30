@@ -19,7 +19,9 @@ public class PlaceDaoImpl implements PlaceDao {
 	    + "from projweb_db.place p, projweb_db.achat a, projweb_db.reservation r "
 	    + "where a.id_place = p.id_place OR r.id_place = p.id_place";
     private static final String SQL_ACHAT = "";
-    private static final String SQL_RESERVATION = "";
+    private static final String SQL_RESERVATION = "INSERT INTO "
+	    + "projweb_db.reservation (id_representation, id_place, id_utilisateur)"
+	    + " VALUES (?,?,?);";
 
     PlaceDaoImpl(DAOFactory daoFactory) {
 	this.daoFactory = daoFactory;
@@ -88,22 +90,96 @@ public class PlaceDaoImpl implements PlaceDao {
 	try {
 	    /* Récupération d'une connexion depuis la Factory */
 	    connexion = daoFactory.getConnection();
-	    if (achat)
-		preparedStatement = initialisationRequetePreparee(connexion,
-			SQL_ACHAT, false);
-	    else
-		preparedStatement = initialisationRequetePreparee(connexion,
-			SQL_RESERVATION, false);
-	    resultSet = preparedStatement.executeQuery();
-	    /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
-	    while (resultSet.next()) {
-		// matricePlace[resultSet.getInt("numero_rang") - 1][resultSet
-		// .getInt("numero_siege") - 1].setOccupe();
+	    connexion.setAutoCommit(false);
+	    for (String s : ids) {
+		if (achat)
+		    preparedStatement = initialisationRequetePreparee(
+			    connexion, SQL_ACHAT, false);
+		else {
+		    preparedStatement = initialisationRequetePreparee(
+			    connexion, SQL_RESERVATION, false,
+			    representation.getId(), s, utilisateur.getId());
+		    resultSet = preparedStatement.executeQuery();
+		    /*
+		     * Parcours de la ligne de données de l'éventuel ResulSet
+		     * retourné
+		     */
+		    while (resultSet.next()) {
+			// matricePlace[resultSet.getInt("numero_rang") -
+			// 1][resultSet
+			// .getInt("numero_siege") - 1].setOccupe();
+		    }
+		}
 	    }
+	    connexion.commit();
 	} catch (SQLException e) {
+	    // if (con != null) {
+	    // try {
+	    // con.rollback();
+	    // } catch (SQLException ex1) {
+	    // Logger lgr = Logger.getLogger(Transaction.class.getName());
+	    // lgr.log(Level.WARNING, ex1.getMessage(), ex1);
+	    // }
+	    // }
 	    throw new DAOException(e);
 	} finally {
 	    fermeturesSilencieuses(resultSet, preparedStatement, connexion);
 	}
     }
+
+    // inspiration
+    // Connection con = null;
+    // Statement st = null;
+    //
+    // String url = "jdbc:mysql://localhost:3306/testdb";
+    // String user = "testuser";
+    // String password = "test623";
+    //
+    // try {
+    //
+    // con = DriverManager.getConnection(url, user, password);
+    // st = con.createStatement();
+    //
+    // con.setAutoCommit(false);
+    //
+    // st.executeUpdate("UPDATE Authors SET Name = 'Leo Tolstoy' "
+    // + "WHERE Id = 1");
+    // st.executeUpdate("UPDATE Books SET Title = 'War and Peace' "
+    // + "WHERE Id = 1");
+    // st.executeUpdate("UPDATE Books SET Titl = 'Anna Karenina' "
+    // + "WHERE Id = 2");
+    //
+    // con.commit();
+    //
+    // } catch (SQLException ex) {
+    //
+    // if (con != null) {
+    // try {
+    // con.rollback();
+    // } catch (SQLException ex1) {
+    // Logger lgr = Logger.getLogger(Transaction.class.getName());
+    // lgr.log(Level.WARNING, ex1.getMessage(), ex1);
+    // }
+    // }
+    //
+    // Logger lgr = Logger.getLogger(Transaction.class.getName());
+    // lgr.log(Level.SEVERE, ex.getMessage(), ex);
+    //
+    // } finally {
+    //
+    // try {
+    // if (st != null) {
+    // st.close();
+    // }
+    // if (con != null) {
+    // con.close();
+    // }
+    //
+    // } catch (SQLException ex) {
+    //
+    // Logger lgr = Logger.getLogger(Transaction.class.getName());
+    // lgr.log(Level.WARNING, ex.getMessage(), ex);
+    // }
+    // }
+    // }
 }
