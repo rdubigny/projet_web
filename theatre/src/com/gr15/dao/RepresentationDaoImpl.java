@@ -5,7 +5,7 @@ import static com.gr15.dao.DAOUtilitaire.initialisationRequetePreparee;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.ResultSet; 
 import java.sql.SQLException;
 import java.util.List;
 
@@ -15,7 +15,7 @@ import com.gr15.beans.Representation;
 
 public class RepresentationDaoImpl implements RepresentationDao {
 	private DAOFactory          daoFactory;
-	private static final String SQL_SELECT        = "SELECT * FROM representation WHERE id_spectacle=?";
+	//private static final String SQL_SELECT        = "SELECT * FROM representation WHERE id_spectacle=?";
 	private static final String SQL_SELECT_PAR_ID = "SELECT * FROM representation WHERE id_representation=?";
 
 	private static final String SQL_SELECT_REPRESENTATIONS = "SELECT r.moment_representation "+

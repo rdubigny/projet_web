@@ -12,9 +12,9 @@ INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type
 
 -- Représentation ------
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1',NOW());
-INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-04-29 20:00:00');
-INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-04-27 20:00:00');
-INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-04-26 20:00:00');
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-05-29 20:00:00');
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-05-27 20:00:00');
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-05-26 20:00:00');
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES 
 ('1',ADDTIME( TIME(NOW()), '00:50:00'));
 -- Zones --------------
