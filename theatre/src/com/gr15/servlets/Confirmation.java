@@ -40,7 +40,7 @@ public class Confirmation extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
      *      response)
      */
-    protected void doGet(HttpServletRequest request,
+    protected void doPost(HttpServletRequest request,
 	    HttpServletResponse response) throws ServletException, IOException {
 	String[] ids = request.getParameterValues(PARAM_PLACE_ID);
 	HttpSession session = request.getSession();

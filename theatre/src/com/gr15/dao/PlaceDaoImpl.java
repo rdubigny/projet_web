@@ -15,9 +15,12 @@ import com.gr15.beans.Utilisateur;
 public class PlaceDaoImpl implements PlaceDao {
     private DAOFactory daoFactory;
     private static final String SQL_ZONES = "SELECT id_place, numero_rang, numero_siege, id_zone FROM place";
-    private static final String SQL_SELECT_PLACE_OCCUPEES = "select p.numero_rang , p.numero_siege "
-	    + "from projweb_db.place p, projweb_db.achat a, projweb_db.reservation r "
-	    + "where a.id_place = p.id_place OR r.id_place = p.id_place";
+    private static final String SQL_SELECT_PLACES_RESERVEES = "SELECT p.numero_rang , p.numero_siege "
+	    + "FROM projweb_db.place p, projweb_db.reservation r "
+	    + "WHERE r.id_place = p.id_place AND r.id_representation=?";
+    private static final String SQL_SELECT_PLACES_ACHETEES = "SELECT p.numero_rang , p.numero_siege "
+	    + "FROM projweb_db.place p, projweb_db.achat a "
+	    + "WHERE a.id_place = p.id_place AND a.id_representation=?";
     private static final String SQL_ACHAT = "";
     private static final String SQL_RESERVATION = "INSERT INTO "
 	    + "projweb_db.reservation (id_representation, id_place, id_utilisateur)"
@@ -70,15 +73,31 @@ public class PlaceDaoImpl implements PlaceDao {
 	PreparedStatement preparedStatement = null;
 	ResultSet resultSet = null;
 	try {
-	    /* Récupération d'une connexion depuis la Factory */
-	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion,
-		    SQL_SELECT_PLACE_OCCUPEES, false, representation);
-	    resultSet = preparedStatement.executeQuery();
-	    /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
-	    while (resultSet.next()) {
-		matricePlace[resultSet.getInt("numero_rang") - 1][resultSet
-			.getInt("numero_siege") - 1].setOccupe();
+	    for (int i = 0; i < 2; i++) {
+		/* Récupération d'une connexion depuis la Factory */
+		connexion = daoFactory.getConnection();
+		switch (i) {
+		case 0:
+		    preparedStatement = initialisationRequetePreparee(
+			    connexion, SQL_SELECT_PLACES_RESERVEES, false,
+			    representation.getId());
+		    break;
+		case 1:
+		    preparedStatement = initialisationRequetePreparee(
+			    connexion, SQL_SELECT_PLACES_ACHETEES, false,
+			    representation.getId());
+		    break;
+		default:
+		}
+		resultSet = preparedStatement.executeQuery();
+		/*
+		 * Parcours de la ligne de données de l'éventuel ResulSet
+		 * retourné
+		 */
+		while (resultSet.next()) {
+		    matricePlace[resultSet.getInt("numero_rang") - 1][resultSet
+			    .getInt("numero_siege") - 1].setOccupe();
+		}
 	    }
 	} catch (SQLException e) {
 	    throw new DAOException(e);

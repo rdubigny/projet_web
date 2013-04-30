@@ -17,7 +17,7 @@ deux boutons input = submit : un pour acheter, un pour reserver -->
 		<joda:format value="${ sessionScope.representation.date }" pattern="EEEE dd MMMM yyyy 'à' HH 'heures'"/>.
 	</div>
 	<div id="corps">
-		<form action="<c:url value='/confirmation'/>" method="get">
+		<form action="<c:url value='/confirmation'/>" method="post">
     	<table>
         	<c:forEach items="${ places }" var="rang">   
         		<tr>
