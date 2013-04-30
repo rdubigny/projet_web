@@ -30,9 +30,9 @@
                     <td><joda:format value="${ representation.date }" pattern="EEEE dd MMMM yyyy 'à' HH 'heures'"/></td>
                     <%-- Lien vers la page de réservation de la représentation appropriée. --%>
                     <td class="action">
-                        <input type="button" value="Sélectionner" 
+                        <input type="button" value="Annuler" 
                         	onclick="self.location.href=
-                        	'<c:url value='/choixPlace'>
+                        	'<c:url value='/annulationRepresentation'>
                         		<c:param name='id' value='${ representation.id }' />
                         	</c:url>'"
                        	/>
