@@ -6,7 +6,7 @@ body {
 }
  
 body, p, legend, label {
-    font: normal 10pt "Comic Sans MS", verdana, helvetica, sans-serif;
+    font: normal 10pt "Arial Black", verdana, helvetica, sans-serif;
 }
 
 body {
@@ -109,8 +109,7 @@ td.action{
     text-align: center;
 }
 
-/* Boutons -------------------------------------------------------------------------------------*/
-input {
+input[type="button"], input[type="submit"]{
 	-moz-box-shadow:inset 0px 1px 5px 0px #ffffff;
 	-webkit-box-shadow:inset 0px 1px 5px 0px #ffffff;
 	box-shadow:inset 0px 1px 5px 0px #ffffff;
@@ -124,22 +123,22 @@ input {
 	border:1px solid #dcdcdc;
 	display:inline-block;
 	color:#555;
-	font-family:Comic Sans MS;
-	font-size:14px;
+	font-family:Arial Black;
+	font-size:13px;
 	font-weight:bold;
 	padding:0px 18px;
 	text-decoration:none;
 	text-shadow:1px 1px 17px #ffffff;
 }
 
-input:hover {
+input[type="button"]:hover , input[type="submit"]:hover {
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
 	background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
 	background-color:#dfdfdf;
 }
 
-input:active {
+input[type="button"]:active , input[type="submit"]:active {
 	position:relative;
 	top:1px;
 }
