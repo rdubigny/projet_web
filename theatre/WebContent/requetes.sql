@@ -36,15 +36,15 @@ SELECT s.nom_spectacle, r.moment_representation
 
 -- liste toutes les réservations en fonction de l'id_utilisateur
 
-SELECT re.id_representation, r.moment_representation, s.nom_spectacle 
+SELECT re.id_representation, r.moment_representation, s.nom_spectacle, p.num_rang, p.num_siege, z.categorie_prix, z.base_prix
 FROM projweb_db.utilisateur c, projweb_db.representation r, projweb_db.spectacle s, projweb_db.reservation re 
 WHERE   s.id_spectacle = r.id_spectacle AND r.id_representation = re.id_representation 
 							AND re.id_utilisateur = c.id_utilisateur
 							AND c.id_utilisateur = ? ;
 
 -- paiement reservation
-INSERT INTO projweb_db.ticket (moment_representation) VALUES (CURTIME())
-INSERT INTO projweb_db.dossier (moment_representation) VALUES (CURTIME())
+INSERT INTO projweb_db.ticket (moment_vente) VALUES (CURTIME());
+INSERT INTO projweb_db.dossier ()
 INSERT INTO projweb_db.achat (id_representation ,id_place ,id_dossier ,id_ticket ,id_utilisateur) VALUES (?,?,?,?,?)
 DELETE FROM projweb_db.reservation where id_reservation = ? 
 
