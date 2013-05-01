@@ -8,12 +8,13 @@
 <link type="text/css" rel="stylesheet" href="<c:url value="/inc/style.css"/>" />
 </head>
 <body>
+	<c:import url="/inc/header.jsp" />
 <!-- ici affichage d'un "descriptif" du spectacle, suivi de la liste des représentations 
 pour ce spectacle. Devant chaque représentation il y'aura un bouton "acheter/reserver" qui 
 menera à l'url choixPlace/ -->
-	<div id="menu">
-		Liste des représentations à venir pour ${ requestScope.representations[0].nomSpectacle }.
-	</div>
+	<fieldset>
+		<legend>Choix d'une représentation</legend>
+	<h3>Liste des représentations à venir pour ${ requestScope.representations[0].nomSpectacle }.</h3>
 	<div id="corps">
         <c:choose>
             <%-- Si aucune représentation n'est transmise en requète, affichage d'un message par défaut. --%>
@@ -35,7 +36,7 @@ menera à l'url choixPlace/ -->
                     <td><joda:format value="${ representation.date }" pattern="EEEE dd MMMM yyyy 'à' HH 'heures'"/></td>
                     <%-- Lien vers la page de réservation de la représentation appropriée. --%>
                     <td class="action">
-                        <input type="button" value="Sélectionner" 
+                        <input type="button" class="swag" value="Sélectionner" 
                         	onclick="self.location.href=
                         	'<c:url value='/choixPlace'>
                         		<c:param name='id' value='${ representation.id }' />
@@ -48,5 +49,6 @@ menera à l'url choixPlace/ -->
             </c:otherwise>
         </c:choose>
 	</div>
+	</fieldset>
 </body>
 </html>

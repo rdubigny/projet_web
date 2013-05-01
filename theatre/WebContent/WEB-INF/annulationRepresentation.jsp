@@ -4,10 +4,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Mes réservations</title>
+<link type="text/css" rel="stylesheet" href="<c:url value="/inc/style.css"/>" />
+<title>Annulation Reservation</title>
 </head>
 <body>
 	<c:import url="/inc/header.jsp" />
-<!-- Ici on affiche la liste des réservations du client logé, avec possibilités d'annuler -->
+La représentation du spectacle "${ param.representation.nomSpectacle }" le ${param.representation.momentSpectacle} est bien annulée.  
 </body>
 </html>

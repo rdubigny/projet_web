@@ -8,6 +8,7 @@
 <title>Gestion des représentations</title>
 </head>
 <body>
+	<c:import url="/inc/header.jsp" />
       <c:choose>
             <%-- Si aucune représentation n'est transmise en requète, affichage d'un message par défaut. --%>
             <c:when test="${ empty requestScope.representationsAdmin }">
@@ -30,9 +31,9 @@
                     <td><joda:format value="${ representation.date }" pattern="EEEE dd MMMM yyyy 'à' HH 'heures'"/></td>
                     <%-- Lien vers la page de réservation de la représentation appropriée. --%>
                     <td class="action">
-                        <input type="button" value="Sélectionner" 
+                        <input type="button" value="Annuler" 
                         	onclick="self.location.href=
-                        	'<c:url value='/choixPlace'>
+                        	'<c:url value='/annulationRepresentation'>
                         		<c:param name='id' value='${ representation.id }' />
                         	</c:url>'"
                        	/>

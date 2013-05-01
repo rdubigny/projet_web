@@ -1,18 +1,18 @@
 package com.gr15.servlets;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.gr15.beans.Representation;
-import com.gr15.beans.Utilisateur;
+import com.gr15.beans.Ticket;
 import com.gr15.dao.DAOFactory;
 import com.gr15.dao.PlaceDao;
+import com.gr15.form.PlaceForm;
 
 /**
  * Servlet implementation class Confirmation
@@ -20,11 +20,12 @@ import com.gr15.dao.PlaceDao;
 @WebServlet("/confirmation")
 public class Confirmation extends HttpServlet {
     private static final long serialVersionUID = 1L;
+
+    public static final String ATT_LISTE_TICKETS = "tickets";
+    public static final String ATT_FORM = "form";
+
     public static final String VUE = "/WEB-INF/confirmation.jsp";
-    public static final String PARAM_PLACE_ID = "id";
-    public static final String PARAM_ACTION = "action";
-    public static final String ATT_SESSION_USER = "sessionUtilisateur";
-    public static final String ATT_REPRESENTATION = "representation";
+
     public static final String CONF_DAO_FACTORY = "daofactory";
 
     private PlaceDao placeDao;
@@ -39,18 +40,22 @@ public class Confirmation extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
      *      response)
      */
-    protected void doGet(HttpServletRequest request,
+    protected void doPost(HttpServletRequest request,
 	    HttpServletResponse response) throws ServletException, IOException {
-	String[] ids = request.getParameterValues(PARAM_PLACE_ID);
-	HttpSession session = request.getSession();
-	Utilisateur utilisateur = (Utilisateur) session
-		.getAttribute("ATT_SESSION_USER");
-	Representation representation = (Representation) session
-		.getAttribute("ATT_REPRESENTATION");
-	if (request.getParameter(PARAM_ACTION).equals("reservation"))
-	    placeDao.reserver(utilisateur, representation, ids, false);
-	else
-	    placeDao.reserver(utilisateur, representation, ids, false);
+	/* préparation de l'objet metier */
+	PlaceForm form = new PlaceForm(placeDao);
+
+	/* traitement de la réservation ou de l'achat */
+	List<Ticket> listeTickets = form.reserver(request);
+
+	/*
+	 * passage en attribut du réultat de l'opération et de la liste
+	 * éventuelle des tickets
+	 */
+	request.setAttribute(ATT_FORM, form);
+	request.setAttribute(ATT_LISTE_TICKETS, listeTickets);
+
+	/* forward vers la page de confirmation */
 	this.getServletContext().getRequestDispatcher(VUE)
 		.forward(request, response);
     }

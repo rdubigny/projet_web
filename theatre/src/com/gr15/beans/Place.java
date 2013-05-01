@@ -35,4 +35,8 @@ public class Place {
     public void setOccupe() {
 	this.occupe = true;
     }
+
+    public void setLibre() {
+	this.occupe = false;
+    }
 }

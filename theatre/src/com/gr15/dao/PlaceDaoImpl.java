@@ -1,5 +1,6 @@
 package com.gr15.dao;
 
+import static com.gr15.dao.DAOUtilitaire.fermetureSilencieuse;
 import static com.gr15.dao.DAOUtilitaire.fermeturesSilencieuses;
 import static com.gr15.dao.DAOUtilitaire.initialisationRequetePreparee;
 
@@ -7,17 +8,22 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import com.gr15.beans.Place;
 import com.gr15.beans.Representation;
+import com.gr15.beans.Ticket;
 import com.gr15.beans.Utilisateur;
 
 public class PlaceDaoImpl implements PlaceDao {
     private DAOFactory daoFactory;
     private static final String SQL_ZONES = "SELECT id_place, numero_rang, numero_siege, id_zone FROM place";
-    private static final String SQL_SELECT_PLACE_OCCUPEES = "select p.numero_rang , p.numero_siege "
-	    + "from projweb_db.place p, projweb_db.achat a, projweb_db.reservation r "
-	    + "where a.id_place = p.id_place OR r.id_place = p.id_place";
+    private static final String SQL_SELECT_PLACES_RESERVEES = "SELECT p.numero_rang , p.numero_siege "
+	    + "FROM projweb_db.place p, projweb_db.reservation r "
+	    + "WHERE r.id_place = p.id_place AND r.id_representation=?";
+    private static final String SQL_SELECT_PLACES_ACHETEES = "SELECT p.numero_rang , p.numero_siege "
+	    + "FROM projweb_db.place p, projweb_db.achat a "
+	    + "WHERE a.id_place = p.id_place AND a.id_representation=?";
     private static final String SQL_ACHAT = "";
     private static final String SQL_RESERVATION = "INSERT INTO "
 	    + "projweb_db.reservation (id_representation, id_place, id_utilisateur)"
@@ -59,75 +65,111 @@ public class PlaceDaoImpl implements PlaceDao {
     }
 
     @Override
-    public void updateDisponibilite(Place[][] matricePlace) {
-	Connection connexion = null;
-	PreparedStatement preparedStatement = null;
-	ResultSet resultSet = null;
-	try {
-	    /* Récupération d'une connexion depuis la Factory */
-	    connexion = daoFactory.getConnection();
-	    preparedStatement = initialisationRequetePreparee(connexion,
-		    SQL_SELECT_PLACE_OCCUPEES, false);
-	    resultSet = preparedStatement.executeQuery();
-	    /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
-	    while (resultSet.next()) {
-		matricePlace[resultSet.getInt("numero_rang") - 1][resultSet
-			.getInt("numero_siege") - 1].setOccupe();
+    public void updateDisponibilite(Place[][] matricePlace,
+	    Representation representation) {
+	for (Place[] i : matricePlace) {
+	    for (Place j : i) {
+		j.setLibre();
 	    }
-	} catch (SQLException e) {
-	    throw new DAOException(e);
-	} finally {
-	    fermeturesSilencieuses(resultSet, preparedStatement, connexion);
 	}
-    }
-
-    @Override
-    public void reserver(Utilisateur utilisateur,
-	    Representation representation, String[] ids, boolean achat) {
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
 	ResultSet resultSet = null;
 	try {
 	    /* Récupération d'une connexion depuis la Factory */
 	    connexion = daoFactory.getConnection();
-	    connexion.setAutoCommit(false);
-	    for (String s : ids) {
-		if (achat)
-		    preparedStatement = initialisationRequetePreparee(
-			    connexion, SQL_ACHAT, false);
-		else {
-		    preparedStatement = initialisationRequetePreparee(
-			    connexion, SQL_RESERVATION, false,
-			    representation.getId(), s, utilisateur.getId());
+	    for (int i = 0; i < 2; i++) {
+		try {
+		    switch (i) {
+		    case 0:
+			preparedStatement = initialisationRequetePreparee(
+				connexion, SQL_SELECT_PLACES_RESERVEES, false,
+				representation.getId());
+			break;
+		    case 1:
+			preparedStatement = initialisationRequetePreparee(
+				connexion, SQL_SELECT_PLACES_ACHETEES, false,
+				representation.getId());
+			break;
+		    default:
+		    }
 		    resultSet = preparedStatement.executeQuery();
 		    /*
 		     * Parcours de la ligne de données de l'éventuel ResulSet
 		     * retourné
 		     */
 		    while (resultSet.next()) {
-			// matricePlace[resultSet.getInt("numero_rang") -
-			// 1][resultSet
-			// .getInt("numero_siege") - 1].setOccupe();
+			matricePlace[resultSet.getInt("numero_rang") - 1][resultSet
+				.getInt("numero_siege") - 1].setOccupe();
 		    }
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermetureSilencieuse(resultSet);
+		    fermetureSilencieuse(preparedStatement);
+		}
+	    }
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermetureSilencieuse(connexion);
+	}
+    }
+
+    @Override
+    public void reserver(Utilisateur utilisateur,
+	    Representation representation, String[] ids) {
+	Connection connexion = null;
+	PreparedStatement preparedStatement = null;
+	ResultSet valeursAutoGenerees = null;
+	try {
+	    /* Récupération d'une connexion depuis la Factory */
+	    connexion = daoFactory.getConnection();
+	    connexion.setAutoCommit(false);
+	    for (String s : ids) {
+		try {
+		    preparedStatement = initialisationRequetePreparee(
+			    connexion, SQL_RESERVATION, true,
+			    representation.getId(), s, utilisateur.getId());
+		    int statut = preparedStatement.executeUpdate();
+		    if (statut == 0)
+			throw new DAOException(
+				"Échec de la réservation, votre réservation n'a pas été enregistrée.");
+		    valeursAutoGenerees = preparedStatement.getGeneratedKeys();
+		    if (!valeursAutoGenerees.next())
+			throw new DAOException(
+				"Échec de la réservation, aucun numéro de réservation n'a été généré.");
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermetureSilencieuse(valeursAutoGenerees);
+		    fermetureSilencieuse(preparedStatement);
 		}
 	    }
 	    connexion.commit();
 	} catch (SQLException e) {
-	    // if (con != null) {
-	    // try {
-	    // con.rollback();
-	    // } catch (SQLException ex1) {
-	    // Logger lgr = Logger.getLogger(Transaction.class.getName());
-	    // lgr.log(Level.WARNING, ex1.getMessage(), ex1);
-	    // }
-	    // }
+	    if (connexion != null) {
+		try {
+		    connexion.rollback();
+		} catch (SQLException exp) {
+		    throw new DAOException(exp);
+		}
+	    }
 	    throw new DAOException(e);
 	} finally {
-	    fermeturesSilencieuses(resultSet, preparedStatement, connexion);
+	    fermetureSilencieuse(connexion);
 	}
     }
 
-    // inspiration
+    @Override
+    public void acheter(Utilisateur utilisateur, Representation representation,
+	    String[] ids, List<Ticket> tickets) {
+	// TODO Auto-generated method stub
+
+    }
+
+    // notes encore utiles
+    // TODO a supprimer
     // Connection con = null;
     // Statement st = null;
     //

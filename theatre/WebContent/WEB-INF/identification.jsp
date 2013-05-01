@@ -8,14 +8,7 @@
 	<link type="text/css" rel="stylesheet" href="inc/style.css" />
 </head>
 <body>
-	<c:choose>
-	<%-- Vérification de la présence d'un objet utilisateur en session --%>
-    <c:when test="${!empty sessionScope.sessionUtilisateur}">
-     			<%-- Si l'utilisateur existe en session, alors on affiche une page de déconnection. --%>
-    	<p class="info">(Vous êtes connecté(e) en tant que ${sessionScope.sessionUtilisateur.login})</p>
-    	<input type="button" value="Déconnexion" onclick="self.location.href='<c:url value='/deconnexion'/>'" />
-    </c:when>
-    <c:otherwise>
+	<c:import url="/inc/header.jsp" />
 	<form method="post" action="<c:url value="/identification"/>">
 	<fieldset>
 		<legend>Identification</legend>			
@@ -33,13 +26,13 @@
     					</c:when>
       					<c:otherwise>
 							<!-- Message d'acceuil par défaut -->
-      						<p>Identifiez vous pour réserver vos places.</p>
+      						<h3>Identifiez vous pour réserver vos places.</h3>
       					</c:otherwise>
       				</c:choose>
       			</c:otherwise>
 			</c:choose>
 
-			<label for="nom">login <span class="requis">*</span></label>
+			<label for="nom">Login <span class="requis">*</span></label>
 			<input type="text" id="login" name="login" value="" 
 				size="20" maxlength="60" />
 			<span class="erreur">${form.erreurs['login']}</span> <br />
@@ -58,7 +51,5 @@
 			
    	</fieldset>
 	</form>
-    </c:otherwise>
-	</c:choose>
 </body>
 </html>

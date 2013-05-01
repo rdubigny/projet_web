@@ -9,12 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class espaceAdmin
+ * Servlet implementation class AnnulationRepresentation
  */
-@WebServlet( "/admin/espaceAdmin" )
-public class EspaceAdmin extends HttpServlet {
+@WebServlet( "/annulationRepresentation" )
+public class AnnulationRepresentation extends HttpServlet {
     private static final long  serialVersionUID = 1L;
-    public static final String VUE              = "/WEB-INF/espaceAdmin.jsp";
+    public static final String VUE              = "/WEB-INF/annulationRepresentation.jsp";
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -23,8 +23,6 @@ public class EspaceAdmin extends HttpServlet {
     protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException,
             IOException {
         // TODO Auto-generated method stub
-
-        /* Affichage de la page d'acceuil client */
         this.getServletContext().getRequestDispatcher( VUE )
                 .forward( request, response );
     }

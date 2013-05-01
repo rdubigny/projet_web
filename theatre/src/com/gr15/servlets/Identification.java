@@ -25,7 +25,7 @@ public class Identification extends HttpServlet {
 
     public static final String VUE = "/WEB-INF/identification.jsp";
     public static final String REDIRECTION_ESPACE_CLIENT = "espaceClient";
-    public static final String REDIRECTION_ESPACE_RESPONSABLE = "espaceAdmin";
+    public static final String REDIRECTION_ESPACE_RESPONSABLE = "admin/espaceAdmin";
     public static final String CONF_DAO_FACTORY = "daofactory";
 
     private UtilisateurDao utilisateurDao;
