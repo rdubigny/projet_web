@@ -15,7 +15,7 @@
 		<legend>Confirmation</legend>
 		<!-- affichage du message de résultat -->
 		<h3>${ requestScope.form.resultat }</h3>
-	
+		<div id="corps">
 		<c:choose>
 			<%-- affichage de l'erreur s'il y a lieu --%>
 			<c:when test="${ ! empty requestScope.form.erreur }">
@@ -24,9 +24,12 @@
 			<c:otherwise>
 				<%--  sinon affichage de la liste des tickets si elle existe --%>
 				<c:if test="${requestScope.tickets != null }">
-					Voici la liste
-					${fn:length(tickets) > 1 ? "des tickets achetés" : "du ticket acheté"}.
-					Imprimez cette page elle vous sera demandée au guichet pour accèder a la représentation.
+					<p>
+						Veuillez trouver si dessous
+						${fn:length(tickets) > 1 ? 
+							"les tickets vous donnant accès aux places achetées" : 
+							"le ticket vous donnant accès à la place achetée"}.
+					</p>
 					<table>
                 		<tr>
                     		<th>Numéro de série</th>
@@ -40,15 +43,21 @@
                     			</td>
                     			<%-- Affichage de la date d'émission --%>
                     			<td>
-		                        	<joda:format value="${ ticket.date }" pattern="EEEE dd MMMM yyyy 'à' HH:mm:ss"/>
+		                        	<joda:format value="${ ticket.date }" pattern="EEEE dd MMMM yyyy 'à' HH'h'mm'm'"/>
         			            </td>
                 			</tr>
 						</c:forEach>
 					</table>
+					<p>
+						Imprimez cette page elle vous sera demandée au guichet pour accèder a la représentation.
+					</p>
 				</c:if>
 			</c:otherwise>
 		</c:choose>
-		<p><input type="button" value="Retour à l'espace client" onclick="self.location.href='<c:url value='/espaceClient'/>'" /><p>
+		<p>
+			<input type="button" value="Retour à l'espace client" onclick="self.location.href='<c:url value='/espaceClient'/>'" />
+		<p>
+		</div>
 	</fieldset>
 </body>
 </html>
