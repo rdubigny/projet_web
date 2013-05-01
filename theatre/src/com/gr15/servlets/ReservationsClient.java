@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet( "/reservationsClient" )
 public class ReservationsClient extends HttpServlet {
     private static final long  serialVersionUID = 1L;
-    public static final String VUE              = "/WEB-INF/reservationsClient.jsp";
+    public static final String VUE = "/WEB-INF/reservationsClient.jsp";
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse

@@ -83,5 +83,4 @@ public class Identification extends HttpServlet {
 		    .forward(request, response);
 	}
     }
-
 }
