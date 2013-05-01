@@ -69,7 +69,7 @@ ON projweb_db.representation
 FOR EACH ROW
 BEGIN
   IF (DATEDIFF(NEW.moment_representation, DATE('2012-09-01')) < 0)  || (DATEDIFF(NEW.moment_representation, DATE('2013-05-31')) > 0) THEN
-    SIGNAL SQLSTATE '02000' SET MESSAGE_TEXT = 'Les représentations doivent se dérouler entre septembre et juin de l\'année en cours ';
+    SIGNAL SQLSTATE '02000' SET MESSAGE_TEXT = 'Les reprï¿½sentations doivent se dï¿½rouler entre septembre et juin de l\'annï¿½e en cours ';
   END IF;
 END$$
 
@@ -105,7 +105,7 @@ id_representation INTEGER,
 id_place INTEGER,
 id_utilisateur INTEGER,
 PRIMARY KEY ( id_reservation ),
-UNISQUE (id_reservation, id_place),
+UNIQUE (id_reservation, id_place),
 FOREIGN KEY (id_representation) REFERENCES representation(id_representation) ON DELETE CASCADE,
 FOREIGN KEY (id_place) REFERENCES place(id_place) ON DELETE CASCADE,
 FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id_utilisateur) ON DELETE CASCADE
@@ -120,7 +120,7 @@ id_dossier INTEGER,
 id_ticket INTEGER,
 id_utilisateur INTEGER,
 PRIMARY KEY ( id_achat ),
-UNISQUE (id_achat, id_place),
+UNIQUE (id_achat, id_place),
 FOREIGN KEY (id_place) REFERENCES place(id_place) ON DELETE CASCADE,
 FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id_utilisateur) ON DELETE CASCADE,
 FOREIGN KEY (id_representation) REFERENCES representation(id_representation) ON DELETE CASCADE,
