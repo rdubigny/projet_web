@@ -43,7 +43,7 @@
                     			</td>
                     			<%-- Affichage de la date d'émission --%>
                     			<td>
-		                        	<joda:format value="${ ticket.date }" pattern="EEEE dd MMMM yyyy 'à' HH'h'mm'm'"/>
+		                        	<joda:format value="${ ticket.date }" pattern="EEEE dd MMMM yyyy 'à' HH'h'mm"/>
         			            </td>
                 			</tr>
 						</c:forEach>

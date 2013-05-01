@@ -27,7 +27,7 @@ public class PlaceDaoImpl implements PlaceDao {
 	    + "FROM projweb_db.place p, projweb_db.achat a "
 	    + "WHERE a.id_place = p.id_place AND a.id_representation=?";
     private static final String SQL_CREATION_TICKET = "INSERT INTO projweb_db.ticket (moment_vente) "
-	    + "VALUES (CURTIME())";
+	    + "VALUES (?)";// (CURTIME())";
     private static final String SQL_CREATION_DOSSIER = "INSERT INTO projweb_db.dossier () VALUES ()";
     private static final String SQL_ACHAT = "INSERT INTO projweb_db.achat "
 	    + "(id_representation ,id_place ,id_dossier ,id_ticket ,id_utilisateur) VALUES (?,?,?,?,?)";
@@ -208,8 +208,10 @@ public class PlaceDaoImpl implements PlaceDao {
 		/* création tickets */
 
 		try {
+		    DateTime curDate = new DateTime();
 		    preparedStatement = initialisationRequetePreparee(
-			    connexion, SQL_CREATION_TICKET, true);
+			    connexion, SQL_CREATION_TICKET, true,
+			    curDate.toDate());
 		    int statut = preparedStatement.executeUpdate();
 		    if (statut == 0)
 			throw new DAOException(
@@ -220,7 +222,7 @@ public class PlaceDaoImpl implements PlaceDao {
 			idTicket = (int) valeursAutoGenerees.getLong(1);
 			ticket.setId(idTicket);
 			/* la ligne suivante à peu de chances de marcher */
-			ticket.setDate(new DateTime());
+			ticket.setDate(curDate);
 			tickets.add(ticket);
 		    } else
 			throw new DAOException(
