@@ -14,7 +14,7 @@
 	<c:if test="${param.redirect == 1}">
 		<p class="erreur">Vous n'avez pas les droits nécessaires pour acceder à cette page.</p>
 	</c:if>
-	<h3>Sélectionnez un spectacle pour réserver une place.</h3>	
+	<h3>Sélectionnez un spectacle pour réserver une place</h3>	
 	<div id="corps">
         <c:choose>
             <%-- Si aucun spectacle n'est transmit en requète, affichage d'un message par défaut. --%>
@@ -49,11 +49,11 @@
             </c:otherwise>
         </c:choose>
 	</div>
-	<h3>Accèdez à vos réservations en attente de paiement.</h3>	
-    <p>
+	<h3>Accèdez à vos réservations en attente de paiement</h3>	
+    <div id="corps">
     <input type="button" value="Espace Réservation" 
     	onclick="self.location.href='<c:url value='/reservationsClient'/>'" />
-   	</p>
+   	</div>
 	</fieldset>
 </body>
 </html>

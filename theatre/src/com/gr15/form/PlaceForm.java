@@ -1,9 +1,7 @@
 package com.gr15.form;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -11,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import com.gr15.beans.Representation;
 import com.gr15.beans.Ticket;
 import com.gr15.beans.Utilisateur;
+import com.gr15.dao.DAOException;
 import com.gr15.dao.PlaceDao;
 
 public class PlaceForm {
@@ -21,7 +20,7 @@ public class PlaceForm {
     public static final String ATT_REPRESENTATION = "representation";
 
     private String resultat;
-    private Map<String, String> erreurs = new HashMap<String, String>();
+    private String erreur = null;
     private PlaceDao placeDao;
 
     public PlaceForm(PlaceDao placeDao) {
@@ -32,38 +31,61 @@ public class PlaceForm {
 	return resultat;
     }
 
-    public Map<String, String> getErreurs() {
-	return erreurs;
+    public String getErreur() {
+	return erreur;
     }
 
     public List<Ticket> reserver(HttpServletRequest request) {
 	List<Ticket> listeTickets = new ArrayList<Ticket>();
 
+	/* boolean spécifiant s'il s'agit d'une réservation */
+	boolean isReservation = request.getParameter(PARAM_ACTION).equals(
+		PARAM_RESERVATION);
+
 	/* récupération des places sélectionnées */
 	String[] ids = request.getParameterValues(PARAM_PLACE_ID);
 
-	/* récupération de l'utilisateur et de la représentation en sélection */
-	HttpSession session = request.getSession();
-	Utilisateur utilisateur = (Utilisateur) session
-		.getAttribute(ATT_SESSION_USER);
-	Representation representation = (Representation) session
-		.getAttribute(ATT_REPRESENTATION);
+	try {
 
-	/* enregistrement de la réservation ou de l'achat */
-	if (request.getParameter(PARAM_ACTION).equals(PARAM_RESERVATION)) {
-	    placeDao.reserver(utilisateur, representation, ids);
-	    listeTickets = null;
-	} else
-	    placeDao.acheter(utilisateur, representation, ids, listeTickets);
+	    if (ids == null) {
+		erreur = "Veillez sélectionner au moins une place pour procéder à l'achat";
+	    } else {
+
+		/*
+		 * récupération de l'utilisateur et de la représentation en
+		 * sélection
+		 */
+		HttpSession session = request.getSession();
+		Utilisateur utilisateur = (Utilisateur) session
+			.getAttribute(ATT_SESSION_USER);
+		Representation representation = (Representation) session
+			.getAttribute(ATT_REPRESENTATION);
+
+		/* enregistrement de la réservation ou de l'achat */
+		if (isReservation) {
+		    placeDao.reserver(utilisateur, representation, ids);
+		    listeTickets = null;
+		} else
+		    placeDao.acheter(utilisateur, representation, ids,
+			    listeTickets);
+	    }
+
+	    if (erreur == null) {
+		if (ids.length > 1)
+		    resultat = isReservation ? "Vos places ont été réservées avec succès"
+			    : "Vos places ont été achetées avec succès";
+		else
+		    resultat = isReservation ? "Votre place à été réservée avec succès"
+			    : "Votre place à été achetée avec succès";
+	    } else {
+		resultat = isReservation ? "Echec de la réservation"
+			: "Echec de l'achat";
+	    }
+	} catch (DAOException e) {
+	    resultat = "Échec de l'opération : une erreur imprévue est survenue, merci de réessayer dans quelques instants.";
+	    e.printStackTrace();
+	}
 
 	return listeTickets;
     }
-
-    /*
-     * Ajoute un message correspondant au champ spécifié à la map des erreurs.
-     */
-    private void setErreur(String champ, String message) {
-	erreurs.put(champ, message);
-    }
-
 }

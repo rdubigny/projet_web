@@ -27,7 +27,13 @@ public class ChoixPlace extends HttpServlet {
     public static final String ATT_SESSION_UTILISATEUR = "sessionUtilisateur";
     public static final String ATT_EST_GUICHET = "estGuichet";
     public static final String ATT_REPRESENTATION_CHOISIE = "representation";
+    public static final String ATT_PLACES_RESTANTES = "placesRestantes";
+
     public static final String PARAM_REPRESENTATION_ID = "id";
+
+    public static final int NB_PLACES = 600;
+    public static final int NB_PLACES_GUICHET = 70;
+
     public static final String VUE = "/WEB-INF/choixPlace.jsp";
 
     public static final String CONF_DAO_FACTORY = "daofactory";
@@ -62,7 +68,7 @@ public class ChoixPlace extends HttpServlet {
 	if (matricePlace == null)
 	    matricePlace = placeDao.genererPlan();
 
-	/* calcule la matrice des places */
+	/* calcul la matrice des places */
 	placeDao.updateDisponibilite(matricePlace, representation);
 
 	/* on transmet la matrice en attribut */
@@ -76,7 +82,19 @@ public class ChoixPlace extends HttpServlet {
 		.getAttribute(ATT_SESSION_UTILISATEUR);
 	request.setAttribute(ATT_EST_GUICHET, utilisateur.estGuichet());
 
-	/* Affichage de la page d'acceuil client */
+	/* calcul du nombre de places restantes et transmission à la JSP */
+	int placesRestantes = NB_PLACES;
+	for (Place[] i : matricePlace) {
+	    for (Place j : i) {
+		if (j.isOccupe())
+		    placesRestantes--;
+	    }
+	}
+	if (!utilisateur.estGuichet())
+	    placesRestantes -= NB_PLACES_GUICHET;
+	request.setAttribute(ATT_PLACES_RESTANTES, placesRestantes);
+
+	/* Affichage de la page de sélection des places */
 	this.getServletContext().getRequestDispatcher(VUE)
 		.forward(request, response);
     }
