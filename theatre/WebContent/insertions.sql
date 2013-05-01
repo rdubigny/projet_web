@@ -14,7 +14,7 @@ INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type
 INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('pailloue', 'pailloue', 'pailloue', 'pailloue', 'pailloue@pailloue.fr', 'client');
 INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('milloura', 'milloura', 'milloura', 'milloura', 'milloura@milloura.fr', 'client');
 
--- Représentation ------
+-- Reprï¿½sentation ------
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1',NOW());
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-05-29 20:00:00');
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-05-27 20:00:00');
