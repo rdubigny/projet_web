@@ -31,7 +31,7 @@
       				</c:choose>
       			</c:otherwise>
 			</c:choose>
-
+	<div id="corps">
 			<label for="nom">Login <span class="requis">*</span></label>
 			<input type="text" id="login" name="login" value="" 
 				size="20" maxlength="60" />
@@ -48,7 +48,7 @@
       		<br />
 			
 			<input type="submit" value="Connexion" class="sansLabel" /> <br />
-			
+			</div>
    	</fieldset>
 	</form>
 </body>

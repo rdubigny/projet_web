@@ -1,18 +1,22 @@
 -- Spectacle -----------
 
-INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('L Ecole des Femmes - Moliere','20.00');
+INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('L\'Ecole des Femmes - Moliere','20.00');
 INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('Troilus et Cressida - William Shakespeare','30.00');
-INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('Ce que j appelle oubli - Laurent Mauvignier','10.00');
+INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('Ce que j\'appelle oubli - Laurent Mauvignier','10.00');
 
 -- Utilisateur ---------
 
 INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('root', 'root', 'root', 'root', 'root@root.root', 'client');
 INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('responsable', 'responsable', 'responsable', 'responsable', 'responsable@responsable.fr', 'responsable');
 INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('guichet', 'guichet', 'guichet', 'guichet', 'guichet@guichet.fr', 'guichet');
+INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('legouxg', 'legouxg', 'legouxg', 'legouxg', 'legouxg@legouxg.fr', 'client');
+INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('dubignyr', 'dubignyr', 'dubignyr', 'dubignyr', 'dubignyr@dubignyr.fr', 'client');
+INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('pailloue', 'pailloue', 'pailloue', 'pailloue', 'pailloue@pailloue.fr', 'client');
+INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('milloura', 'milloura', 'milloura', 'milloura', 'milloura@milloura.fr', 'client');
 
--- ReprÃ©sentation ------
+-- Représentation ------
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1',NOW());
-INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-04-29 20:00:00');
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-05-29 20:00:00');
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-05-27 20:00:00');
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-05-26 20:00:00');
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES 
@@ -628,7 +632,7 @@ INSERT INTO projweb_db.place (numero_rang, numero_siege, id_zone) VALUES (20,29,
 INSERT INTO projweb_db.place (numero_rang, numero_siege, id_zone) VALUES (20,30,4);
 
 -- reservations 
-INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('1','1','1');
-INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('1','2','1');
-INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('2','1','1');
-
+INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('1','1','2');
+INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('2','1','2');
+INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('3','1','2');
+>>>>>>> branch 'master' of https://github.com/rdubigny/projet_web.git
