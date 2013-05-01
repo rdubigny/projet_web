@@ -34,7 +34,9 @@
                         <input type="button" value="Annuler" 
                         	onclick="self.location.href=
                         	'<c:url value='/annulationRepresentation'>
-                        		<c:param name='id' value='${ representation.id }' />
+                        	<c:param name='idRepresentation' value='${ representation.id }'/>
+                        	<c:param name='spectacle' value='${ representation.nomSpectacle }' />
+                        		<c:param name='date' value='${ representation.date }'/>
                         	</c:url>'"
                        	/>
                     </td>
