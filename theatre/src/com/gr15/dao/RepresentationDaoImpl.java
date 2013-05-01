@@ -29,7 +29,7 @@ public class RepresentationDaoImpl implements RepresentationDao {
                                                                    + "		AND ((u.type_utilisateur = 'client' AND CURTIME() < SUBTIME(r.moment_representation, '0 01:00:00') "
                                                                    + "				 OR (u.type_utilisateur = 'guichet'))) ORDER BY r.moment_representation";
 
-    private static final String SQL_SELECT_CHRONO          = "SELECT id_representation, s.nom_spectacle, "
+    private static final String SQL_SELECT_CHRONO          = "SELECT id_representation, s.nom_spectacle, r.id_spectacle,"
                                                                    + "r.moment_representation FROM projweb_db.spectacle s, projweb_db.representation r "
                                                                    + "WHERE r.id_spectacle = s.id_spectacle ORDER BY r.moment_representation";
 
@@ -114,24 +114,23 @@ public class RepresentationDaoImpl implements RepresentationDao {
     // if ( !resultSet.getTimestamp( "moment_representation" ).before(
     // DateTime.now().plusHours( 1 ).toDate() ) )
 
-    public Representation supprimer( String id ) {
+    @Override
+    public void supprimer( String idRepresentation ) throws DAOException {
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        Representation representation = null;
 
         try {
-            /* Récupération d'une connexion depuis la Factory */
             connexion = daoFactory.getConnection();
-            preparedStatement = initialisationRequetePreparee( connexion,
-                    SQL_DELETE, false, id );
-            resultSet = preparedStatement.executeQuery();
+            preparedStatement = initialisationRequetePreparee( connexion, SQL_DELETE, true, idRepresentation );
+            int statut = preparedStatement.executeUpdate();
+            if ( statut == 0 ) {
+                throw new DAOException( "Échec de la suppression du client, aucune ligne supprimée de la table." );
+            }
         } catch ( SQLException e ) {
             throw new DAOException( e );
         } finally {
-            fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+            fermeturesSilencieuses( preparedStatement, connexion );
         }
-        return representation;
     }
 
     private static Representation map_admin( ResultSet resultSet )

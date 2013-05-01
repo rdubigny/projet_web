@@ -13,6 +13,6 @@ public interface RepresentationDao {
 
     public Representation trouver( String id );
 
-    public Representation supprimer( String id );
+    public void supprimer( String idRepresentation );
 
 }

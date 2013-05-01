@@ -38,8 +38,9 @@ public class AnnulationRepresentation extends HttpServlet {
     protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException,
             IOException {
         /* Récupération du paramètre */
-        String id_representation = getValeurParametre( request, PARAM_ID_REPRESENTATION );
-        representationDao.supprimer( id_representation );
+        String idRepresentation = getValeurParametre( request,
+                PARAM_ID_REPRESENTATION );
+        representationDao.supprimer( idRepresentation );
         // TODO Auto-generated method stub
         this.getServletContext().getRequestDispatcher( VUE )
                 .forward( request, response );

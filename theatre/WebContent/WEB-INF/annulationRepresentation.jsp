@@ -10,6 +10,6 @@
 <body>
 
 	<c:import url="/inc/header.jsp" />
-La représentation du spectacle "${ param.spectacle }" le ${ param.date } est bien annulée.  
+La représentation du spectacle "${ param.nomSpectacle }" le ${ param.date } est bien annulée.  
 </body>
 </html>
