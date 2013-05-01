@@ -60,7 +60,7 @@ deux boutons input = submit : un pour acheter, un pour reserver -->
     					<input type="button" value="Retour au choix de la représentation" 
                         	onclick="self.location.href=
                         	'<c:url value='/choixRepresentation'>
-                        		<c:param name='id' value='${ sessionScope.representation.idSpectacle }' />
+                        		<c:param name='id' value='${ sessionScope.representation.idSpectacle }' />						
                         	</c:url>'"
                        	/>                       	
        				</p>
