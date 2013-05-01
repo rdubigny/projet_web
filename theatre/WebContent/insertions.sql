@@ -7,7 +7,7 @@ INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('Ce que j\'a
 -- Utilisateur ---------
 
 INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('root', 'root', 'root', 'root', 'root@root.root', 'client');
-INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('dubignyr', 'dubigny', 'raphael', 'raphael', 'raphael@dubigny.fr', 'responsable');
+INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('responsabler', 'responsable', 'responsable', 'responsable', 'responsable@responsable.fr', 'responsable');
 INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('guichet', 'guichet', 'guichet', 'guichet', 'guichet@guichet.fr', 'guichet');
 
 -- Représentation ------
@@ -641,7 +641,7 @@ INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('Ce que j ap
 -- Utilisateur ---------
 
 INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('root', 'root', 'root', 'root', 'root@root.root', 'client');
-INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('dubignyr', 'dubigny', 'raphael', 'raphael', 'raphael@dubigny.fr', 'responsable');
+INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('responsable', 'responsable', 'responsable', 'responsable', 'responsable@responsable.fr', 'responsable');
 INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('guichet', 'guichet', 'guichet', 'guichet', 'guichet@guichet.fr', 'guichet');
 
 -- ReprÃ©sentation ------

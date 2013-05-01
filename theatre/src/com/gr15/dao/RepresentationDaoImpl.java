@@ -26,7 +26,7 @@ public class RepresentationDaoImpl implements RepresentationDao {
 	    + "		AND u.id_utilisateur = ?"
 	    + "		AND CURTIME() < r.moment_representation "
 	    + "		AND ((u.type_utilisateur = 'client' AND CURTIME() < SUBTIME(r.moment_representation, '0 01:00:00') "
-	    + "				 OR (u.type_utilisateur = 'guichet')))";
+	    + "				 OR (u.type_utilisateur = 'guichet'))) ORDER BY r.moment_representation";
 
     private static final String SQL_SELECT_CHRONO = "SELECT id_representation, s.nom_spectacle, "
 	    + "r.moment_representation FROM projweb_db.spectacle s, projweb_db.representation r "
