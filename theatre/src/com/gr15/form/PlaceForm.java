@@ -39,8 +39,13 @@ public class PlaceForm {
 	List<Ticket> listeTickets = new ArrayList<Ticket>();
 
 	/* boolean spécifiant s'il s'agit d'une réservation */
-	boolean isReservation = request.getParameter(PARAM_ACTION).equals(
-		PARAM_RESERVATION);
+	boolean isReservation = PARAM_RESERVATION.equals(request
+		.getParameter(PARAM_ACTION));
+	// if (request.getParameter(PARAM_ACTION) != null
+	// && request.getParameter(PARAM_ACTION).equals(PARAM_RESERVATION))
+	// isReservation = true;
+	// else
+	// isReservation = false;
 
 	/* récupération des places sélectionnées */
 	String[] ids = request.getParameterValues(PARAM_PLACE_ID);
@@ -48,7 +53,7 @@ public class PlaceForm {
 	try {
 
 	    if (ids == null) {
-		erreur = "Veillez sélectionner au moins une place pour procéder à l'achat";
+		erreur = "Veuillez sélectionner au moins une place pour procéder à l'achat";
 	    } else {
 
 		/*
@@ -83,6 +88,7 @@ public class PlaceForm {
 	    }
 	} catch (DAOException e) {
 	    resultat = "Échec de l'opération : une erreur imprévue est survenue, merci de réessayer dans quelques instants.";
+	    erreur = e.getMessage();
 	    e.printStackTrace();
 	}
 
