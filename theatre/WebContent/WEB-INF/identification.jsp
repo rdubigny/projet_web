@@ -26,7 +26,7 @@
     					</c:when>
       					<c:otherwise>
 							<!-- Message d'acceuil par défaut -->
-      						<h3>Identifiez vous pour réserver vos places.</h3>
+      						<h3>Identifiez vous pour réserver vos places</h3>
       					</c:otherwise>
       				</c:choose>
       			</c:otherwise>

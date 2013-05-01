@@ -14,12 +14,19 @@ pour ce spectacle. Devant chaque représentation il y'aura un bouton "acheter/re
 menera à l'url choixPlace/ -->
 	<fieldset>
 		<legend>Choix d'une représentation</legend>
-	<h3>Liste des représentations à venir pour ${ requestScope.representations[0].nomSpectacle }.</h3>
+	<h3>Liste des représentations à venir
+		<c:if test="${ ! empty requestScope.representations }">
+			pour ${ requestScope.representations[0].nomSpectacle }
+		</c:if>
+	</h3>
 	<div id="corps">
         <c:choose>
             <%-- Si aucune représentation n'est transmise en requète, affichage d'un message par défaut. --%>
             <c:when test="${ empty requestScope.representations }">
                 <p class="erreur">Aucune représentation prévue pour le moment.</p>
+                <p>
+                	<input type="button" value="Retour à l'espace client" onclick="self.location.href='<c:url value='/espaceClient'/>'" />
+                </p>
             </c:when>
             <%-- Sinon, affichage du tableau. --%>
             <c:otherwise>

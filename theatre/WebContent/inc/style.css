@@ -1,8 +1,17 @@
 @CHARSET "UTF-8";
 /* Général ------------------------------------------------------------------------------------- */
  
+body {
+ 	background-color: #ddd;
+}
+ 
 body, p, legend, label {
     font: normal 10pt "Comic Sans MS", verdana, helvetica, sans-serif;
+}
+
+body {
+	width: 900px;
+    margin: auto;
 }
 
 /* Titres -------------------------------------------------------------------------------------- */
@@ -16,6 +25,7 @@ fieldset {
     border-radius:4px;
     border: 1px #0568CD solid;
     margin: 10px;
+    background-color: #fff;
 }
  
 legend {
@@ -62,14 +72,18 @@ div#menu{
     border: 1px solid #0568CD;
     padding: 10px;
     margin: 10px;
+    text-align: right;
+    background-color: #fff;
 }
 div#corps{
-    margin: 10px;
+    margin: 20px;
 }
 
 /* Tableaux -------------------------------------------------------------------------------------*/
 table{
     border-collapse: collapse;
+    margin: 0 auto; 
+    text-align: left;
 }
 tr.pair{
     background-color: #efefef;
