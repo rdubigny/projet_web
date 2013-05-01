@@ -20,7 +20,7 @@
                 <tr>
                 	<th> Spectacle </th>
                     <th>Date</th>
-                    <th class="action">Acheter / Réserver</th>            
+                    <th class="action">Annuler une représentation</th>            
                 </tr>
                 <%-- Parcours de la listes des représentations en requête, et utilisation de l'objet varStatus. --%>
                 <c:forEach items="${ requestScope.representationsAdmin }" var="representation" varStatus="boucle">
@@ -33,8 +33,10 @@
                     <td class="action">
                         <input type="button" value="Annuler" 
                         	onclick="self.location.href=
-                        	'<c:url value='/annulationRepresentation'>
-                        		<c:param name='id' value='${ representation.id }' />
+                        	'<c:url value="/annulationRepresentation">
+                        	<c:param name="idRepresentation" value="${ representation.id }"/>
+                        	<c:param name="nomSpectacle" value="${ representation.nomSpectacle }"/>
+                        	<c:param name="date" value="${ representation.date }"/>
                         	</c:url>'"
                        	/>
                     </td>
