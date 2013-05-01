@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import com.gr15.beans.Place;
 import com.gr15.beans.Representation;
 import com.gr15.beans.Ticket;
@@ -24,7 +26,11 @@ public class PlaceDaoImpl implements PlaceDao {
     private static final String SQL_SELECT_PLACES_ACHETEES = "SELECT p.numero_rang , p.numero_siege "
 	    + "FROM projweb_db.place p, projweb_db.achat a "
 	    + "WHERE a.id_place = p.id_place AND a.id_representation=?";
-    private static final String SQL_ACHAT = "";
+    private static final String SQL_CREATION_TICKET = "INSERT INTO projweb_db.ticket (moment_vente) "
+	    + "VALUES (CURTIME())";
+    private static final String SQL_CREATION_DOSSIER = "INSERT INTO projweb_db.dossier () VALUES ()";
+    private static final String SQL_ACHAT = "INSERT INTO projweb_db.achat "
+	    + "(id_representation ,id_place ,id_dossier ,id_ticket ,id_utilisateur) VALUES (?,?,?,?,?)";
     private static final String SQL_RESERVATION = "INSERT INTO "
 	    + "projweb_db.reservation (id_representation, id_place, id_utilisateur)"
 	    + " VALUES (?,?,?);";
@@ -164,10 +170,101 @@ public class PlaceDaoImpl implements PlaceDao {
     @Override
     public void acheter(Utilisateur utilisateur, Representation representation,
 	    String[] ids, List<Ticket> tickets) {
-	// TODO Auto-generated method stub
+	Connection connexion = null;
+	PreparedStatement preparedStatement = null;
+	ResultSet valeursAutoGenerees = null;
+	int idDossier;
+	int idTicket;
 
+	try {
+	    /* Récupération d'une connexion depuis la Factory */
+	    connexion = daoFactory.getConnection();
+	    connexion.setAutoCommit(false);
+	    /* création dossier */
+	    try {
+		preparedStatement = initialisationRequetePreparee(connexion,
+			SQL_CREATION_DOSSIER, true);
+		int statut = preparedStatement.executeUpdate();
+		if (statut == 0)
+		    throw new DAOException(
+			    "Erreur lors de la création de dossier, aucun dossier n'a été créé.");
+		valeursAutoGenerees = preparedStatement.getGeneratedKeys();
+		if (valeursAutoGenerees.next()) {
+		    idDossier = (int) valeursAutoGenerees.getLong(1);
+		} else
+		    throw new DAOException(
+			    "Erreur lors de la création de dossier, aucun numéro de série n'a été généré.");
+	    } catch (SQLException e) {
+		throw new DAOException(e);
+	    } finally {
+		fermetureSilencieuse(valeursAutoGenerees);
+		fermetureSilencieuse(preparedStatement);
+	    }
+
+	    /* parcours de la liste des tickets */
+
+	    for (String s : ids) {
+
+		/* création tickets */
+
+		try {
+		    preparedStatement = initialisationRequetePreparee(
+			    connexion, SQL_CREATION_TICKET, true);
+		    int statut = preparedStatement.executeUpdate();
+		    if (statut == 0)
+			throw new DAOException(
+				"Erreur lors de la création de ticket, aucun ticket n'a été émis.");
+		    Ticket ticket = new Ticket();
+		    valeursAutoGenerees = preparedStatement.getGeneratedKeys();
+		    if (valeursAutoGenerees.next()) {
+			idTicket = (int) valeursAutoGenerees.getLong(1);
+			ticket.setId(idTicket);
+			/* la ligne suivante à peu de chances de marcher */
+			ticket.setDate(new DateTime());
+			tickets.add(ticket);
+		    } else
+			throw new DAOException(
+				"Erreur lors de la création de ticket, aucun numéro de série n'a été généré.");
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermetureSilencieuse(valeursAutoGenerees);
+		    fermetureSilencieuse(preparedStatement);
+		}
+
+		/* achat de la place */
+
+		try {
+		    preparedStatement = initialisationRequetePreparee(
+			    connexion, SQL_ACHAT, true, representation.getId(),
+			    s, idDossier, idTicket, utilisateur.getId());
+		    int statut = preparedStatement.executeUpdate();
+		    if (statut == 0)
+			throw new DAOException(
+				"Erreur lors de l'achat, l'achat n'a pas été enregistré.");
+		} catch (SQLException e) {
+		    throw new DAOException(e);
+		} finally {
+		    fermetureSilencieuse(valeursAutoGenerees);
+		    fermetureSilencieuse(preparedStatement);
+		}
+
+	    }
+
+	    connexion.commit();
+	} catch (SQLException e) {
+	    if (connexion != null) {
+		try {
+		    connexion.rollback();
+		} catch (SQLException exp) {
+		    throw new DAOException(exp);
+		}
+	    }
+	    throw new DAOException(e);
+	} finally {
+	    fermetureSilencieuse(connexion);
+	}
     }
-
     // notes encore utiles
     // TODO a supprimer
     // Connection con = null;
