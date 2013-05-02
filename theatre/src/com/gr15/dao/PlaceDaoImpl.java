@@ -157,6 +157,8 @@ public class PlaceDaoImpl implements PlaceDao {
 	    if (connexion != null) {
 		try {
 		    connexion.rollback();
+		    throw new DAOException(
+			    "Échec de la réservation, la réservation à été annulée.");
 		} catch (SQLException exp) {
 		    throw new DAOException(exp);
 		}
@@ -258,11 +260,12 @@ public class PlaceDaoImpl implements PlaceDao {
 	    if (connexion != null) {
 		try {
 		    connexion.rollback();
+		    throw new DAOException(
+			    "Erreur lors de l'achat, l'achat a été annulé.");
 		} catch (SQLException exp) {
 		    throw new DAOException(exp);
 		}
 	    }
-	    throw new DAOException(e);
 	} finally {
 	    fermetureSilencieuse(connexion);
 	}
