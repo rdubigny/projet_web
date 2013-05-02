@@ -27,7 +27,7 @@ public class EspaceClient extends HttpServlet {
     private SpectacleDao spectacleDao;
 
     public void init() throws ServletException {
-	/* Récupération d'une instance du DAO spectacle */
+	/* RÃ©cupÃ©ration d'une instance du DAO spectacle */
 	this.spectacleDao = ((DAOFactory) getServletContext().getAttribute(
 		CONF_DAO_FACTORY)).getSpectacleDao();
     }
@@ -39,7 +39,7 @@ public class EspaceClient extends HttpServlet {
     protected void doGet(HttpServletRequest request,
 	    HttpServletResponse response) throws ServletException, IOException {
 	/* calcule la liste des spectacles disponibles */
-	/* à faire dans un objet métier non ? */
+	/* ï¿½ faire dans un objet mï¿½tier non ? */
 	List<Spectacle> listeSpectacle = new ArrayList<Spectacle>();
 	spectacleDao.lister(listeSpectacle);
 
