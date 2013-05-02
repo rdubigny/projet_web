@@ -16,11 +16,11 @@ import com.gr15.beans.Representation;
 public class RepresentationDaoImpl implements RepresentationDao {
 
     private DAOFactory          daoFactory;
-    private static final String SQL_SELECT_PAR_ID          = "SELECT r.id_representation, s.nom_spectacle, r.moment_representation"
+    private static final String SQL_SELECT_PAR_ID          = "SELECT r.id_representation, s.nom_spectacle, r.moment_representation, r.id_spectacle"
                                                                    + " FROM projweb_db.representation r, projweb_db.spectacle s "
                                                                    + "WHERE s.id_spectacle = r.id_spectacle AND r.id_representation=?";
 
-    private static final String SQL_SELECT_REPRESENTATIONS = "SELECT r.id_representation, s.nom_spectacle, r.moment_representation "
+    private static final String SQL_SELECT_REPRESENTATIONS = "SELECT r.id_representation, s.nom_spectacle, r.moment_representation, r.id_spectacle "
                                                                    + "	FROM projweb_db.representation r, projweb_db.utilisateur u, projweb_db.spectacle s"
                                                                    + "	WHERE s.id_spectacle = r.id_spectacle "
                                                                    + "		AND s.id_spectacle = ?"
@@ -29,7 +29,7 @@ public class RepresentationDaoImpl implements RepresentationDao {
                                                                    + "		AND ((u.type_utilisateur = 'client' AND CURTIME() < SUBTIME(r.moment_representation, '0 01:00:00') "
                                                                    + "				 OR (u.type_utilisateur = 'guichet'))) ORDER BY r.moment_representation";
 
-    private static final String SQL_SELECT_CHRONO          = "SELECT id_representation, s.nom_spectacle, r.id_spectacle,"
+    private static final String SQL_SELECT_CHRONO          = "SELECT r.id_representation, s.nom_spectacle, r.id_spectacle,"
                                                                    + "r.moment_representation FROM projweb_db.spectacle s, projweb_db.representation r "
                                                                    + "WHERE r.id_spectacle = s.id_spectacle ORDER BY r.moment_representation";
 
