@@ -15,7 +15,7 @@ public interface PlaceDao {
 	    Representation representation);
 
     public void acheter(Utilisateur utilisateur, Representation representation,
-	    String[] ids, List<Ticket> tickets);
+	    String[] ids, List<Ticket> tickets, boolean estReserve);
 
     public void reserver(Utilisateur utilisateur,
 	    Representation representation, String[] ids);
