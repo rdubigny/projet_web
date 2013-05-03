@@ -21,6 +21,19 @@ INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALU
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-05-26 20:00:00');
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES 
 ('1',ADDTIME( TIME(NOW()), '00:50:00'));
+
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('2',ADDTIME( TIME(NOW()), '5:50:00'));
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('2','2013-05-30 20:00:00');
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('3','2013-05-30 18:00:00');
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('2','2013-05-26 16:00:00');
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES 
+('2',ADDTIME( TIME(NOW()), '00:50:00'));
+
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('3',ADDTIME( TIME(NOW()), '9:50:00'));
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('3','2013-05-29 14:00:00');
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('3','2013-05-27 14:00:00');
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('3','2013-05-26 14:00:00');
+
 -- Zones --------------
 
 INSERT INTO projweb_db.zone (categorie_prix, base_pourcentage_prix) VALUES ('Platine',100);
