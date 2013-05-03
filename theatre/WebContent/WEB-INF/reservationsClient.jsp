@@ -38,7 +38,7 @@
 						<th class="action">Annuler / Payer</th>
 					</tr>
 					<%-- Parcours de la listes des reservations en requête, et utilisation de l'objet varStatus. --%>
-					<c:forEach items="${ requestScope.reservations }" var="reservation" varStatus="boucle">
+					<c:forEach items="${requestScope.reservations }" var="reservation" varStatus="boucle">
 						<%-- Simple test de parité sur l'index de parcours, pour alterner la couleur de fond de chaque ligne du tableau. --%>
 						<tr class="${boucle.index % 2 == 0 ? 'pair' : 'impair'}">
 							<%-- Colonne Représenation --%>

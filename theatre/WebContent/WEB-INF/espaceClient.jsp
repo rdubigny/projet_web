@@ -60,8 +60,7 @@
 		<h3>Accèdez à vos réservations en attente de paiement</h3>	
     	<div id="corps">
 	    	<input type="button" value="Espace Réservation" 
-<%--     			onclick="self.location.href='<c:url value='/reservationsClient'/>'" /> --%>
-onclick="self.location.href='<c:url value="/reservationsClient"/>'" />
+				onclick="self.location.href='<c:url value='/reservationsClient'/>'" />
    		</div>
    	</c:if>
 	</fieldset>
