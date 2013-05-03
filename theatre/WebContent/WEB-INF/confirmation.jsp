@@ -21,7 +21,12 @@
 			<c:when test="${ ! empty requestScope.form.erreur }">
 				<p class="erreur">${ requestScope.form.erreur }</p>				
 				<p>
-					<input type="button" value="Retour au choix de places" onclick="self.location.href='<c:url value='/choixPlace' param/>'" />
+					<input type="button" value="Retour au choix de places" 
+						onclick="self.location.href=
+							'<c:url value='/choixPlace'>
+								<c:param name='id' value='${ sessionScope.representation.id }'/>
+							</c:url>'"
+					/>
 				<p>
 			</c:when>
 			<c:otherwise>
