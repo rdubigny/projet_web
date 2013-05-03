@@ -38,22 +38,22 @@ public class PlaceForm {
     public List<Ticket> reserver(HttpServletRequest request) {
 	List<Ticket> listeTickets = new ArrayList<Ticket>();
 
-	/* boolean spécifiant s'il s'agit d'une r�servation */
+	/* boolean spécifiant s'il s'agit d'une réservation */
 	boolean isReservation = PARAM_RESERVATION.equals(request
 		.getParameter(PARAM_ACTION));
 
-	/* r�cup�ration des places s�lectionn�es */
+	/* récupération des places sélectionnées */
 	String[] ids = request.getParameterValues(PARAM_PLACE_ID);
 
 	try {
 
 	    if (ids == null) {
-		erreur = "Veuillez s�lectionner au moins une place pour proc�der � l'achat";
+		erreur = "Veuillez sélectionner au moins une place pour procéder é l'achat";
 	    } else {
 
 		/*
-		 * r�cup�ration de l'utilisateur et de la repr�sentation en
-		 * s�lection
+		 * récupération de l'utilisateur et de la représentation en
+		 * sélection
 		 */
 		HttpSession session = request.getSession();
 		Utilisateur utilisateur = (Utilisateur) session
@@ -61,7 +61,7 @@ public class PlaceForm {
 		Representation representation = (Representation) session
 			.getAttribute(ATT_REPRESENTATION);
 
-		/* enregistrement de la r�servation ou de l'achat */
+		/* enregistrement de la réservation ou de l'achat */
 		if (isReservation) {
 		    placeDao.reserver(utilisateur, representation, ids);
 		    listeTickets = null;
@@ -72,17 +72,17 @@ public class PlaceForm {
 
 	    if (erreur == null) {
 		if (ids.length > 1)
-		    resultat = isReservation ? "Vos places ont �t� r�serv�es avec succ�s"
-			    : "Vos places ont �t� achet�es avec succ�s";
+		    resultat = isReservation ? "Vos places ont été réservées avec succès"
+			    : "Vos places ont été achetées avec succés";
 		else
-		    resultat = isReservation ? "Votre place � �t� r�serv�e avec succ�s"
-			    : "Votre place � �t� achet�e avec succ�s";
+		    resultat = isReservation ? "Votre place a été réservée avec succès"
+			    : "Votre place é été achetée avec succés";
 	    } else {
-		resultat = isReservation ? "Echec de la r�servation"
+		resultat = isReservation ? "Echec de la réservation"
 			: "Echec de l'achat";
 	    }
 	} catch (DAOException e) {
-	    resultat = "Echec de l'op�ration : une erreur impr�vue est survenue.";
+	    resultat = "Echec de l'opération : une erreur imprévue est survenue.";
 	    erreur = e.getMessage();
 	    e.printStackTrace();
 	}
