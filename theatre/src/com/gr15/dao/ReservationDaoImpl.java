@@ -1,5 +1,6 @@
 package com.gr15.dao;
 
+import static com.gr15.dao.DAOUtilitaire.fermetureSilencieuse;
 import static com.gr15.dao.DAOUtilitaire.fermeturesSilencieuses;
 import static com.gr15.dao.DAOUtilitaire.initialisationRequetePreparee;
 
@@ -17,7 +18,7 @@ public class ReservationDaoImpl implements ReservationDao {
 
 	private static final String SQL_DELETE_RESERVATION = "DELETE FROM projweb_db.reservation where id_reservation = ?";
 
-	private static final String SQL_SELECT_RESERVATION_USER = "SELECT rs.id_reservation, rp.moment_representation, "
+	private static final String SQL_SELECT_RESERVATION = "SELECT rs.id_reservation, rp.moment_representation, "
 			+ "s.nom_spectacle, p.numero_rang, p.numero_siege, z.categorie_prix,(s.base_prix*z.base_pourcentage_prix)/100 "
 			+ "FROM  projweb_db.reservation rs, projweb_db.representation rp, projweb_db.spectacle s, projweb_db.place p, "
 			+ "projweb_db.zone z WHERE rs.id_place = p.id_place AND rs.id_representation = rp.id_representation "
@@ -54,7 +55,7 @@ public class ReservationDaoImpl implements ReservationDao {
 			/* Récupération d'une connexion depuis la Factory */
 			connexion = daoFactory.getConnection();
 			preparedStatement = initialisationRequetePreparee(connexion,
-					SQL_SELECT_RESERVATION_USER, false, idUtilisateur);
+					SQL_SELECT_RESERVATION, false, idUtilisateur);
 			resultset = preparedStatement.executeQuery();
 			/* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 			while (resultset.next()) {
@@ -69,8 +70,24 @@ public class ReservationDaoImpl implements ReservationDao {
 	}
 
 	@Override
-	public void annuler(int idReservation) {
-
+	public void annulerReservation(int idReservation) {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultset = null;
+		try {
+			/* Récupération d'une connexion depuis la Factory */
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee(connexion,
+					SQL_DELETE_RESERVATION, false, idReservation);
+			int statut = preparedStatement.executeUpdate();
+			if (statut == 0)
+			    throw new DAOException("Erreur la reservation n'a pas ete supprimee.");
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermetureSilencieuse(preparedStatement);
+			fermetureSilencieuse(connexion);
+		}
 	}
 
 }

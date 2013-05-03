@@ -8,6 +8,6 @@ public interface ReservationDao {
 	
     public void listerParReservation(int idUtilisateur,List<Reservation> listeReservation);
     
-    public void annuler(int idReservation);
+	void annulerReservation(int idReservation);
 	
 }

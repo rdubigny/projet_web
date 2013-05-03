@@ -17,12 +17,14 @@ import com.gr15.beans.Utilisateur;
 import com.gr15.dao.DAOFactory;
 import com.gr15.dao.ReservationDao;
 
+
 /**
  * Servlet implementation class mesReservations
  */
 @WebServlet("/reservationsClient")
 public class ReservationsClient extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    public static final String PARAM_RESERVATION_ID = "id";
     
     private ReservationDao reservationDao;
 
@@ -38,6 +40,11 @@ public class ReservationsClient extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request,
 	    HttpServletResponse response) throws ServletException, IOException {
+    /*annulation d'une reservation*/
+    if (request.getParameter(PARAM_RESERVATION_ID) != null){
+    	int idReservation = Integer.parseInt(request.getParameter(PARAM_RESERVATION_ID));
+    	reservationDao.annulerReservation(idReservation);
+    }
 	/* creation de liste de réservation */
 	List<Reservation> listeReservation = new ArrayList<Reservation>();
 	int idUtilisateur = ((Utilisateur) (request.getSession()
@@ -54,7 +61,7 @@ public class ReservationsClient extends HttpServlet {
 		.forward(request, response);
     }
 
-    /**
+	/**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
      *      response)
      */
