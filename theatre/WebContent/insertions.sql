@@ -632,7 +632,10 @@ INSERT INTO projweb_db.place (numero_rang, numero_siege, id_zone) VALUES (20,29,
 INSERT INTO projweb_db.place (numero_rang, numero_siege, id_zone) VALUES (20,30,4);
 
 -- reservations 
-INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('1','1','2');
-INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('2','1','2');
-INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('3','1','2');
+-- gilles  : id_utilisateur=2 pas de reservation c'est le responsable
+-- legouxg : id_utilisateur=4 
+INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('2','1','4');
+INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('3','1','4');
+INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('3','2','4');
+INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('3','3','4');
 
