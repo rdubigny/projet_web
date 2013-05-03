@@ -8,27 +8,13 @@ public class Reservation {
     private int rang;
     private int siege;
     private String zone;
-    private float basePrix;
-    private float pourcentage;
+    private float prix;
 
     // Le constructeur
-    public Reservation(String representation,
-	    String spectacle,
-	    int rang,
-	    int siege,
-	    String zone,
-	    float basePrix,
-	    float pourcentage) {
-		super();
-		this.representation = representation;
-		this.spectacle = spectacle;
-		this.rang = rang;
-		this.siege = siege;
-		this.zone = zone;
-		this.basePrix = basePrix;
-		this.pourcentage = pourcentage;
+    public Reservation(){
+    	super();
     }
-
+    
     // Les Getters et Setters
 	public int getId() {
 		return id;
@@ -78,20 +64,12 @@ public class Reservation {
 		this.zone = zone;
 	}
 
-	public float getBasePrix() {
-		return basePrix;
+	public float getPrix() {
+		return prix;
 	}
 
-	public void setBasePrix(float basePrix) {
-		this.basePrix = basePrix;
-	}
-
-	public float getPourcentage() {
-		return pourcentage;
-	}
-
-	public void setPourcentage(float pourcentage) {
-		this.pourcentage = pourcentage;
+	public void setPrix(float basePrix) {
+		this.prix = basePrix;
 	}
 
 }

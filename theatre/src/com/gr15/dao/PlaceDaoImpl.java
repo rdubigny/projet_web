@@ -16,6 +16,7 @@ import com.gr15.beans.Place;
 import com.gr15.beans.Representation;
 import com.gr15.beans.Ticket;
 import com.gr15.beans.Utilisateur;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 public class PlaceDaoImpl implements PlaceDao {
     private DAOFactory daoFactory;
@@ -33,10 +34,10 @@ public class PlaceDaoImpl implements PlaceDao {
 	    + "(id_representation ,id_place ,id_dossier ,id_ticket ,id_utilisateur) VALUES (?,?,?,?,?)";
     private static final String SQL_RESERVATION = "INSERT INTO "
 	    + "projweb_db.reservation (id_representation, id_place, id_utilisateur)"
-	    + " VALUES (?,?,?);"; 
-    private static final String SQL_SUPPRESSION_RESERVATION = "DELETE FROM projweb_db.reservation " 
-        + "WHERE id_representation = ? AND id_place = ?;";
-    
+	    + " VALUES (?,?,?);";
+    private static final String SQL_SUPPRESSION_RESERVATION = "DELETE FROM projweb_db.reservation "
+	    + "WHERE id_representation = ? AND id_place = ?;";
+
     PlaceDaoImpl(DAOFactory daoFactory) {
 	this.daoFactory = daoFactory;
     }
@@ -248,23 +249,9 @@ public class PlaceDaoImpl implements PlaceDao {
 		    if (statut == 0)
 			throw new DAOException(
 				"Erreur lors de l'achat, l'achat n'a pas été enregistré.");
-		} catch (SQLException e) {
-		    throw new DAOException(e);
-		} finally {
-		    fermetureSilencieuse(valeursAutoGenerees);
-		    fermetureSilencieuse(preparedStatement);
-		}
-		
-	    /* suppression des reservations si elle(s) existent */
-		if(estReserve){		
-			try {
-		    preparedStatement = initialisationRequetePreparee(
-			    connexion, SQL_SUPPRESSION_RESERVATION, true, 
-			    representation.getId(),s);
-		    int statut = preparedStatement.executeUpdate();
-		    if (statut == 0)
-			throw new DAOException(
-				"Erreur la reservation n'a pas ete supprimee.");
+		} catch (MySQLIntegrityConstraintViolationException e) {
+		    throw new DAOException(
+			    "Une des places que vous avez sélectionnées a déjà été réservée. Veuillez recommencez votre choix.");
 		} catch (SQLException e) {
 		    throw new DAOException(e);
 		} finally {
@@ -272,11 +259,27 @@ public class PlaceDaoImpl implements PlaceDao {
 		    fermetureSilencieuse(preparedStatement);
 		}
 
-	    }
-		
+		/* suppression des reservations si elle(s) existent */
+		if (estReserve) {
+		    try {
+			preparedStatement = initialisationRequetePreparee(
+				connexion, SQL_SUPPRESSION_RESERVATION, true,
+				representation.getId(), s);
+			int statut = preparedStatement.executeUpdate();
+			if (statut == 0)
+			    throw new DAOException(
+				    "Erreur la reservation n'a pas ete supprimee.");
+		    } catch (SQLException e) {
+			throw new DAOException(e);
+		    } finally {
+			fermetureSilencieuse(valeursAutoGenerees);
+			fermetureSilencieuse(preparedStatement);
+		    }
+
+		}
+
 	    } // fin du for s : ids tableau de id_place en String
-	    
-	    
+
 	    connexion.commit();
 	} catch (SQLException e) {
 	    if (connexion != null) {

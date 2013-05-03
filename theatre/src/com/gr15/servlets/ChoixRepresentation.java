@@ -30,7 +30,7 @@ public class ChoixRepresentation extends HttpServlet {
 
     public void init() throws ServletException {
 	/*
-	 * Récupération d'une instance des DAO représentation
+	 * Rï¿½cupï¿½ration d'une instance des DAO reprï¿½sentation
 	 */
 	this.representationDao = ((DAOFactory) getServletContext()
 		.getAttribute(CONF_DAO_FACTORY)).getRepresentationDao();
@@ -43,16 +43,16 @@ public class ChoixRepresentation extends HttpServlet {
     protected void doGet(HttpServletRequest request,
 	    HttpServletResponse response) throws ServletException, IOException {
 	/*
-	 * calcule la liste des représentations à venir ne sont visibles que les
-	 * représentations qui commencent dans plus d'une heure si l'utilisateur
+	 * calcule la liste des reprï¿½sentations ï¿½ venir ne sont visibles que les
+	 * reprï¿½sentations qui commencent dans plus d'une heure si l'utilisateur
 	 * n'est pas le guichet
 	 */
 	List<Representation> listeRepresentation = new ArrayList<Representation>();
 
 	representationDao.listerParSpectacle(
 		request.getParameter(PARAM_SPECTACLE_ID),
-		(((Utilisateur) request.getSession().getAttribute(
-			"sessionUtilisateur"))).getId(), listeRepresentation);
+		((Utilisateur) request.getSession().getAttribute(
+			"sessionUtilisateur")).getId(), listeRepresentation);
 
 	/* on transmet la liste en attribut */
 	request.setAttribute(ATT_REPRESENTATIONS, listeRepresentation);

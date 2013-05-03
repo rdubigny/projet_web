@@ -19,7 +19,10 @@
 		<c:choose>
 			<%-- affichage de l'erreur s'il y a lieu --%>
 			<c:when test="${ ! empty requestScope.form.erreur }">
-				<p class="erreur">${ requestScope.form.erreur }</p>
+				<p class="erreur">${ requestScope.form.erreur }</p>				
+				<p>
+					<input type="button" value="Retour au choix de places" onclick="self.location.href='<c:url value='/choixPlace'/>'" />
+				<p>
 			</c:when>
 			<c:otherwise>
 				<%--  sinon affichage de la liste des tickets si elle existe --%>
@@ -52,11 +55,11 @@
 						Imprimez cette page elle vous sera demandée au guichet pour accèder a la représentation.
 					</p>
 				</c:if>
+				<p>
+					<input type="button" value="Retour à l'espace client" onclick="self.location.href='<c:url value='/espaceClient'/>'" />
+				<p>
 			</c:otherwise>
 		</c:choose>
-		<p>
-			<input type="button" value="Retour à l'espace client" onclick="self.location.href='<c:url value='/espaceClient'/>'" />
-		<p>
 		</div>
 	</fieldset>
 </body>

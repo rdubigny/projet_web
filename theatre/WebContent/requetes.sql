@@ -51,7 +51,7 @@ FROM  projweb_db.reservation rs, projweb_db.representation rp, projweb_db.specta
 WHERE rs.id_place = p.id_place AND rs.id_representation = rp.id_representation
                                AND rp.id_spectacle = s.id_spectacle
                                AND p.id_zone = z.id_zone
-                               AND rs.id_utilisateur = ?
+                               AND rs.id_utilisateur = ?;
 -- GROUP BY rp.id_representation; trier de la plus récente à la plus veille pas rapport à l'rp.id_representation mais au rp.moment_representation
 
 -- suppression reservation réecrite me demander pourquoi

@@ -87,7 +87,7 @@ public class PlaceForm {
 			: "Echec de l'achat";
 	    }
 	} catch (DAOException e) {
-	    resultat = "échec de l'opération : une erreur imprévue est survenue.";
+	    resultat = "Echec de l'opération : une erreur imprévue est survenue.";
 	    erreur = e.getMessage();
 	    e.printStackTrace();
 	}

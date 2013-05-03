@@ -19,8 +19,19 @@ INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALU
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-05-29 20:00:00');
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-05-27 20:00:00');
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-05-26 20:00:00');
-INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES 
-('1',ADDTIME( TIME(NOW()), '00:50:00'));
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1',ADDTIME( TIME(NOW()), '00:50:00'));
+
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('2',ADDTIME( TIME(NOW()), '5:50:00'));
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('2','2013-05-30 20:00:00');
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('3','2013-05-30 18:00:00');
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('2','2013-05-26 16:00:00');
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('2',ADDTIME( TIME(NOW()), '00:03:00'));
+
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('3',ADDTIME( TIME(NOW()), '9:50:00'));
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('3','2013-05-29 14:00:00');
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('3','2013-05-27 14:00:00');
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('3','2013-05-26 14:00:00');
+
 -- Zones --------------
 
 INSERT INTO projweb_db.zone (categorie_prix, base_pourcentage_prix) VALUES ('Platine',100);
@@ -632,7 +643,10 @@ INSERT INTO projweb_db.place (numero_rang, numero_siege, id_zone) VALUES (20,29,
 INSERT INTO projweb_db.place (numero_rang, numero_siege, id_zone) VALUES (20,30,4);
 
 -- reservations 
-INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('1','1','2');
-INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('2','1','2');
-INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('3','1','2');
+-- gilles  : id_utilisateur=2 pas de reservation c'est le responsable
+-- legouxg : id_utilisateur=4 
+INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('2','1','4');
+INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('3','1','4');
+INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('3','2','4');
+INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('3','3','4');
 
