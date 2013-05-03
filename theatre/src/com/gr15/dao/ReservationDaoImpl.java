@@ -68,7 +68,7 @@ public class ReservationDaoImpl implements ReservationDao{
         }
 
     }
-	}
+	
     
 	@Override
     public void annuler(int idReservation){

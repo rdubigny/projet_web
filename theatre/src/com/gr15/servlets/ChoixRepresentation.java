@@ -49,10 +49,9 @@ public class ChoixRepresentation extends HttpServlet {
 	 */
 	List<Representation> listeRepresentation = new ArrayList<Representation>();
 
-	representationDao.listerParSpectacle(
-		request.getParameter(PARAM_SPECTACLE_ID),
-		((Utilisateur) request.getSession().getAttribute(
-			"sessionUtilisateur")).getId(), listeRepresentation);
+	representationDao.listerParSpectacle(request.getParameter(PARAM_SPECTACLE_ID),
+			                             ((Utilisateur) request.getSession().getAttribute("sessionUtilisateur")).getId(), 
+			                             listeRepresentation);
 
 	/* on transmet la liste en attribut */
 	request.setAttribute(ATT_REPRESENTATIONS, listeRepresentation);
