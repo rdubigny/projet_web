@@ -38,7 +38,7 @@ public class PlaceForm {
     public List<Ticket> reserver(HttpServletRequest request) {
 	List<Ticket> listeTickets = new ArrayList<Ticket>();
 
-	/* boolean spï¿½cifiant s'il s'agit d'une rï¿½servation */
+	/* boolean spécifiant s'il s'agit d'une réservation */
 	boolean isReservation = PARAM_RESERVATION.equals(request
 		.getParameter(PARAM_ACTION));
 	// if (request.getParameter(PARAM_ACTION) != null
@@ -47,18 +47,18 @@ public class PlaceForm {
 	// else
 	// isReservation = false;
 
-	/* rï¿½cupï¿½ration des places sï¿½lectionnï¿½es */
+	/* récupération des places sélectionnées */
 	String[] ids = request.getParameterValues(PARAM_PLACE_ID);
 
 	try {
 
 	    if (ids == null) {
-		erreur = "Veuillez sï¿½lectionner au moins une place pour procï¿½der ï¿½ l'achat";
+		erreur = "Veuillez sélectionner au moins une place pour procéder à l'achat";
 	    } else {
 
 		/*
-		 * rï¿½cupï¿½ration de l'utilisateur et de la reprï¿½sentation en
-		 * sï¿½lection
+		 * récupération de l'utilisateur et de la représentation en
+		 * sélection
 		 */
 		HttpSession session = request.getSession();
 		Utilisateur utilisateur = (Utilisateur) session
@@ -66,28 +66,28 @@ public class PlaceForm {
 		Representation representation = (Representation) session
 			.getAttribute(ATT_REPRESENTATION);
 
-		/* enregistrement de la rï¿½servation ou de l'achat */
+		/* enregistrement de la réservation ou de l'achat */
 		if (isReservation) {
 		    placeDao.reserver(utilisateur, representation, ids);
 		    listeTickets = null;
 		} else
 		    placeDao.acheter(utilisateur, representation, ids,
-			    listeTickets,false);
+			    listeTickets, false);
 	    }
 
 	    if (erreur == null) {
 		if (ids.length > 1)
-		    resultat = isReservation ? "Vos places ont ï¿½tï¿½ rï¿½servï¿½es avec succï¿½s"
-			    : "Vos places ont ï¿½tï¿½ achetï¿½es avec succï¿½s";
+		    resultat = isReservation ? "Vos places ont été réservées avec succès"
+			    : "Vos places ont été achetées avec succés";
 		else
-		    resultat = isReservation ? "Votre place ï¿½ ï¿½tï¿½ rï¿½servï¿½e avec succï¿½s"
-			    : "Votre place ï¿½ ï¿½tï¿½ achetï¿½e avec succï¿½s";
+		    resultat = isReservation ? "Votre place à été réservée avec succès"
+			    : "Votre place é été achetée avec succés";
 	    } else {
-		resultat = isReservation ? "Echec de la rï¿½servation"
+		resultat = isReservation ? "Echec de la réservation"
 			: "Echec de l'achat";
 	    }
 	} catch (DAOException e) {
-	    resultat = "ï¿½chec de l'opï¿½ration : une erreur imprï¿½vue est survenue, merci de rï¿½essayer dans quelques instants.";
+	    resultat = "échec de l'opération : une erreur imprévue est survenue.";
 	    erreur = e.getMessage();
 	    e.printStackTrace();
 	}

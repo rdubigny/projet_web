@@ -47,17 +47,17 @@ public class PlaceDaoImpl implements PlaceDao {
 	PreparedStatement preparedStatement = null;
 	ResultSet resultSet = null;
 	/*
-	 * WARNING : les dimensions du tableau sont implï¿½mentï¿½es de maniï¿½re
+	 * WARNING : les dimensions du tableau sont implémentées de maniére
 	 * statique, c'est mal.
 	 */
 	Place[][] res = new Place[20][30];
 	try {
-	    /* Rï¿½cupï¿½ration d'une connexion depuis la Factory */
+	    /* Récupération d'une connexion depuis la Factory */
 	    connexion = daoFactory.getConnection();
 	    preparedStatement = initialisationRequetePreparee(connexion,
 		    SQL_ZONES, false);
 	    resultSet = preparedStatement.executeQuery();
-	    /* Parcours de la ligne de donnï¿½es de l'ï¿½ventuel ResulSet retournï¿½ */
+	    /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	    while (resultSet.next()) {
 		res[resultSet.getInt("numero_rang") - 1][resultSet
 			.getInt("numero_siege") - 1] = new Place(
@@ -84,7 +84,7 @@ public class PlaceDaoImpl implements PlaceDao {
 	PreparedStatement preparedStatement = null;
 	ResultSet resultSet = null;
 	try {
-	    /* Rï¿½cupï¿½ration d'une connexion depuis la Factory */
+	    /* Récupération d'une connexion depuis la Factory */
 	    connexion = daoFactory.getConnection();
 	    for (int i = 0; i < 2; i++) {
 		try {
@@ -103,8 +103,8 @@ public class PlaceDaoImpl implements PlaceDao {
 		    }
 		    resultSet = preparedStatement.executeQuery();
 		    /*
-		     * Parcours de la ligne de donnï¿½es de l'ï¿½ventuel ResulSet
-		     * retournï¿½
+		     * Parcours de la ligne de données de l'éventuel ResulSet
+		     * retourné
 		     */
 		    while (resultSet.next()) {
 			matricePlace[resultSet.getInt("numero_rang") - 1][resultSet
@@ -131,7 +131,7 @@ public class PlaceDaoImpl implements PlaceDao {
 	PreparedStatement preparedStatement = null;
 	ResultSet valeursAutoGenerees = null;
 	try {
-	    /* Rï¿½cupï¿½ration d'une connexion depuis la Factory */
+	    /* Récupération d'une connexion depuis la Factory */
 	    connexion = daoFactory.getConnection();
 	    connexion.setAutoCommit(false);
 	    for (String s : ids) {
@@ -142,11 +142,11 @@ public class PlaceDaoImpl implements PlaceDao {
 		    int statut = preparedStatement.executeUpdate();
 		    if (statut == 0)
 			throw new DAOException(
-				"ï¿½chec de la rï¿½servation, votre rï¿½servation n'a pas ï¿½tï¿½ enregistrï¿½e.");
+				"échec de la réservation, votre réservation n'a pas été enregistrée.");
 		    valeursAutoGenerees = preparedStatement.getGeneratedKeys();
 		    if (!valeursAutoGenerees.next())
 			throw new DAOException(
-				"ï¿½chec de la rï¿½servation, aucun numï¿½ro de rï¿½servation n'a ï¿½tï¿½ gï¿½nï¿½rï¿½.");
+				"échec de la réservation, aucun numéro de réservation n'a été généré.");
 		} catch (SQLException e) {
 		    throw new DAOException(e);
 		} finally {
@@ -181,23 +181,23 @@ public class PlaceDaoImpl implements PlaceDao {
 	int idTicket;
 
 	try {
-	    /* Rï¿½cupï¿½ration d'une connexion depuis la Factory */
+	    /* Récupération d'une connexion depuis la Factory */
 	    connexion = daoFactory.getConnection();
 	    connexion.setAutoCommit(false);
-	    /* crï¿½ation dossier */
+	    /* création dossier */
 	    try {
 		preparedStatement = initialisationRequetePreparee(connexion,
 			SQL_CREATION_DOSSIER, true);
 		int statut = preparedStatement.executeUpdate();
 		if (statut == 0)
 		    throw new DAOException(
-			    "Erreur lors de la crï¿½ation de dossier, aucun dossier n'a ï¿½tï¿½ crï¿½ï¿½.");
+			    "Erreur lors de la création de dossier, aucun dossier n'a été créé.");
 		valeursAutoGenerees = preparedStatement.getGeneratedKeys();
 		if (valeursAutoGenerees.next()) {
 		    idDossier = (int) valeursAutoGenerees.getLong(1);
 		} else
 		    throw new DAOException(
-			    "Erreur lors de la crï¿½ation de dossier, aucun numï¿½ro de sï¿½rie n'a ï¿½tï¿½ gï¿½nï¿½rï¿½.");
+			    "Erreur lors de la création de dossier, aucun numéro de série n'a été généré.");
 	    } catch (SQLException e) {
 		throw new DAOException(e);
 	    } finally {
@@ -209,7 +209,7 @@ public class PlaceDaoImpl implements PlaceDao {
 
 	    for (String s : ids) {
 
-		/* crï¿½ation tickets */
+		/* création tickets */
 
 		try {
 		    DateTime curDate = new DateTime();
@@ -219,18 +219,18 @@ public class PlaceDaoImpl implements PlaceDao {
 		    int statut = preparedStatement.executeUpdate();
 		    if (statut == 0)
 			throw new DAOException(
-				"Erreur lors de la crï¿½ation de ticket, aucun ticket n'a ï¿½tï¿½ ï¿½mis.");
+				"Erreur lors de la création de ticket, aucun ticket n'a été émis.");
 		    Ticket ticket = new Ticket();
 		    valeursAutoGenerees = preparedStatement.getGeneratedKeys();
 		    if (valeursAutoGenerees.next()) {
 			idTicket = (int) valeursAutoGenerees.getLong(1);
 			ticket.setId(idTicket);
-			/* la ligne suivante ï¿½ peu de chances de marcher */
+			/* la ligne suivante é peu de chances de marcher */
 			ticket.setDate(curDate);
 			tickets.add(ticket);
 		    } else
 			throw new DAOException(
-				"Erreur lors de la crï¿½ation de ticket, aucun numï¿½ro de sï¿½rie n'a ï¿½tï¿½ gï¿½nï¿½rï¿½.");
+				"Erreur lors de la création de ticket, aucun numéro de série n'a été généré.");
 		} catch (SQLException e) {
 		    throw new DAOException(e);
 		} finally {
@@ -247,7 +247,7 @@ public class PlaceDaoImpl implements PlaceDao {
 		    int statut = preparedStatement.executeUpdate();
 		    if (statut == 0)
 			throw new DAOException(
-				"Erreur lors de l'achat, l'achat n'a pas ï¿½tï¿½ enregistrï¿½.");
+				"Erreur lors de l'achat, l'achat n'a pas été enregistré.");
 		} catch (SQLException e) {
 		    throw new DAOException(e);
 		} finally {

@@ -28,6 +28,7 @@ public class ChoixPlace extends HttpServlet {
     public static final String ATT_EST_GUICHET = "estGuichet";
     public static final String ATT_REPRESENTATION_CHOISIE = "representation";
     public static final String ATT_PLACES_RESTANTES = "placesRestantes";
+    public static final String ATT_ERREUR = "erreur";
 
     public static final String PARAM_REPRESENTATION_ID = "id";
 
@@ -35,6 +36,7 @@ public class ChoixPlace extends HttpServlet {
     public static final int NB_PLACES_GUICHET = 70;
 
     public static final String VUE = "/WEB-INF/choixPlace.jsp";
+    public static final String ESPACE_CLIENT = "/espaceClient";
 
     public static final String CONF_DAO_FACTORY = "daofactory";
 
@@ -58,8 +60,31 @@ public class ChoixPlace extends HttpServlet {
 	    HttpServletResponse response) throws ServletException, IOException {
 
 	/* récupération de la représentation sélectionnée */
-	Representation representation = representationDao.trouver(request
-		.getParameter(PARAM_REPRESENTATION_ID));
+	String id_representation = request
+		.getParameter(PARAM_REPRESENTATION_ID);
+	/* vérification des données entrées */
+	if (id_representation == null) {
+	    request.setAttribute(ATT_ERREUR,
+		    "Erreur : Aucune représentation n'a été selectionnée");
+
+	    /* Affichage de la page d'espace client */
+	    this.getServletContext().getRequestDispatcher(ESPACE_CLIENT)
+		    .forward(request, response);
+	    return;
+	}
+
+	Representation representation = representationDao
+		.trouver(id_representation);
+	if (representation == null) {
+	    request.setAttribute(ATT_ERREUR,
+		    "Erreur : La représentation n'est pas accessible");
+
+	    /* Affichage de la page d'espace client */
+	    this.getServletContext().getRequestDispatcher(ESPACE_CLIENT)
+		    .forward(request, response);
+	    return;
+	}
+
 	HttpSession session = request.getSession();
 	session.setAttribute(ATT_REPRESENTATION_CHOISIE, representation);
 
