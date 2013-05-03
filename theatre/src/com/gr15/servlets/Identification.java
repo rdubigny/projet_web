@@ -31,7 +31,7 @@ public class Identification extends HttpServlet {
     private UtilisateurDao utilisateurDao;
 
     public void init() throws ServletException {
-	/* Récupération d'une instance de notre DAO Utilisateur */
+	/* Rï¿½cupï¿½ration d'une instance de notre DAO Utilisateur */
 	this.utilisateurDao = ((DAOFactory) getServletContext().getAttribute(
 		CONF_DAO_FACTORY)).getUtilisateurDao();
     }
@@ -57,20 +57,20 @@ public class Identification extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request,
 	    HttpServletResponse response) throws ServletException, IOException {
-	/* Préparation de l'objet formulaire */
+	/* Prï¿½paration de l'objet formulaire */
 	IdentificationForm form = new IdentificationForm(utilisateurDao);
 
-	/* Traitement de la requête et récupération du bean en résultant */
+	/* Traitement de la requï¿½te et rï¿½cupï¿½ration du bean en rï¿½sultant */
 	Utilisateur utilisateur = form.connecterUtilisateur(request);
 
-	/* Récupération de la session depuis la requête */
+	/* Rï¿½cupï¿½ration de la session depuis la requï¿½te */
 	HttpSession session = request.getSession();
 
 	request.setAttribute(ATT_FORM, form);
 
 	/**
 	 * Si aucune erreur de validation n'a eu lieu, alors ajout du bean
-	 * Utilisateur à la session puis redirection vers l'espace client, sinon
+	 * Utilisateur ï¿½ la session puis redirection vers l'espace client, sinon
 	 * suppression du bean de la session et redirection vers la page
 	 * d'identification.
 	 */

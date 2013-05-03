@@ -21,7 +21,7 @@
 		</div>
 		<c:choose>
 			<%-- Si aucune réservation n'est transmise --%>
-			<c:when test="{ empty requestScope.reservations }">
+			<c:when test="${ empty requestScope.reservations }">
 				<p class="erreur">Vous n'avez aucune réservation.</p>
 			</c:when>
 			<%-- Sinon, affichage du tableau de réservations. --%>
