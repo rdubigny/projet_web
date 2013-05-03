@@ -15,29 +15,26 @@ deux boutons input = submit : un pour acheter, un pour reserver -->
 	<fieldset>
 		<legend>Choix des places</legend>
 		<h3>Choisissez votre place
-			<c:if test="${ ! empty sessionScope.representation }">
-				pour ${ sessionScope.representation.nomSpectacle } le
-				<joda:format value="${ sessionScope.representation.date }" pattern="EEEE dd MMMM yyyy 'à' HH 'heures'"/>
-			</c:if>
+			pour ${ sessionScope.representation.nomSpectacle }
 		</h3>
 		<div id="corps">
 			<c:choose>
 				<c:when test="${ requestScope.placesRestantes > 0 }">
 					<p>Il reste actuellement ${ requestScope.placesRestantes } 
 					${ requestScope.placesRestantes == 1 ? "place" : "places" }
-					disponible à la vente.</p>
+					pour la séance du <joda:format value="${ sessionScope.representation.date }" pattern="EEEE dd MMMM yyyy 'à' HH 'heures'"/>.</p>
+					<p class="scene">SCENE</p>
 					<form action="<c:url value='/confirmation'/>" method="post">
     				<table>
         				<c:forEach items="${ places }" var="rang">   
         					<tr>
          						<c:forEach items="${ rang }" var="place">
             						<td width="16" height="16" align="center" valign="middle" bgcolor=<c:choose>
-            										<c:when test="${place.zone == 1}">"#DAA520"</c:when>
-	            									<c:when test="${place.zone == 2}">"#CC6666"</c:when>
+            										<c:when test="${place.zone == 1}">"#008080"</c:when>
+            										<c:when test="${place.zone == 2}">"#DAA520"</c:when>
 			            							<c:when test="${place.zone == 3}">"#D2B48C"</c:when>
-            										<c:when test="${place.zone == 4}">"#BC8F8F"</c:when>
-            										<c:when test="${place.zone == 5}">"#8FBC8F"</c:when>
-            										<c:when test="${place.zone == 6}">"#CD853F"</c:when>
+            										<c:when test="${place.zone == 4}">"#CD853F"</c:when>
+            										<c:otherwise>"#BC8F8F"</c:otherwise>
             									</c:choose>>
             							<c:if test="${! place.occupe}">
             								<input type="checkbox" name="id" value="${ place.id }" >
@@ -55,7 +52,10 @@ deux boutons input = submit : un pour acheter, un pour reserver -->
        				</form>
        			</c:when>
        			<c:otherwise>
-       				<p class="erreur">Il ne reste plus de place disponible à la vente.</p>
+       				<p class="erreur">
+       					La représentation du <joda:format value="${ sessionScope.representation.date }" pattern="EEEE dd MMMM yyyy 'à' HH 'heures'"/>
+       					est complête.
+       				</p>
        				<p>       					
     					<input type="button" value="Retour au choix de la représentation" 
                         	onclick="self.location.href=

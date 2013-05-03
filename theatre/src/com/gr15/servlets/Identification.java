@@ -42,6 +42,10 @@ public class Identification extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request,
 	    HttpServletResponse response) throws ServletException, IOException {
+	/* initialisation */
+	HttpSession session = request.getSession();
+	session.setAttribute(ATT_SESSION_USER, null);
+
 	/* Affichage de la page de connexion */
 	this.getServletContext().getRequestDispatcher(VUE)
 		.forward(request, response);

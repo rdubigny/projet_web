@@ -11,9 +11,16 @@
 	<c:import url="/inc/header.jsp" />
 	<fieldset>
 		<legend>Votre Espace Client</legend>
-	<c:if test="${param.redirect == 1}">
-		<p class="erreur">Vous n'avez pas les droits nécessaires pour acceder à cette page.</p>
-	</c:if>
+		<div id="corps">
+			<!-- affichage d'un message d'erreur en cas d'un accès illégal à une page admin -->
+			<c:if test="${param.redirect == 1}">
+				<p class="erreur">Vous n'avez pas les droits nécessaires pour acceder à cette page.</p>
+			</c:if>
+			<!-- affichage d'un message d'erreur si besion -->
+			<c:if test="${! empty erreur}">
+				<p class="erreur"><c:out value="${ erreur }"/></p>
+			</c:if>
+		</div>
 	<h3>Sélectionnez un spectacle pour réserver une place</h3>	
 	<div id="corps">
         <c:choose>
