@@ -63,7 +63,7 @@ public class ChoixPlace extends HttpServlet {
 	String id_representation = request
 		.getParameter(PARAM_REPRESENTATION_ID);
 	/* vérification des données entrées */
-	if (id_representation == null && representation != null) {
+	if (id_representation == null) {
 	    request.setAttribute(ATT_ERREUR,
 		    "Erreur : Aucune représentation n'a été selectionnée");
 
