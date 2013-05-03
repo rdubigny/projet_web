@@ -23,9 +23,9 @@
 			<%-- Si aucune réservation n'est transmise --%>
 			<c:when test="${ empty requestScope.reservations }">
 				<p class="erreur">Vous n'avez aucune réservation.</p>
-<%-- 			</c:when> --%>
+			</c:when>
 			<%-- Sinon, affichage du tableau de réservations. --%>
-<%-- 			<c:otherwise> --%>
+			<c:otherwise>
 				<table>
 					<%-- Titre des colonnes --%>
 					<tr>
@@ -59,8 +59,7 @@
 						<%-- Lien vers la page de confirmation --%>
 					</c:forEach>
 				</table>
-<%-- 			</c:otherwise> --%>
-		</c:when>
+			</c:otherwise>
 		</c:choose>
 	</fieldset>
 </body>
