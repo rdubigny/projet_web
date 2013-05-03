@@ -21,11 +21,11 @@
 		</div>
 		<c:choose>
 			<%-- Si aucune réservation n'est transmise --%>
-			<c:when test="{ empty requestScope.reservations }">
+			<c:when test="${ empty requestScope.reservations }">
 				<p class="erreur">Vous n'avez aucune réservation.</p>
-			</c:when>
+<%-- 			</c:when> --%>
 			<%-- Sinon, affichage du tableau de réservations. --%>
-			<c:otherwise>
+<%-- 			<c:otherwise> --%>
 				<table>
 					<%-- Titre des colonnes --%>
 					<tr>
@@ -38,7 +38,7 @@
 						<th class="action">Annuler / Payer</th>
 					</tr>
 					<%-- Parcours de la listes des reservations en requête, et utilisation de l'objet varStatus. --%>
-					<c:forEach items="${ requestScope.reservations }" var="reservation" varStatus="boucle">
+					<c:forEach items="${requestScope.reservations }" var="reservation" varStatus="boucle">
 						<%-- Simple test de parité sur l'index de parcours, pour alterner la couleur de fond de chaque ligne du tableau. --%>
 						<tr class="${boucle.index % 2 == 0 ? 'pair' : 'impair'}">
 							<%-- Colonne Représenation --%>
@@ -59,7 +59,8 @@
 						<%-- Lien vers la page de confirmation --%>
 					</c:forEach>
 				</table>
-			</c:otherwise>
+<%-- 			</c:otherwise> --%>
+		</c:when>
 		</c:choose>
 	</fieldset>
 </body>
