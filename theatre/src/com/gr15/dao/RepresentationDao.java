@@ -8,11 +8,11 @@ public interface RepresentationDao {
 
     public void lister( List<Representation> listeRepresentation );
 
-    public void listerParSpectacle( String idSpectacle, long idUtilisateur,
-            List<Representation> listeRepresentation );
-
     public Representation trouver( String id );
 
     public void supprimer( String idRepresentation );
+
+	void listerParSpectacle(String idSpectacle, int idUtilisateur,
+			List<Representation> listeRepresentation);
 
 }

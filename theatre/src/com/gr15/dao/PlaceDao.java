@@ -14,10 +14,9 @@ public interface PlaceDao {
     public void updateDisponibilite(Place[][] matricePlace,
 	    Representation representation);
 
-    public void acheter(Utilisateur utilisateur, Representation representation,
+    public void acheter(int idUtilisateur, int idRepresentation,
 	    String[] ids, List<Ticket> tickets, boolean estReserve);
 
-    public void reserver(Utilisateur utilisateur,
-	    Representation representation, String[] ids);
+    public void reserver(int idUtilisateur, int idRepresentation,String[] ids);
 
 }

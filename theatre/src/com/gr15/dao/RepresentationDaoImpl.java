@@ -44,12 +44,12 @@ public class RepresentationDaoImpl implements RepresentationDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
-            /* Récupération d'une connexion depuis la Factory */
+            /* Rï¿½cupï¿½ration d'une connexion depuis la Factory */
             connexion = daoFactory.getConnection();
             preparedStatement = initialisationRequetePreparee( connexion,
                     SQL_SELECT_CHRONO, false );
             resultSet = preparedStatement.executeQuery();
-            /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+            /* Parcours de la ligne de donnï¿½es de l'ï¿½ventuel ResulSet retournï¿½ */
             while ( resultSet.next() ) {
                 listeRepresentation.add( map_admin( resultSet ) );
             }
@@ -62,14 +62,14 @@ public class RepresentationDaoImpl implements RepresentationDao {
     }
 
     @Override
-    public void listerParSpectacle( String idSpectacle, long idUtilisateur,
+    public void listerParSpectacle( String idSpectacle, int idUtilisateur,
             List<Representation> listeRepresentation ) {
         Connection connexion = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
         try {
-            /* Récupération d'une connexion depuis la Factory */
+            /* Rï¿½cupï¿½ration d'une connexion depuis la Factory */
             connexion = daoFactory.getConnection();
             preparedStatement = initialisationRequetePreparee( connexion,
                     SQL_SELECT_REPRESENTATIONS, false, idSpectacle,
@@ -93,12 +93,12 @@ public class RepresentationDaoImpl implements RepresentationDao {
         Representation representation = null;
 
         try {
-            /* Récupération d'une connexion depuis la Factory */
+            /* Rï¿½cupï¿½ration d'une connexion depuis la Factory */
             connexion = daoFactory.getConnection();
             preparedStatement = initialisationRequetePreparee( connexion,
                     SQL_SELECT_PAR_ID, false, id );
             resultSet = preparedStatement.executeQuery();
-            /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+            /* Parcours de la ligne de donnï¿½es de l'ï¿½ventuel ResulSet retournï¿½ */
             if ( resultSet.next() ) {
                 representation = map_admin( resultSet );
             }
@@ -110,7 +110,7 @@ public class RepresentationDaoImpl implements RepresentationDao {
         return representation;
     }
 
-    // TODO notes à supprimer en temps voulu :
+    // TODO notes ï¿½ supprimer en temps voulu :
     // if ( !resultSet.getTimestamp( "moment_representation" ).before(
     // DateTime.now().plusHours( 1 ).toDate() ) )
 
@@ -124,7 +124,7 @@ public class RepresentationDaoImpl implements RepresentationDao {
             preparedStatement = initialisationRequetePreparee( connexion, SQL_DELETE, true, idRepresentation );
             int statut = preparedStatement.executeUpdate();
             if ( statut == 0 ) {
-                throw new DAOException( "Échec de la suppression du client, aucune ligne supprimée de la table." );
+                throw new DAOException( "ï¿½chec de la suppression du client, aucune ligne supprimï¿½e de la table." );
             }
         } catch ( SQLException e ) {
             throw new DAOException( e );
@@ -137,8 +137,8 @@ public class RepresentationDaoImpl implements RepresentationDao {
 
             throws SQLException {
         Representation representation = new Representation();
-        representation.setId( resultSet.getLong( "id_representation" ) );
-        representation.setIdSpectacle( resultSet.getLong( "id_spectacle" ) );
+        representation.setId( resultSet.getInt( "id_representation" ) );
+        representation.setIdSpectacle( resultSet.getInt( "id_spectacle" ) );
         representation.setDate( new DateTime( resultSet
                 .getTimestamp( "moment_representation" ) ) );
         representation.setNomSpectacle( resultSet.getString( "nom_spectacle" ) );

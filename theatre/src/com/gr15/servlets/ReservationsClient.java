@@ -40,7 +40,7 @@ public class ReservationsClient extends HttpServlet {
 	    HttpServletResponse response) throws ServletException, IOException {
 	/* creation de liste de réservation */
 	List<Reservation> listeReservation = new ArrayList<Reservation>();
-	long idUtilisateur = ((Utilisateur) (request.getSession()
+	int idUtilisateur = ((Utilisateur) (request.getSession()
 		.getAttribute("sessionUtilisateur"))).getId();
 
 	reservationDao.listerParReservation(idUtilisateur, listeReservation);

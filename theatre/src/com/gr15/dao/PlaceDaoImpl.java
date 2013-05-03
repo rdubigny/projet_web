@@ -126,8 +126,8 @@ public class PlaceDaoImpl implements PlaceDao {
     }
 
     @Override
-    public void reserver(Utilisateur utilisateur,
-	    Representation representation, String[] ids) {
+    public void reserver(int idUtilisateur,
+	    int idRepresentation, String[] ids) {
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
 	ResultSet valeursAutoGenerees = null;
@@ -139,7 +139,7 @@ public class PlaceDaoImpl implements PlaceDao {
 		try {
 		    preparedStatement = initialisationRequetePreparee(
 			    connexion, SQL_RESERVATION, true,
-			    representation.getId(), s, utilisateur.getId());
+			    idRepresentation, s, idUtilisateur);
 		    int statut = preparedStatement.executeUpdate();
 		    if (statut == 0)
 			throw new DAOException(
@@ -173,7 +173,7 @@ public class PlaceDaoImpl implements PlaceDao {
     }
 
     @Override
-    public void acheter(Utilisateur utilisateur, Representation representation,
+    public void acheter(int idUtilisateur, int idRepresentation,
 	    String[] ids, List<Ticket> tickets, boolean estReserve) {
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
@@ -195,7 +195,7 @@ public class PlaceDaoImpl implements PlaceDao {
 			    "Erreur lors de la cr�ation de dossier, aucun dossier n'a �t� cr��.");
 		valeursAutoGenerees = preparedStatement.getGeneratedKeys();
 		if (valeursAutoGenerees.next()) {
-		    idDossier = (int) valeursAutoGenerees.getLong(1);
+		    idDossier = valeursAutoGenerees.getInt(1);
 		} else
 		    throw new DAOException(
 			    "Erreur lors de la cr�ation de dossier, aucun num�ro de s�rie n'a �t� g�n�r�.");
@@ -224,7 +224,7 @@ public class PlaceDaoImpl implements PlaceDao {
 		    Ticket ticket = new Ticket();
 		    valeursAutoGenerees = preparedStatement.getGeneratedKeys();
 		    if (valeursAutoGenerees.next()) {
-			idTicket = (int) valeursAutoGenerees.getLong(1);
+			idTicket = valeursAutoGenerees.getInt(1);
 			ticket.setId(idTicket);
 			/* la ligne suivante � peu de chances de marcher */
 			ticket.setDate(curDate);
@@ -243,15 +243,15 @@ public class PlaceDaoImpl implements PlaceDao {
 
 		try {
 		    preparedStatement = initialisationRequetePreparee(
-			    connexion, SQL_ACHAT, true, representation.getId(),
-			    s, idDossier, idTicket, utilisateur.getId());
+			    connexion, SQL_ACHAT, true, idRepresentation,
+			    s, idDossier, idTicket, idUtilisateur);
 		    int statut = preparedStatement.executeUpdate();
 		    if (statut == 0)
 			throw new DAOException(
 				"Erreur lors de l'achat, l'achat n'a pas �t� enregistr�.");
 		} catch (MySQLIntegrityConstraintViolationException e) {
 		    throw new DAOException(
-			    "Une des places que vous avez s�lectionn�es a d�j� �t� r�serv�e. Veuillez recommencez votre choix.");
+			    "Une des places que vous avez s�lectionn�es a déjà été r�serv�e. Veuillez recommencez votre choix.");
 		} catch (SQLException e) {
 		    throw new DAOException(e);
 		} finally {
@@ -264,7 +264,7 @@ public class PlaceDaoImpl implements PlaceDao {
 		    try {
 			preparedStatement = initialisationRequetePreparee(
 				connexion, SQL_SUPPRESSION_RESERVATION, true,
-				representation.getId(), s);
+				idRepresentation, s);
 			int statut = preparedStatement.executeUpdate();
 			if (statut == 0)
 			    throw new DAOException("Erreur la reservation n'a pas ete supprimee.");
@@ -285,7 +285,7 @@ public class PlaceDaoImpl implements PlaceDao {
 		try {
 		    connexion.rollback();
 		    throw new DAOException(
-			    "Erreur lors de l'achat, l'achat a �t� annul�.");
+			    "Erreur lors de l'achat, l'achat a été annulé.");
 		} catch (SQLException exp) {
 		    throw new DAOException(exp);
 		}

@@ -45,7 +45,7 @@ public class ReservationDaoImpl implements ReservationDao {
 	}
 
 	@Override
-	public void listerParReservation(long idUtilisateur,
+	public void listerParReservation(int idUtilisateur,
 			List<Reservation> listeReservation) {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;

@@ -1,7 +1,7 @@
 package com.gr15.beans;
 
 public class Utilisateur {
-    private long id;
+    private int id;
     private String login;
     private String motdepasse;
     private String nom;
@@ -9,11 +9,11 @@ public class Utilisateur {
     private String email;
     private String typeUtilisateur;
 
-    public long getId() {
+    public int getId() {
 	return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
 	this.id = id;
     }
 
@@ -54,7 +54,7 @@ public class Utilisateur {
      * @return true si le mot de passe est correct
      */
     public boolean ValidateMotdepasse(String motdepasse) {
-	// Remarque : on pourrai utiliser de l'encriptage pour plus de sécurité
+	// Remarque : on pourrai utiliser de l'encriptage pour plus de sï¿½curitï¿½
 	return this.motdepasse.equals(motdepasse);
     }
 

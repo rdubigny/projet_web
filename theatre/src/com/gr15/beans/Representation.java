@@ -3,24 +3,24 @@ package com.gr15.beans;
 import org.joda.time.DateTime;
 
 public class Representation {
-    private long id;
-    private long idSpectacle;
+    private int id;
+    private int idSpectacle;
     private String nomSpectacle;
     private DateTime date;
 
-    public long getId() {
+    public int getId() {
 	return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
 	this.id = id;
     }
 
-    public long getIdSpectacle() {
+    public int getIdSpectacle() {
 	return idSpectacle;
     }
 
-    public void setIdSpectacle(long id_spectacle) {
+    public void setIdSpectacle(int id_spectacle) {
 	this.idSpectacle = id_spectacle;
     }
 

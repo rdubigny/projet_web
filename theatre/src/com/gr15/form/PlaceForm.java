@@ -56,17 +56,17 @@ public class PlaceForm {
 		 * sélection
 		 */
 		HttpSession session = request.getSession();
-		Utilisateur utilisateur = (Utilisateur) session
-			.getAttribute(ATT_SESSION_USER);
-		Representation representation = (Representation) session
-			.getAttribute(ATT_REPRESENTATION);
+		int idUtilisateur = ((Utilisateur) session
+			.getAttribute(ATT_SESSION_USER)).getId();
+		int idRepresentation = ((Representation) session
+			.getAttribute(ATT_REPRESENTATION)).getId();
 
 		/* enregistrement de la réservation ou de l'achat */
 		if (isReservation) {
-		    placeDao.reserver(utilisateur, representation, ids);
+		    placeDao.reserver(idUtilisateur, idRepresentation, ids);
 		    listeTickets = null;
 		} else
-		    placeDao.acheter(utilisateur, representation, ids,
+		    placeDao.acheter(idUtilisateur, idRepresentation, ids,
 			    listeTickets, false);
 	    }
 

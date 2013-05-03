@@ -18,7 +18,7 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 	this.daoFactory = daoFactory;
     }
 
-    /* Implémentation de la méthode définie dans l'interface UtilisateurDao */
+    /* Implï¿½mentation de la mï¿½thode dï¿½finie dans l'interface UtilisateurDao */
     @Override
     public Utilisateur trouver(String login) throws DAOException {
 	Connection connexion = null;
@@ -27,12 +27,12 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 	Utilisateur utilisateur = null;
 
 	try {
-	    /* Récupération d'une connexion depuis la Factory */
+	    /* Rï¿½cupï¿½ration d'une connexion depuis la Factory */
 	    connexion = daoFactory.getConnection();
 	    preparedStatement = initialisationRequetePreparee(connexion,
 		    SQL_SELECT_PAR_LOGIN, false, login);
 	    resultSet = preparedStatement.executeQuery();
-	    /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+	    /* Parcours de la ligne de donnï¿½es de l'ï¿½ventuel ResulSet retournï¿½ */
 	    if (resultSet.next()) {
 		utilisateur = map(resultSet);
 	    }
@@ -46,13 +46,13 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
     }
 
     /*
-     * Simple méthode utilitaire permettant de faire la correspondance (le
+     * Simple mï¿½thode utilitaire permettant de faire la correspondance (le
      * mapping) entre une ligne issue de la table des utilisateurs (un
      * ResultSet) et un bean Utilisateur.
      */
     private static Utilisateur map(ResultSet resultSet) throws SQLException {
 	Utilisateur utilisateur = new Utilisateur();
-	utilisateur.setId(resultSet.getLong("id_utilisateur"));
+	utilisateur.setId(resultSet.getInt("id_utilisateur"));
 	utilisateur.setLogin(resultSet.getString("login"));
 	utilisateur.setMotdepasse(resultSet.getString("mot_de_passe"));
 	utilisateur.setNom(resultSet.getString("nom"));

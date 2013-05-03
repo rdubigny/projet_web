@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ReservationDao {
 	
-    public void listerParReservation(long idUtilisateur,List<Reservation> listeReservation);
+    public void listerParReservation(int idUtilisateur,List<Reservation> listeReservation);
     
     public void annuler(int idReservation);
 	

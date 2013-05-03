@@ -27,12 +27,12 @@ public class SpectacleDaoImpl implements SpectacleDao {
 	ResultSet resultSet = null;
 
 	try {
-	    /* Récupération d'une connexion depuis la Factory */
+	    /* Rï¿½cupï¿½ration d'une connexion depuis la Factory */
 	    connexion = daoFactory.getConnection();
 	    preparedStatement = initialisationRequetePreparee(connexion,
 		    SQL_SELECT, false);
 	    resultSet = preparedStatement.executeQuery();
-	    /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+	    /* Parcours de la ligne de donnï¿½es de l'ï¿½ventuel ResulSet retournï¿½ */
 	    while (resultSet.next()) {
 		listeSpectacle.add(map(resultSet));
 	    }
@@ -51,12 +51,12 @@ public class SpectacleDaoImpl implements SpectacleDao {
 	Spectacle spectacle = null;
 
 	try {
-	    /* Récupération d'une connexion depuis la Factory */
+	    /* Rï¿½cupï¿½ration d'une connexion depuis la Factory */
 	    connexion = daoFactory.getConnection();
 	    preparedStatement = initialisationRequetePreparee(connexion,
 		    SQL_SELECT_PAR_ID, false, id);
 	    resultSet = preparedStatement.executeQuery();
-	    /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+	    /* Parcours de la ligne de donnï¿½es de l'ï¿½ventuel ResulSet retournï¿½ */
 	    if (resultSet.next()) {
 		spectacle = map(resultSet);
 	    }
@@ -69,13 +69,13 @@ public class SpectacleDaoImpl implements SpectacleDao {
     }
 
     /*
-     * Simple méthode utilitaire permettant de faire la correspondance (le
+     * Simple mï¿½thode utilitaire permettant de faire la correspondance (le
      * mapping) entre une ligne issue de la table des Spectacle (un ResultSet)
      * et un bean Spectacle.
      */
     private static Spectacle map(ResultSet resultSet) throws SQLException {
 	Spectacle spectacle = new Spectacle();
-	spectacle.setId(resultSet.getLong("id_spectacle"));
+	spectacle.setId(resultSet.getInt("id_spectacle"));
 	spectacle.setNom(resultSet.getString("nom_spectacle"));
 	spectacle.setBasePrix(resultSet.getFloat("base_prix"));
 	return spectacle;
