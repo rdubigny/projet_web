@@ -3,6 +3,7 @@ package com.gr15.dao;
 import static com.gr15.dao.DAOUtilitaire.fermetureSilencieuse;
 import static com.gr15.dao.DAOUtilitaire.fermeturesSilencieuses;
 import static com.gr15.dao.DAOUtilitaire.initialisationRequetePreparee;
+import com.gr15.dao.PlaceDaoImpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,10 +17,11 @@ public class ReservationDaoImpl implements ReservationDao {
 
 	private DAOFactory daoFactory;
 
-	private static final String SQL_DELETE_RESERVATION = "DELETE FROM projweb_db.reservation where id_reservation = ?";
+	private static final String SQL_DELETE_RESERVATION = "DELETE FROM projweb_db.reservation where id_utilisateur = ? AND id_reservation = ?";
 
 	private static final String SQL_SELECT_RESERVATION = "SELECT rs.id_reservation, rp.moment_representation, "
-			+ "s.nom_spectacle, p.numero_rang, p.numero_siege, z.categorie_prix,(s.base_prix*z.base_pourcentage_prix)/100 "
+			+ "s.nom_spectacle, p.numero_rang, p.numero_siege, z.categorie_prix,"
+			+ "CAST((s.base_prix*z.base_pourcentage_prix)/100 AS DECIMAL(8,2))"
 			+ "FROM  projweb_db.reservation rs, projweb_db.representation rp, projweb_db.spectacle s, projweb_db.place p, "
 			+ "projweb_db.zone z WHERE rs.id_place = p.id_place AND rs.id_representation = rp.id_representation "
 			+ "AND rp.id_spectacle = s.id_spectacle AND p.id_zone = z.id_zone AND rs.id_utilisateur = ?";
@@ -69,19 +71,21 @@ public class ReservationDaoImpl implements ReservationDao {
 
 	}
 
+
 	@Override
-	public void annulerReservation(int idReservation) {
+	public void annulerReservation(int idUtilisateur, int idReservation) {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
-		ResultSet resultset = null;
+		int statut = 0;
 		try {
 			/* Récupération d'une connexion depuis la Factory */
 			connexion = daoFactory.getConnection();
 			preparedStatement = initialisationRequetePreparee(connexion,
-					SQL_DELETE_RESERVATION, false, idReservation);
-			int statut = preparedStatement.executeUpdate();
+					SQL_DELETE_RESERVATION, false, idUtilisateur, idReservation);
+			statut = preparedStatement.executeUpdate();
 			if (statut == 0)
-			    throw new DAOException("Erreur la reservation n'a pas ete supprimee.");
+				throw new DAOException(
+						"Erreur la reservation n'a pas ete supprimee.");
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {

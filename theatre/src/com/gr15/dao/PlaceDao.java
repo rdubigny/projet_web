@@ -1,11 +1,12 @@
 package com.gr15.dao;
 
 import java.util.List;
+import java.util.LinkedList;
 
+import com.gr15.beans.AssociePlaceRepresentation;
 import com.gr15.beans.Place;
 import com.gr15.beans.Representation;
 import com.gr15.beans.Ticket;
-import com.gr15.beans.Utilisateur;
 
 public interface PlaceDao {
 
@@ -14,9 +15,15 @@ public interface PlaceDao {
     public void updateDisponibilite(Place[][] matricePlace,
 	    Representation representation);
 
-    public void acheter(int idUtilisateur, int idRepresentation,
-	    String[] ids, List<Ticket> tickets, boolean estReserve);
+	void reserver(int idUtilisateur, int idRepresentation, int[] idPlaces);
+	
 
-    public void reserver(int idUtilisateur, int idRepresentation,String[] ids);
+	void acheter(int idUtilisateur, LinkedList<AssociePlaceRepresentation> associeplacerepresentations,
+			List<Ticket> tickets, boolean estReserve);
+
+	void associer(int[] ids,
+			LinkedList<AssociePlaceRepresentation> associeplacerepresentations,
+			boolean estReserve, int idRepresentation);
+
 
 }

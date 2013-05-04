@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Vos réservations</title>
+<title>Espace Réservation</title>
 <link type="text/css" rel="stylesheet"
 	href="<c:url value="/inc/style.css"/>" />
 </head>
@@ -12,7 +12,7 @@
 	<%-- En-tête de connexion et deconnexion --%>
 	<c:import url="/inc/header.jsp" />
 	<fieldset>
-		<legend>Vos Réservations</legend>
+		<legend>Votre Espace Réservation</legend>
 		<h3>Choisissez les réservations que vous voulez payer ou annuler.</h3>
 		<div id="corps">
 			<p>Attention, vos éventuelles réservations de places pour des
@@ -26,8 +26,8 @@
 			</c:when>
 			<%-- Sinon, affichage du tableau de réservations. --%>
 			<c:otherwise>
-				<form action="<c:url value='/confirmation'/>" method="post">
-					<table>
+				<form action="<c:url value='/confirmation'/>" method="post" name="formulaire">
+					<table id="tableau">
 						<%-- Titre des colonnes --%>
 						<tr>
 							<th>Représentation</th>
@@ -65,16 +65,52 @@
 								<%-- Colonne Choisir de Payer --%>
 								<td>
 									<%-- Checkbox pour choisir de payer --%>
-									<input type="checkbox" name="id" value="reservation" >
+									<input type="checkbox" name="id" onclick="calculPrix(this);" value="${reservation.id}">
 								</td>	
 							</tr>
-						</c:forEach>
+						</c:forEach>	
 					</table>
+					<%-- Affichage nombre de places  et prix total  --%>
+					<span id="nbPlace">Nombre de places : 0</span><span>&nbsp; &nbsp; &nbsp; &nbsp;</span><span id="total">Prix Total : 00,00 euro(s)</span>
+					<p id="message"><c:out value="${ messageAnnulation }" /><p>
 					<%-- Lien vers la page de confirmation Submit --%>
 					<input type="submit" value="Payer le total">
 				</form>
 			</c:otherwise>
 		</c:choose>
 	</fieldset>
+	
+	<script type="text/javascript">
+	// destruction de la balise message après 1 seconde
+	var delay = 2;
+	function masquerMessage(){
+		document.getElementById("message").remove();
+	}
+	setTimeout(masquerMessage,delay*1000);
+	
+	// fonction appelée pour calculer le prix total et le nombre de places lorsqu'on clique sur 
+	// une checkbox de name=id
+	function calculPrix(cell){
+		var prixTotal = 0.0;
+		var nbPlace = 0;
+		if (typeof(document.formulaire.id.length) == 'undefined'){
+		// si il n'y qu'une seule reservation, document.formulaire.id.lengt est indéfini
+			if(document.formulaire.id.checked){
+				nbPlace = 1;
+				prixTotal += parseFloat(document.getElementById("tableau").rows[1].cells[5].innerHTML);
+			} 
+		} else {
+			for(var i=0;i<document.formulaire.id.length;i++){
+				if(document.formulaire.id[i].checked){
+					prixTotal += parseFloat(document.getElementById("tableau").rows[i+1].cells[5].innerHTML);
+					nbPlace++;
+				} 
+			}
+		}
+		document.getElementById("total").innerHTML = "Prix Total : " + prixTotal.toFixed(2) + "euro(s)";
+		document.getElementById("nbPlace").innerHTML = "Nombre de places : " + nbPlace;
+	}
+	</script>
 </body>
 </html>
+
