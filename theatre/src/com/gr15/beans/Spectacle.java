@@ -1,9 +1,10 @@
 package com.gr15.beans;
 
 public class Spectacle {
-    private int   id;
+    private int    id;
     private String nom;
     private float  basePrix;
+    private int    placesVendues;
 
     public int getId() {
         return id;
@@ -27,5 +28,13 @@ public class Spectacle {
 
     public void setBasePrix( float basePrix ) {
         this.basePrix = basePrix;
+    }
+
+    public int getPlacesVendues() {
+        return placesVendues;
+    }
+
+    public void setPlacesVendues( int placesVendues ) {
+        this.placesVendues = placesVendues;
     }
 }

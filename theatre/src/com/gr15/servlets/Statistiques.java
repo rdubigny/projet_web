@@ -1,6 +1,8 @@
 package com.gr15.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.gr15.beans.Spectacle;
 import com.gr15.dao.DAOFactory;
 import com.gr15.dao.StatistiquesDao;
 
@@ -16,10 +19,11 @@ import com.gr15.dao.StatistiquesDao;
  */
 @WebServlet( "/admin/statistiques" )
 public class Statistiques extends HttpServlet {
-    private static final long  serialVersionUID   = 1L;
-    public static final String VUE                = "/WEB-INF/statistiques.jsp";
-    public static final String CONF_DAO_FACTORY   = "daofactory";
-    public static final String ATT_PLACES_VENDUES = "placesVendues";
+    private static final long  serialVersionUID                 = 1L;
+    public static final String VUE                              = "/WEB-INF/statistiques.jsp";
+    public static final String CONF_DAO_FACTORY                 = "daofactory";
+    public static final String ATT_PLACES_VENDUES               = "placesVendues";
+    public static final String ATT_PLACES_VENDUES_PAR_SPECTACLE = "placesVenduesParSpectacle";
     private StatistiquesDao    statistiquesDao;
 
     public void init() throws ServletException {
@@ -35,9 +39,14 @@ public class Statistiques extends HttpServlet {
     protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException,
             IOException {
 
-        /* Nombre de place Vendues */
+        /* Nombre de places Vendues */
         int placesVendues = statistiquesDao.totalPlacesVendues();
         request.setAttribute( ATT_PLACES_VENDUES, placesVendues );
+
+        /* Nombre de places vendues par spectacle */
+        List<Spectacle> listeSpectacle = new ArrayList<Spectacle>();
+        statistiquesDao.placesVenduesParSpectacle( listeSpectacle );
+        request.setAttribute( ATT_PLACES_VENDUES_PAR_SPECTACLE, listeSpectacle );
 
         // TODO Auto-generated method stub
         this.getServletContext().getRequestDispatcher( VUE )
