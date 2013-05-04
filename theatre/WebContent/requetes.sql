@@ -92,6 +92,20 @@ DELETE FROM projweb_db.reservation where id_reservation = ? -- Gilles pense qu'i
 DELETE FROM projweb_db.spectacle where id_spectacle = ?;
 
 -- - statistiques paaaaas op�rationnel
+-- TOTAL PLACES VENDUES 
+select count(*) from projweb_db.achat a ; 
+-- TOTAL PLACES VENDUES PAR SPECTACLE
+select s.nom_spectacle,count(*) from projweb_db.achat a , projweb_db.spectacle s, projweb_db.representation r
+ where a.id_representation = r.id_representation and r.id_spectacle = s.id_spectacle group by s.nom_spectacle; 
+
+-- TOTAL recette par spectacle
+select s.nom_spectacle,sum(s.base_prix*z.base_pourcentage_prix/100) from projweb_db.zone z, projweb_db.place p, projweb_db.achat a , projweb_db.spectacle s, projweb_db.representation r
+ where a.id_representation = r.id_representation and
+ r.id_spectacle = s.id_spectacle and  p.id_zone = z.id_zone and a.id_place = p.id_place group by s.nom_spectacle; 
+
+
+
+
 -- spectacle le plus rentable sur la saison
 
 SELECT (s.nom_spectacle, (SUM(recette_i),0)) AS total_recettes
