@@ -8,20 +8,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.gr15.dao.DAOFactory;
+import com.gr15.dao.StatistiquesDao;
+
 /**
  * Servlet implementation class Statistiques
  */
-@WebServlet( "/Statistiques" )
+@WebServlet( "/admin/statistiques" )
 public class Statistiques extends HttpServlet {
-    private static final long  serialVersionUID = 1L;
-    public static final String VUE              = "/WEB-INF/statistiques.jsp";
+    private static final long  serialVersionUID   = 1L;
+    public static final String VUE                = "/WEB-INF/statistiques.jsp";
+    public static final String CONF_DAO_FACTORY   = "daofactory";
+    public static final String ATT_PLACES_VENDUES = "placesVendues";
+    private StatistiquesDao    statistiquesDao;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Statistiques() {
-        super();
-        // TODO Auto-generated constructor stub
+    public void init() throws ServletException {
+        /* Récupération d'une instance du DAO spectacle */
+        this.statistiquesDao = ( (DAOFactory) getServletContext().getAttribute(
+                CONF_DAO_FACTORY ) ).getStatistiquesDao();
     }
 
     /**
@@ -30,6 +34,11 @@ public class Statistiques extends HttpServlet {
      */
     protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException,
             IOException {
+
+        /* Nombre de place Vendues */
+        int placesVendues = statistiquesDao.totalPlacesVendues();
+        request.setAttribute( ATT_PLACES_VENDUES, placesVendues );
+
         // TODO Auto-generated method stub
         this.getServletContext().getRequestDispatcher( VUE )
                 .forward( request, response );

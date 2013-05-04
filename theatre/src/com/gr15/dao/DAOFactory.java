@@ -9,92 +9,97 @@ import java.util.Properties;
 
 public class DAOFactory {
 
-    private static final String FICHIER_PROPERTIES = "/com/gr15/dao/dao.properties";
-    private static final String PROPERTY_URL = "url";
-    private static final String PROPERTY_DRIVER = "driver";
+    private static final String FICHIER_PROPERTIES       = "/com/gr15/dao/dao.properties";
+    private static final String PROPERTY_URL             = "url";
+    private static final String PROPERTY_DRIVER          = "driver";
     private static final String PROPERTY_NOM_UTILISATEUR = "nomutilisateur";
-    private static final String PROPERTY_MOT_DE_PASSE = "motdepasse";
+    private static final String PROPERTY_MOT_DE_PASSE    = "motdepasse";
 
-    private String url;
-    private String username;
-    private String password;
+    private String              url;
+    private String              username;
+    private String              password;
 
-    DAOFactory(String url, String username, String password) {
-	this.url = url;
-	this.username = username;
-	this.password = password;
+    DAOFactory( String url, String username, String password ) {
+        this.url = url;
+        this.username = username;
+        this.password = password;
     }
 
     /*
-     * M�thode charg�e de r�cup�rer les informations de connexion � la base de
-     * donn�es, charger le driver JDBC et retourner une instance de la Factory
+     * M�thode charg�e de r�cup�rer les informations de connexion � la
+     * base de donn�es, charger le driver JDBC et retourner une instance de la
+     * Factory
      */
     public static DAOFactory getInstance() throws DAOConfigurationException {
-	Properties properties = new Properties();
-	String url;
-	String driver;
-	String nomUtilisateur;
-	String motDePasse;
+        Properties properties = new Properties();
+        String url;
+        String driver;
+        String nomUtilisateur;
+        String motDePasse;
 
-	ClassLoader classLoader = Thread.currentThread()
-		.getContextClassLoader();
-	InputStream fichierProperties = classLoader
-		.getResourceAsStream(FICHIER_PROPERTIES);
+        ClassLoader classLoader = Thread.currentThread()
+                .getContextClassLoader();
+        InputStream fichierProperties = classLoader
+                .getResourceAsStream( FICHIER_PROPERTIES );
 
-	if (fichierProperties == null) {
-	    throw new DAOConfigurationException("Le fichier properties "
-		    + FICHIER_PROPERTIES + " est introuvable.");
-	}
+        if ( fichierProperties == null ) {
+            throw new DAOConfigurationException( "Le fichier properties "
+                    + FICHIER_PROPERTIES + " est introuvable." );
+        }
 
-	try {
-	    properties.load(fichierProperties);
-	    url = properties.getProperty(PROPERTY_URL);
-	    driver = properties.getProperty(PROPERTY_DRIVER);
-	    nomUtilisateur = properties.getProperty(PROPERTY_NOM_UTILISATEUR);
-	    motDePasse = properties.getProperty(PROPERTY_MOT_DE_PASSE);
-	} catch (IOException e) {
-	    throw new DAOConfigurationException(
-		    "Impossible de charger le fichier properties "
-			    + FICHIER_PROPERTIES, e);
-	}
+        try {
+            properties.load( fichierProperties );
+            url = properties.getProperty( PROPERTY_URL );
+            driver = properties.getProperty( PROPERTY_DRIVER );
+            nomUtilisateur = properties.getProperty( PROPERTY_NOM_UTILISATEUR );
+            motDePasse = properties.getProperty( PROPERTY_MOT_DE_PASSE );
+        } catch ( IOException e ) {
+            throw new DAOConfigurationException(
+                    "Impossible de charger le fichier properties "
+                            + FICHIER_PROPERTIES, e );
+        }
 
-	try {
-	    Class.forName(driver);
-	} catch (ClassNotFoundException e) {
-	    throw new DAOConfigurationException(
-		    "Le driver est introuvable dans le classpath.", e);
-	}
+        try {
+            Class.forName( driver );
+        } catch ( ClassNotFoundException e ) {
+            throw new DAOConfigurationException(
+                    "Le driver est introuvable dans le classpath.", e );
+        }
 
-	DAOFactory instance = new DAOFactory(url, nomUtilisateur, motDePasse);
-	return instance;
+        DAOFactory instance = new DAOFactory( url, nomUtilisateur, motDePasse );
+        return instance;
     }
 
     /* M�thode charg�e de fournir une connexion � la base de donn�es */
     /* package */
     Connection getConnection() throws SQLException {
-	return DriverManager.getConnection(url, username, password);
+        return DriverManager.getConnection( url, username, password );
     }
 
     /*
      * M�thodes de r�cup�ration de l'impl�mentation des diff�rents DAO
      */
     public UtilisateurDao getUtilisateurDao() {
-	return new UtilisateurDaoImpl(this);
+        return new UtilisateurDaoImpl( this );
     }
 
     public SpectacleDao getSpectacleDao() {
-	return new SpectacleDaoImpl(this);
+        return new SpectacleDaoImpl( this );
     }
 
     public RepresentationDao getRepresentationDao() {
-	return new RepresentationDaoImpl(this);
+        return new RepresentationDaoImpl( this );
     }
 
     public PlaceDao getPlaceDao() {
-	return new PlaceDaoImpl(this);
+        return new PlaceDaoImpl( this );
     }
-    
+
     public ReservationDaoImpl getReservationDao() {
-    	return new ReservationDaoImpl(this);
+        return new ReservationDaoImpl( this );
+    }
+
+    public StatistiquesDaoImpl getStatistiquesDao() {
+        return new StatistiquesDaoImpl( this );
     }
 }
