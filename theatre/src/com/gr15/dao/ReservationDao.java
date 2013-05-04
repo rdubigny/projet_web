@@ -11,5 +11,7 @@ public interface ReservationDao {
     public void listerParReservation( int idUtilisateur, List<Reservation> listeReservation );
     
 	void annulerReservation(int idUtilisateur, int idReservation);
+	
+	void annulerReservation(int  idReservation );
 
 }

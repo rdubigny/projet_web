@@ -43,9 +43,7 @@ public class AnnulationReservation extends HttpServlet {
         int idReservation = Integer.parseInt( getValeurParametre( request,
                 PARAM_ID_RESERVATION ) );
 		// recupération de l'identificateur de l'utilisateur connecté
-		int idUtilisateur = ((Utilisateur) request.getSession()
-				.getAttribute("sessionUtilisateur")).getId();
-        reservationDao.annulerReservation( idUtilisateur,idReservation );
+        reservationDao.annulerReservation( idReservation );
 
         // TODO Auto-generated method stub
         /* Redirection vers la page des reservations */
@@ -63,7 +61,7 @@ public class AnnulationReservation extends HttpServlet {
     }
 
     /*
-     * M�thode utilitaire qui retourne null si un param�tre est vide, et son
+     * Méthode utilitaire qui retourne null si un paramètre est vide, et son
      * contenu sinon.
      */
     private static String getValeurParametre( HttpServletRequest request, String nomChamp ) {

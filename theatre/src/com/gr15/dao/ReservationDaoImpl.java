@@ -19,8 +19,10 @@ public class ReservationDaoImpl implements ReservationDao {
 
 	private DAOFactory daoFactory;
 
-	private static final String SQL_DELETE_RESERVATION = "DELETE FROM projweb_db.reservation where id_utilisateur = ? AND id_reservation = ?";
+	private static final String SQL_DELETE_RESERVATION_USER = "DELETE FROM projweb_db.reservation WHERE id_utilisateur = ? AND id_reservation = ?";
 
+	private static final String SQL_DELETE_RESERVATION_ADMIN = "DELETE FROM projweb_db.reservation WHERE  id_reservation = ?";
+	
 	private static final String SQL_SELECT_RESERVATION = "SELECT rs.id_reservation, rp.moment_representation, "
 			+ "s.nom_spectacle, p.numero_rang, p.numero_siege, z.categorie_prix,"
 			+ "CAST((s.base_prix*z.base_pourcentage_prix)/100 AS DECIMAL(8,2))"
@@ -59,6 +61,8 @@ public class ReservationDaoImpl implements ReservationDao {
 		return reservation;
 	}
 
+	// annulation par un utilisateur
+	// il ne peut supprimer que ses réservations 
 	@Override
 	public void annulerReservation(int idUtilisateur, int idReservation) {
 		Connection connexion = null;
@@ -68,7 +72,7 @@ public class ReservationDaoImpl implements ReservationDao {
 			/* Récupération d'une connexion depuis la Factory */
 			connexion = daoFactory.getConnection();
 			preparedStatement = initialisationRequetePreparee(connexion,
-					SQL_DELETE_RESERVATION, false, idUtilisateur, idReservation);
+					SQL_DELETE_RESERVATION_USER, false, idUtilisateur, idReservation);
 			statut = preparedStatement.executeUpdate();
 			if (statut == 0)
 				throw new DAOException(
@@ -80,7 +84,30 @@ public class ReservationDaoImpl implements ReservationDao {
 			fermetureSilencieuse(connexion);
 		}
 	}
-
+	
+	// annulation par le responsable
+	// il peut supprimer n'importe qu'elle reservation d'un utilisateur quelconque
+	public void annulerReservation(int  idReservation ){
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		int statut = 0;
+		try {
+			/* Récupération d'une connexion depuis la Factory */
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee(connexion,
+					SQL_DELETE_RESERVATION_ADMIN, false, idReservation);
+			statut = preparedStatement.executeUpdate();
+			if (statut == 0)
+				throw new DAOException(
+						"Erreur la reservation n'a pas ete supprimee.");
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermetureSilencieuse(preparedStatement);
+			fermetureSilencieuse(connexion);
+		}
+	}
+	
 	/*
 	 * Simple méthode utilitaire permettant de faire la correspondance (le
 	 * mapping)
