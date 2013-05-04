@@ -19,7 +19,6 @@ public class AnnulationRepresentation extends HttpServlet {
     private static final long  serialVersionUID        = 1L;
     public static final String VUE                     = "/admin/gererRepresentationsAdmin";
     public static final String PARAM_ID_REPRESENTATION = "idRepresentation";
-    public static final String ATT_SUPPRESSION         = "suppression";
     public static final String CONF_DAO_FACTORY        = "daofactory";
 
     private RepresentationDao  representationDao;
@@ -44,7 +43,7 @@ public class AnnulationRepresentation extends HttpServlet {
         representationDao.supprimer( idRepresentation );
         // TODO Auto-generated method stub
 
-        /* Redirection vers la page d'identification */
+        /* Redirection vers la page des representations */
         response.sendRedirect( request.getContextPath() + VUE + "?suppression=1" );
         // this.getServletContext().getRequestDispatcher( VUE )
         // .forward( request, response );
