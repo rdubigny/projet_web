@@ -14,10 +14,10 @@ import com.gr15.dao.RepresentationDao;
 /**
  * Servlet implementation class AnnulationRepresentation
  */
-@WebServlet( "/annulationRepresentation" )
+@WebServlet( "/admin/annulationRepresentation" )
 public class AnnulationRepresentation extends HttpServlet {
     private static final long  serialVersionUID        = 1L;
-    public static final String VUE                     = "/WEB-INF/annulationRepresentation.jsp";
+    public static final String VUE                     = "/admin/gererRepresentationsAdmin";
     public static final String PARAM_ID_REPRESENTATION = "idRepresentation";
     public static final String CONF_DAO_FACTORY        = "daofactory";
 
@@ -42,8 +42,11 @@ public class AnnulationRepresentation extends HttpServlet {
                 PARAM_ID_REPRESENTATION );
         representationDao.supprimer( idRepresentation );
         // TODO Auto-generated method stub
-        this.getServletContext().getRequestDispatcher( VUE )
-                .forward( request, response );
+
+        /* Redirection vers la page des representations */
+        response.sendRedirect( request.getContextPath() + VUE + "?suppression=1" );
+        // this.getServletContext().getRequestDispatcher( VUE )
+        // .forward( request, response );
     }
 
     /**

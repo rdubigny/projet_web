@@ -31,7 +31,7 @@ public class Identification extends HttpServlet {
     private UtilisateurDao utilisateurDao;
 
     public void init() throws ServletException {
-	/* R�cup�ration d'une instance de notre DAO Utilisateur */
+	/* Récupération d'une instance de notre DAO Utilisateur */
 	this.utilisateurDao = ((DAOFactory) getServletContext().getAttribute(
 		CONF_DAO_FACTORY)).getUtilisateurDao();
     }
@@ -60,10 +60,10 @@ public class Identification extends HttpServlet {
 	/* Pr�paration de l'objet formulaire */
 	IdentificationForm form = new IdentificationForm(utilisateurDao);
 
-	/* Traitement de la requ�te et r�cup�ration du bean en r�sultant */
+	/* Traitement de la requête et récupération du bean en résultant */
 	Utilisateur utilisateur = form.connecterUtilisateur(request);
 
-	/* R�cup�ration de la session depuis la requ�te */
+	/* Récupération de la session depuis la requête */
 	HttpSession session = request.getSession();
 
 	request.setAttribute(ATT_FORM, form);

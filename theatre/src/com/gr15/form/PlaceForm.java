@@ -1,11 +1,13 @@
 package com.gr15.form;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.gr15.beans.AssociePlaceRepresentation;
 import com.gr15.beans.Representation;
 import com.gr15.beans.Ticket;
 import com.gr15.beans.Utilisateur;
@@ -35,6 +37,7 @@ public class PlaceForm {
 		return erreur;
 	}
 
+	// Nom à changer de la fonction
 	public List<Ticket> reserver(HttpServletRequest request) {
 		List<Ticket> listeTickets = new ArrayList<Ticket>();
 
@@ -44,40 +47,50 @@ public class PlaceForm {
 
 		/* récupération des places sélectionnées en String et convertion en int */
 		String[] idss = request.getParameterValues(PARAM_PLACE_ID);
-		
+
 		try {
 
 			if (idss == null) {
 				erreur = "Veuillez sélectionner au moins une place pour procéder à l'achat";
 			} else {
-				/*
-				 * récupération de l'utilisateur et de la représentation en
-				 * sélection
-				 */
 				HttpSession session = request.getSession();
+				// recupération de l'identificateur de l'utilisateur connecté
 				int idUtilisateur = ((Utilisateur) session
 						.getAttribute(ATT_SESSION_USER)).getId();
-				int[] idRepresentations = new int[1];
-				idRepresentations[0] = ((Representation) session
+				// recupération de l'identificateur de la représentation choisie
+				int idRepresentation = ((Representation) session
 						.getAttribute(ATT_REPRESENTATION)).getId();
-				int[] ids = new int[idss.length]; 
-				for(int i=0;i<idss.length;i++){
-					ids[i] = Integer.parseInt(idss[i]);	
-				}
-				int[][] idPlaces = new int[1][ids.length];
-				for(int i=0;i<ids.length;i++){
-					idPlaces[0][i]=ids[i];
+				// recupération d'un tableau d'entier contenant
+				// les identificateurs de place
+				int[] ids = new int[idss.length];
+				for (int i = 0; i < idss.length; i++) {
+					ids[i] = Integer.parseInt(idss[i]);
 				}
 
 				/* enregistrement de la réservation ou de l'achat */
 				if (isReservation) {
-					placeDao.reserver(idUtilisateur, idRepresentations[0], ids);
+					placeDao.reserver(idUtilisateur, idRepresentation, ids);
 					listeTickets = null;
-				} else
-					placeDao.acheter(idUtilisateur, idRepresentations,
-							idPlaces, listeTickets, false);
+				} else {
+					// A mettre en paramètre quand communique avec la page
+					// confirmation/
+					// si de reservationsClients/ -> confirmation/ estReserve =
+					// true
+					// si de choixPlace/ -> confirmation/ estReserve = false
+					// pour l'instant est Reserve vaut false et n'est pas en
+					// paramètre
+					boolean estReserve = false;
+					LinkedList<AssociePlaceRepresentation> associePlaceRepresentations = null;
+					if (estReserve) {
+						// A IMPLEMENTER
+					} else {
+						placeDao.associer(ids, associePlaceRepresentations,
+								estReserve, idRepresentation);
+					}
+					placeDao.acheter(idUtilisateur,
+							associePlaceRepresentations, listeTickets, false);
+				}
 			}
-
 			if (erreur == null) {
 				if (idss.length > 1)
 					resultat = isReservation ? "Vos places ont été réservées avec succès"

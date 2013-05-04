@@ -87,18 +87,43 @@ SELECT s.nom_spectacle, r.moment_representation FROM projweb_db.spectacle s, pro
 WHERE r.id_spectacle = s.id_spectacle ORDER BY r.moment_representation;
 
 -- suppression reservation
+
+SELECT rs.id_reservation, u.nom, u.prenom, rp.moment_representation, s.nom_spectacle, p.numero_rang, p.numero_siege, z.categorie_prix,(s.base_prix*z.base_pourcentage_prix)/100
+FROM  projweb_db.reservation rs, projweb_db.utilisateur u, projweb_db.representation rp, projweb_db.spectacle s, projweb_db.place p, projweb_db.zone z
+WHERE rs.id_place = p.id_place AND rs.id_representation = rp.id_representation
+							   AND rs.id_utilisateur = u.id_utilisateur
+                               AND rp.id_spectacle = s.id_spectacle
+                               AND p.id_zone = z.id_zone group by rs.id_reservation order by rp.moment_representation;
+
+
+
 DELETE FROM projweb_db.reservation where id_reservation = ? -- Gilles pense qu'il manque ;
 -- suppression spectacle -> reprï¿½sentations supprimï¿½es aussi ok
 DELETE FROM projweb_db.spectacle where id_spectacle = ?;
 
 -- - statistiques paaaaas opï¿½rationnel
--- spectacle le plus rentable sur la saison
+-- TOTAL PLACES VENDUES 
+select count(*) from projweb_db.achat a ; 
+-- TOTAL PLACES VENDUES PAR SPECTACLE
+select s.nom_spectacle,count(*) from projweb_db.achat a , projweb_db.spectacle s, projweb_db.representation r
+ where a.id_representation = r.id_representation and r.id_spectacle = s.id_spectacle group by s.nom_spectacle; 
 
-SELECT (s.nom_spectacle, (SUM(recette_i),0)) AS total_recettes
-FROM (SELECT (SUM(paye_i),0) AS recette_i
-	FROM (SELECT nb_achats*s.base_prix*z.base_pourcentage_prix AS paye_i
-		 FROM ((SELECT COUNT(*) 
-				FROM projweb_db.achat projweb_db.spectacle s, representation re, projweb_db.place p, projweb_db.zone z
-				WHERE p.id_zone = z.id_zone AND p.id_place = a.id_place AND re.id_representation = a.id_representation AND re.id_spectacle = s.id_spectacle) 
-		
-	GROUP BY s.nom_spectacle)
+-- TOTAL recette par spectacle dans l'ordre de rentabilité décroissant
+select s.nom_spectacle,(sum(s.base_prix*z.base_pourcentage_prix/100)) as tc from projweb_db.zone z, projweb_db.place p, projweb_db.achat a , projweb_db.spectacle s, projweb_db.representation r
+ where a.id_representation = r.id_representation and
+ r.id_spectacle = s.id_spectacle and  p.id_zone = z.id_zone and a.id_place = p.id_place group by s.nom_spectacle order by tc DESC; 
+
+
+ -- spectacle le plus rentable sur la saison
+select s.nom_spectacle from projweb_db.zone z, projweb_db.place p, projweb_db.achat a , projweb_db.spectacle s, projweb_db.representation r
+ where a.id_representation = r.id_representation and
+ r.id_spectacle = s.id_spectacle and  p.id_zone = z.id_zone and a.id_place = p.id_place group by s.nom_spectacle order by  (sum(s.base_prix*z.base_pourcentage_prix/100)) DESC; 
+
+ 
+ -- Client or
+
+select  u.nom, u.prenom, ((sum(s.base_prix*z.base_pourcentage_prix/100))) as montant_total from projweb_db.utilisateur u, projweb_db.zone z, projweb_db.place p, projweb_db.achat a , projweb_db.spectacle s, projweb_db.representation r
+ where a.id_representation = r.id_representation and
+ r.id_spectacle = s.id_spectacle and u.id_utilisateur = a.id_utilisateur and p.id_zone = z.id_zone 
+and a.id_place = p.id_place group by u.id_utilisateur order by  (sum(s.base_prix*z.base_pourcentage_prix/100)) desc limit 1 ;
+

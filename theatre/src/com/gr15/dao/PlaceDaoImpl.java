@@ -127,6 +127,7 @@ public class PlaceDaoImpl implements PlaceDao {
 	}
 
 	@Override
+	// un utilisateur réserve pour une représentation donnée
 	public void reserver(int idUtilisateur, int idRepresentation, int[] idPlaces) {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
@@ -135,7 +136,7 @@ public class PlaceDaoImpl implements PlaceDao {
 			/* Récupération d'une connexion depuis la Factory */
 			connexion = daoFactory.getConnection();
 			connexion.setAutoCommit(false);
-			for (int i=0;i<idPlaces.length;i++) {
+			for (int i = 0; i < idPlaces.length; i++) {
 				try {
 					preparedStatement = initialisationRequetePreparee(
 							connexion, SQL_RESERVATION, true, idRepresentation,
@@ -161,7 +162,7 @@ public class PlaceDaoImpl implements PlaceDao {
 				try {
 					connexion.rollback();
 					throw new DAOException(
-							"échec de la réservation, la réservation ont été annulée.");
+							"échec de la réservation, reservation(s) annulée(s).");
 				} catch (SQLException exp) {
 					throw new DAOException(exp);
 				}
@@ -171,25 +172,54 @@ public class PlaceDaoImpl implements PlaceDao {
 			fermetureSilencieuse(connexion);
 		}
 	}
-	
+
 	@Override
-	//construit l'association des places à acheter en fonction de la representation 
+	// construit l'association des places à acheter en fonction de la
+	// representation
 	// en fonction d'un tableau d'identifiant qui est considéré non-vide
 	// si estReserve vaut faux le parametre idRepresentation ne sert à rien
 	public void associer(int[] ids,
-			LinkedList<AssociePlaceRepresentation> associeplacerepresentations, 
-			boolean estReserve, int idRepresentation){
-		for(int i = 0; i<ids.length; i++){
-			if(!estReserve){
-				//achat de places direct sans reservation préalable (représentation unique)
-				associeplacerepresentations.add( new AssociePlaceRepresentation(ids[i],idRepresentation));
-			} {
-				//achat de places avec reservation préalable (représenation peuvent être différent)
-				
+			LinkedList<AssociePlaceRepresentation> associeplacerepresentations,
+			boolean estReserve, int idRepresentation) {
+		for (int i = 0; i < ids.length; i++) {
+			if (!estReserve) {
+				// achat de places direct sans reservation préalable
+				// (représentation unique)
+				// ici ids[i] est un id_place
+				associeplacerepresentations.add(new AssociePlaceRepresentation(
+						ids[i], idRepresentation));
+			} else {
+				// achat de places avec reservation préalable (représenation
+				// peuvent être différent)
+				// ici ids[i] est un id_reservation
+				// on recupère id_place et id_representation associés
+				Connection connexion = null;
+				PreparedStatement preparedStatement = null;
+				ResultSet resultSet = null;
+				try {
+					connexion = daoFactory.getConnection();
+					preparedStatement = initialisationRequetePreparee(
+							connexion,
+							"SELECT id_representation, id_place"
+									+ "FROM projweb.db.reservation" 
+									+ "WHERE id_reservation=?",
+							false, ids[i]);
+					resultSet = preparedStatement.executeQuery();
+					while (resultSet.next()) {
+						associeplacerepresentations
+								.add(new AssociePlaceRepresentation(resultSet
+										.getInt("id_representation"), resultSet.getInt("id_place")));
+					}
+				} catch (SQLException e) {
+					throw new DAOException(e);
+				} finally {
+					fermetureSilencieuse(preparedStatement);
+					fermetureSilencieuse(connexion);
+				}
 			}
 		}
 	}
-	
+
 	@Override
 	// Actes d'achat
 	// Au niveau des requêtes
@@ -198,8 +228,8 @@ public class PlaceDaoImpl implements PlaceDao {
 	// 2. création des tickets avec moment de la représentation
 	// 3. création des achats avec id de la représentation
 	// 4. si estReserve vaut vrai supprime les reservations
-	public void acheter(int idUtilisateur, 
-			LinkedList<AssociePlaceRepresentation> associeplacerepresentations, 
+	public void acheter(int idUtilisateur,
+			LinkedList<AssociePlaceRepresentation> associeplacerepresentations,
 			List<Ticket> tickets, boolean estReserve) {
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
@@ -208,8 +238,8 @@ public class PlaceDaoImpl implements PlaceDao {
 		int idTicket;
 
 		try {
-			/* Récupération d'une connexion depuis la Factory */
 			connexion = daoFactory.getConnection();
+			// debut de la transaction
 			connexion.setAutoCommit(false);
 			// 1. création d'un dossier
 			try {
@@ -232,87 +262,89 @@ public class PlaceDaoImpl implements PlaceDao {
 				fermetureSilencieuse(preparedStatement);
 			}
 
-			// En bouclant sur la liste	associeplacerepresentations
+			// En bouclant sur la liste associeplacerepresentations
 			for (int i = 0; i < associeplacerepresentations.size(); i++) {
 				// 2. création d'un tickets avec moment de la représentation
-				// 3. création d'un achats avec id de la représentation et de la place
-					// création d'un ticket
-						try {
-							DateTime curDate = new DateTime();
-							preparedStatement = initialisationRequetePreparee(
-									connexion, SQL_CREATION_TICKET, true,
-									curDate.toDate());
-							int statut = preparedStatement.executeUpdate();
-							if (statut == 0)
-								throw new DAOException(
-										"Erreur lors de la création de ticket, aucun ticket n'a été émis.");
-							Ticket ticket = new Ticket();
-							valeursAutoGenerees = preparedStatement
-									.getGeneratedKeys();
-							if (valeursAutoGenerees.next()) {
-								idTicket = valeursAutoGenerees.getInt(1);
-								ticket.setId(idTicket);
-								/* la ligne suivante a peu de chances de marcher */
-								ticket.setDate(curDate);
-								tickets.add(ticket);
-							} else
-								throw new DAOException(
-										"Erreur lors de la création de ticket, aucun numéro de série n'a été généré.");
-						} catch (SQLException e) {
-							throw new DAOException(e);
-						} finally {
-							fermetureSilencieuse(valeursAutoGenerees);
-							fermetureSilencieuse(preparedStatement);
-						}
+				// 3. création d'un achats avec id de la représentation et de la
+				// place
+				// création d'un ticket
+				try {
+					DateTime curDate = new DateTime();
+					preparedStatement = initialisationRequetePreparee(
+							connexion, SQL_CREATION_TICKET, true,
+							curDate.toDate());
+					int statut = preparedStatement.executeUpdate();
+					if (statut == 0)
+						throw new DAOException(
+								"Erreur lors de la création de ticket, aucun ticket n'a été émis.");
+					Ticket ticket = new Ticket();
+					valeursAutoGenerees = preparedStatement.getGeneratedKeys();
+					if (valeursAutoGenerees.next()) {
+						idTicket = valeursAutoGenerees.getInt(1);
+						ticket.setId(idTicket);
+						/* la ligne suivante a peu de chances de marcher */
+						ticket.setDate(curDate);
+						tickets.add(ticket);
+					} else
+						throw new DAOException(
+								"Erreur lors de la création de ticket, aucun numéro de série n'a été généré.");
+				} catch (SQLException e) {
+					throw new DAOException(e);
+				} finally {
+					fermetureSilencieuse(valeursAutoGenerees);
+					fermetureSilencieuse(preparedStatement);
+				}
 
-						// création d'un achat
-						try {
-							preparedStatement = initialisationRequetePreparee(
-									connexion, SQL_ACHAT, true,
-									associeplacerepresentations.get(i).getIdRepresentation(),
-									associeplacerepresentations.get(i).getIdPlace(),
-									idDossier,
-									idTicket, idUtilisateur);
-							int statut = preparedStatement.executeUpdate();
-							if (statut == 0)
-								throw new DAOException(
-										"Erreur lors de l'achat, l'achat n'a pas été enregistré.");
-						} catch (MySQLIntegrityConstraintViolationException e) {
+				// création d'un achat
+				try {
+					preparedStatement = initialisationRequetePreparee(
+							connexion, SQL_ACHAT, true,
+							associeplacerepresentations.get(i)
+									.getIdRepresentation(),
+							associeplacerepresentations.get(i).getIdPlace(),
+							idDossier, idTicket, idUtilisateur);
+					int statut = preparedStatement.executeUpdate();
+					if (statut == 0)
+						throw new DAOException(
+								"Erreur lors de l'achat, l'achat n'a pas été enregistré.");
+				} catch (MySQLIntegrityConstraintViolationException e) {
+					throw new DAOException(
+							"Une des places que vous avez sélectionnées a déjà été réservée. Veuillez recommencez votre choix.");
+				} catch (SQLException e) {
+					throw new DAOException(e);
+				} finally {
+					fermetureSilencieuse(valeursAutoGenerees);
+					fermetureSilencieuse(preparedStatement);
+				}
+
+				/* suppression des reservations si elle(s) existent */
+				if (estReserve) {
+					try {
+						preparedStatement = initialisationRequetePreparee(
+								connexion, SQL_SUPPRESSION_RESERVATION, true,
+								associeplacerepresentations.get(i)
+										.getIdRepresentation(),
+								associeplacerepresentations.get(i).getIdPlace());
+						int statut = preparedStatement.executeUpdate();
+						if (statut == 0)
 							throw new DAOException(
-									"Une des places que vous avez sélectionnées a déjà été réservée. Veuillez recommencez votre choix.");
-						} catch (SQLException e) {
-							throw new DAOException(e);
-						} finally {
-							fermetureSilencieuse(valeursAutoGenerees);
-							fermetureSilencieuse(preparedStatement);
-						}
+									"Erreur la reservation n'a pas ete supprimee.");
+					} catch (SQLException e) {
+						throw new DAOException(e);
+					} finally {
+						fermetureSilencieuse(valeursAutoGenerees);
+						fermetureSilencieuse(preparedStatement);
+					}
 
-						/* suppression des reservations si elle(s) existent */
-						if (estReserve) {
-							try {
-								preparedStatement = initialisationRequetePreparee(
-										connexion, SQL_SUPPRESSION_RESERVATION,true, 
-										associeplacerepresentations.get(i).getIdRepresentation(),
-										associeplacerepresentations.get(i).getIdPlace()
-										);
-								int statut = preparedStatement.executeUpdate();
-								if (statut == 0)
-									throw new DAOException(
-											"Erreur la reservation n'a pas ete supprimee.");
-							} catch (SQLException e) {
-								throw new DAOException(e);
-							} finally {
-								fermetureSilencieuse(valeursAutoGenerees);
-								fermetureSilencieuse(preparedStatement);
-							}
-
-						}
-				} // fin du for 
-
+				}
+			} // fin du for
+			
+			// fin de la transaction
 			connexion.commit();
 		} catch (SQLException e) {
 			if (connexion != null) {
 				try {
+					// fin de la transaction	
 					connexion.rollback();
 					throw new DAOException(
 							"Erreur lors de l'achat, l'achat a été annulé.");

@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import com.gr15.beans.Reservation;
 
 public class ReservationDaoImpl implements ReservationDao {
@@ -26,51 +28,36 @@ public class ReservationDaoImpl implements ReservationDao {
 			+ "projweb_db.zone z WHERE rs.id_place = p.id_place AND rs.id_representation = rp.id_representation "
 			+ "AND rp.id_spectacle = s.id_spectacle AND p.id_zone = z.id_zone AND rs.id_utilisateur = ?";
 
+	private static final String SQL_SELECT_RESERVATION_ADMIN = "SELECT rs.id_reservation, u.nom, u.prenom, rp.moment_representation, "
+			+ "s.nom_spectacle, p.numero_rang, p.numero_siege, z.categorie_prix,(s.base_prix*z.base_pourcentage_prix)/100 FROM  "
+			+ "projweb_db.reservation rs, projweb_db.utilisateur u, projweb_db.representation rp, projweb_db.spectacle s, projweb_db.place p,"
+			+ " projweb_db.zone z WHERE rs.id_place = p.id_place "
+			+ "AND rs.id_representation = rp.id_representation "
+			+ "AND rs.id_utilisateur = u.id_utilisateur "
+			+ "AND rp.id_spectacle = s.id_spectacle "
+			+ "AND p.id_zone = z.id_zone group by rs.id_reservation "
+			+ "order by rp.moment_representation";
+
 	// Le constructeur
 	public ReservationDaoImpl(DAOFactory daoFactory) {
 		this.daoFactory = daoFactory;
 	}
 
-	/*
-	 * Simple méthode utilitaire permettant de faire la correspondance (le
-	 * mapping)
-	 */
-	private Reservation map(ResultSet resultset) throws SQLException {
+	private Reservation mapAdmin(ResultSet resultset) throws SQLException {
 		Reservation reservation = new Reservation();
-		reservation.setId(resultset.getInt(1));
-		reservation.setRepresentation(resultset.getString(2));
-		reservation.setSpectacle(resultset.getString(3));
-		reservation.setRang(resultset.getInt(4));
-		reservation.setSiege(resultset.getInt(5));
-		reservation.setZone(resultset.getString(6));
-		reservation.setPrix(resultset.getFloat(7));
+		reservation.setId(resultset.getInt("id_reservation"));
+		reservation.setSpectacle(resultset.getString("nom_spectacle"));
+		reservation.setRang(resultset.getInt("numero_rang"));
+		reservation.setSiege(resultset.getInt("numero_siege"));
+		reservation.setZone(resultset.getString("categorie_prix"));
+		reservation.setPrix(resultset.getFloat(9));
+		reservation.setPrenomClient(resultset.getString("prenom"));
+		reservation.setNomClient(resultset.getString("nom"));
+		reservation.setDate(new DateTime(resultset
+				.getTimestamp("moment_representation")));
+
 		return reservation;
 	}
-
-	@Override
-	public void listerParReservation(int idUtilisateur,
-			List<Reservation> listeReservation) {
-		Connection connexion = null;
-		PreparedStatement preparedStatement = null;
-		ResultSet resultset = null;
-		try {
-			/* Récupération d'une connexion depuis la Factory */
-			connexion = daoFactory.getConnection();
-			preparedStatement = initialisationRequetePreparee(connexion,
-					SQL_SELECT_RESERVATION, false, idUtilisateur);
-			resultset = preparedStatement.executeQuery();
-			/* Parcours de la ligne de données de l'éventuel ResulSet retourné */
-			while (resultset.next()) {
-				listeReservation.add(map(resultset));
-			}
-		} catch (SQLException e) {
-			throw new DAOException(e);
-		} finally {
-			fermeturesSilencieuses(resultset, preparedStatement, connexion);
-		}
-
-	}
-
 
 	@Override
 	public void annulerReservation(int idUtilisateur, int idReservation) {
@@ -92,6 +79,71 @@ public class ReservationDaoImpl implements ReservationDao {
 			fermetureSilencieuse(preparedStatement);
 			fermetureSilencieuse(connexion);
 		}
+	}
+
+	/*
+	 * Simple méthode utilitaire permettant de faire la correspondance (le
+	 * mapping)
+	 */
+	private Reservation map(ResultSet resultset) throws SQLException {
+		Reservation reservation = new Reservation();
+		reservation.setId(resultset.getInt(1));
+		reservation.setRepresentation(resultset.getString(2));
+		reservation.setSpectacle(resultset.getString(3));
+		reservation.setRang(resultset.getInt(4));
+		reservation.setSiege(resultset.getInt(5));
+		reservation.setZone(resultset.getString(6));
+		reservation.setPrix(resultset.getFloat(7));
+		return reservation;
+	}
+
+	public void lister(List<Reservation> listeReservation) {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultset = null;
+		try {
+			/* Récupération d'une connexion depuis la Factory */
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee(connexion,
+					SQL_SELECT_RESERVATION_ADMIN, false);
+			resultset = preparedStatement.executeQuery();
+			/*
+			 * Parcours de la ligne de données de l'éventuel ResulSet retourné
+			 */
+			while (resultset.next()) {
+				listeReservation.add(mapAdmin(resultset));
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(resultset, preparedStatement, connexion);
+		}
+	}
+
+	@Override
+	public void listerParReservation(int idUtilisateur,
+			List<Reservation> listeReservation) {
+		Connection connexion = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultset = null;
+		try {
+			/* Récupération d'une connexion depuis la Factory */
+			connexion = daoFactory.getConnection();
+			preparedStatement = initialisationRequetePreparee(connexion,
+					SQL_SELECT_RESERVATION, false, idUtilisateur);
+			resultset = preparedStatement.executeQuery();
+			/*
+			 * Parcours de la ligne de données de l'éventuel ResulSet retourné
+			 */
+			while (resultset.next()) {
+				listeReservation.add(map(resultset));
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			fermeturesSilencieuses(resultset, preparedStatement, connexion);
+		}
+
 	}
 
 }

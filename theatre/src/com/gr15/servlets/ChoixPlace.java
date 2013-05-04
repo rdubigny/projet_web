@@ -44,7 +44,7 @@ public class ChoixPlace extends HttpServlet {
     private PlaceDao placeDao;
 
     public void init() throws ServletException {
-	/* Récupération d'une instance des DAO représentation et place */
+	/* RÃ©cupÃ©ration d'une instance des DAO reprÃ©sentation et place */
 	this.representationDao = ((DAOFactory) getServletContext()
 		.getAttribute(CONF_DAO_FACTORY)).getRepresentationDao();
 	this.placeDao = ((DAOFactory) getServletContext().getAttribute(
@@ -59,13 +59,13 @@ public class ChoixPlace extends HttpServlet {
     protected void doGet(HttpServletRequest request,
 	    HttpServletResponse response) throws ServletException, IOException {
 
-	/* récupération de la représentation sélectionnée */
+	/* rÃ©cupÃ©ration de la reprÃ©sentation sÃ©lectionnÃ©e */
 	String id_representation = request
 		.getParameter(PARAM_REPRESENTATION_ID);
-	/* vérification des données entrées */
+	/* vÃ©rification des donnÃ©es entrÃ©es */
 	if (id_representation == null) {
 	    request.setAttribute(ATT_ERREUR,
-		    "Erreur : Aucune représentation n'a été selectionnée");
+		    "Erreur : Aucune reprÃ©sentation n'a Ã©tÃ© selectionnÃ©e");
 
 	    /* Affichage de la page d'espace client */
 	    this.getServletContext().getRequestDispatcher(ESPACE_CLIENT)
@@ -77,7 +77,7 @@ public class ChoixPlace extends HttpServlet {
 		.trouver(id_representation);
 	if (representation == null) {
 	    request.setAttribute(ATT_ERREUR,
-		    "Erreur : La représentation n'est pas accessible");
+		    "Erreur : La reprï¿½sentation n'est pas accessible");
 
 	    /* Affichage de la page d'espace client */
 	    this.getServletContext().getRequestDispatcher(ESPACE_CLIENT)
@@ -88,7 +88,7 @@ public class ChoixPlace extends HttpServlet {
 	HttpSession session = request.getSession();
 	session.setAttribute(ATT_REPRESENTATION_CHOISIE, representation);
 
-	/* récupération de la répartition des zones */
+	/* rÃ©cupÃ©ration de la rÃ©partition des zones */
 	Place matricePlace[][] = (Place[][]) session.getAttribute(ATT_PLACES);
 	if (matricePlace == null)
 	    matricePlace = placeDao.genererPlan();
@@ -100,14 +100,14 @@ public class ChoixPlace extends HttpServlet {
 	request.setAttribute(ATT_PLACES, matricePlace);
 
 	/*
-	 * on transmet l' type d'utilisateur en attribut pour pouvoir empêcher
-	 * la réservation par le guichet
+	 * on transmet le type d'utilisateur en attribut pour pouvoir empÃªcher
+	 * la rï¿½servation par le guichet
 	 */
 	Utilisateur utilisateur = (Utilisateur) session
 		.getAttribute(ATT_SESSION_UTILISATEUR);
 	request.setAttribute(ATT_EST_GUICHET, utilisateur.estGuichet());
 
-	/* calcul du nombre de places restantes et transmission à la JSP */
+	/* calcul du nombre de places restantes et transmission Ã  la JSP */
 	int placesRestantes = NB_PLACES;
 	for (Place[] i : matricePlace) {
 	    for (Place j : i) {
@@ -119,7 +119,7 @@ public class ChoixPlace extends HttpServlet {
 	    placesRestantes -= NB_PLACES_GUICHET;
 	request.setAttribute(ATT_PLACES_RESTANTES, placesRestantes);
 
-	/* Affichage de la page de sélection des places */
+	/* Affichage de la page de sÃ©lection des places */
 	this.getServletContext().getRequestDispatcher(VUE)
 		.forward(request, response);
     }
