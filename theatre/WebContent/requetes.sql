@@ -98,12 +98,11 @@ select count(*) from projweb_db.achat a ;
 select s.nom_spectacle,count(*) from projweb_db.achat a , projweb_db.spectacle s, projweb_db.representation r
  where a.id_representation = r.id_representation and r.id_spectacle = s.id_spectacle group by s.nom_spectacle; 
 
--- TOTAL recette par spectacle
-select s.nom_spectacle,sum(s.base_prix*z.base_pourcentage_prix/100) from projweb_db.zone z, projweb_db.place p, projweb_db.achat a , projweb_db.spectacle s, projweb_db.representation r
+-- TOTAL recette par spectacle dans l'ordre de rentabilité décroissant
+select s.nom_spectacle,(sum(s.base_prix*z.base_pourcentage_prix/100)) as tc from projweb_db.zone z, projweb_db.place p, projweb_db.achat a , projweb_db.spectacle s, projweb_db.representation r
  where a.id_representation = r.id_representation and
- r.id_spectacle = s.id_spectacle and  p.id_zone = z.id_zone and a.id_place = p.id_place group by s.nom_spectacle; 
+ r.id_spectacle = s.id_spectacle and  p.id_zone = z.id_zone and a.id_place = p.id_place group by s.nom_spectacle order by tc DESC; 
 
--- spectacle le plus rentable sur la saison
 
  -- spectacle le plus rentable sur la saison
 select s.nom_spectacle from projweb_db.zone z, projweb_db.place p, projweb_db.achat a , projweb_db.spectacle s, projweb_db.representation r
