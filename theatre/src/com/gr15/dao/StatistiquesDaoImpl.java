@@ -21,8 +21,57 @@ public class StatistiquesDaoImpl implements StatistiquesDao {
                                                                                +
                                                                                "and r.id_spectacle = s.id_spectacle group by s.nom_spectacle";
 
+    private static final String SQL_LISTE_SPECTACLE_RENTABLE           = "select s.id_spectacle, s.nom_spectacle,(sum(s.base_prix*z.base_pourcentage_prix/100)) as tc "
+                                                                               +
+                                                                               "from projweb_db.zone z, projweb_db.place p, projweb_db.achat a , projweb_db.spectacle s, projweb_db.representation r "
+                                                                               +
+                                                                               "where a.id_representation = r.id_representation "
+                                                                               +
+                                                                               "and r.id_spectacle = s.id_spectacle "
+                                                                               +
+                                                                               "and  p.id_zone = z.id_zone and a.id_place = p.id_place "
+                                                                               +
+                                                                               "group by s.nom_spectacle order by tc DESC";
+
+    private static final String SQL_SPECTACLE_LE_PLUS_RENTABLE         = "select s.nom_spectacle from projweb_db.zone z, projweb_db.place p, projweb_db.achat a , "
+                                                                               +
+                                                                               "projweb_db.spectacle s, projweb_db.representation r where a.id_representation = r.id_representation "
+                                                                               +
+                                                                               "and r.id_spectacle = s.id_spectacle and  p.id_zone = z.id_zone "
+                                                                               +
+                                                                               "and a.id_place = p.id_place group by s.nom_spectacle "
+                                                                               +
+                                                                               "order by  (sum(s.base_prix*z.base_pourcentage_prix/100)) DESC";
+
     StatistiquesDaoImpl( DAOFactory daoFactory ) {
         this.daoFactory = daoFactory;
+    }
+
+    public String spectacleLePlusRentable() {
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String spectacle = null;
+        try {
+            /* R�cup�ration d'une connexion depuis la Factory */
+            connexion = daoFactory.getConnection();
+            preparedStatement = initialisationRequetePreparee( connexion,
+                    SQL_SPECTACLE_LE_PLUS_RENTABLE, false );
+            resultSet = preparedStatement.executeQuery();
+            /*
+             * Parcours de la ligne de donn�es de l'�ventuel ResulSet
+             * retourn�
+             */
+            while ( resultSet.next() ) {
+                spectacle = resultSet.getString( "nom_spectacle" );
+            }
+
+            return spectacle;
+        } catch ( SQLException e ) {
+            throw new DAOException( e );
+        } finally {
+            fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+        }
     }
 
     public void placesVenduesParSpectacle( List<Spectacle> listeSpectacle ) {
@@ -41,7 +90,7 @@ public class StatistiquesDaoImpl implements StatistiquesDao {
              * retourn�
              */
             while ( resultSet.next() ) {
-                listeSpectacle.add( map( resultSet ) );
+                listeSpectacle.add( mapPlaces( resultSet ) );
             }
 
         } catch ( SQLException e ) {
@@ -79,7 +128,42 @@ public class StatistiquesDaoImpl implements StatistiquesDao {
         }
     }
 
-    private static Spectacle map( ResultSet resultSet ) throws SQLException {
+    public void listerSpectacleRentabilite( List<Spectacle> listeSpectacle ) {
+
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            /* R�cup�ration d'une connexion depuis la Factory */
+            connexion = daoFactory.getConnection();
+            preparedStatement = initialisationRequetePreparee( connexion,
+                    SQL_LISTE_SPECTACLE_RENTABLE, false );
+            resultSet = preparedStatement.executeQuery();
+            /*
+             * Parcours de la ligne de donn�es de l'�ventuel ResulSet
+             * retourn�
+             */
+            while ( resultSet.next() ) {
+                listeSpectacle.add( mapRentable( resultSet ) );
+            }
+
+        } catch ( SQLException e ) {
+            throw new DAOException( e );
+        } finally {
+            fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+        }
+
+    }
+
+    private static Spectacle mapRentable( ResultSet resultSet ) throws SQLException {
+        Spectacle spectacle = new Spectacle();
+        spectacle.setId( resultSet.getInt( "id_spectacle" ) );
+        spectacle.setNom( resultSet.getString( "nom_spectacle" ) );
+        spectacle.setRecette( resultSet.getFloat( "tc" ) );
+        return spectacle;
+    }
+
+    private static Spectacle mapPlaces( ResultSet resultSet ) throws SQLException {
         Spectacle spectacle = new Spectacle();
         spectacle.setId( resultSet.getInt( "id_spectacle" ) );
         spectacle.setNom( resultSet.getString( "nom_spectacle" ) );

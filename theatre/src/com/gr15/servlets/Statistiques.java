@@ -24,6 +24,9 @@ public class Statistiques extends HttpServlet {
     public static final String CONF_DAO_FACTORY                 = "daofactory";
     public static final String ATT_PLACES_VENDUES               = "placesVendues";
     public static final String ATT_PLACES_VENDUES_PAR_SPECTACLE = "placesVenduesParSpectacle";
+    public static final String ATT_SPECTACLE_RENTABLE           = "listeSpectacleRentable";
+    public static final String ATT_SPECTACLE_LE_PLUS_RENTABLE   = "nomSpectacle";
+
     private StatistiquesDao    statistiquesDao;
 
     public void init() throws ServletException {
@@ -47,6 +50,15 @@ public class Statistiques extends HttpServlet {
         List<Spectacle> listeSpectacle = new ArrayList<Spectacle>();
         statistiquesDao.placesVenduesParSpectacle( listeSpectacle );
         request.setAttribute( ATT_PLACES_VENDUES_PAR_SPECTACLE, listeSpectacle );
+
+        /* Liste des spectacles avec recette classé par ordre de rentabilité */
+        List<Spectacle> listeSpectacleRentable = new ArrayList<Spectacle>();
+        statistiquesDao.listerSpectacleRentabilite( listeSpectacleRentable );
+        request.setAttribute( ATT_SPECTACLE_RENTABLE, listeSpectacleRentable );
+
+        /* Spectacle le plus rentable */
+        String spectacle = statistiquesDao.spectacleLePlusRentable();
+        request.setAttribute( ATT_SPECTACLE_LE_PLUS_RENTABLE, spectacle );
 
         // TODO Auto-generated method stub
         this.getServletContext().getRequestDispatcher( VUE )

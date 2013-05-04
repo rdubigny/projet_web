@@ -10,4 +10,7 @@ public interface StatistiquesDao {
 
     public int totalPlacesVendues();
 
+    public void listerSpectacleRentabilite( List<Spectacle> listeSpectacle );
+
+    public String spectacleLePlusRentable();
 }

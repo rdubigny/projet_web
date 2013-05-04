@@ -41,6 +41,38 @@
             </c:otherwise>
         </c:choose>
         </div>
+        <div id=menu>
+        <p> Liste des recettes pour chaque spectacle par ordre décroissant de rentabilité </p>
+        
+        
+        <c:choose>
+            <%-- Si aucun spectacle n'est transmit en requète, affichage d'un message par défaut. --%>
+            <c:when test="${ empty requestScope.listeSpectacleRentable }">
+                <p class="erreur">Aucun spectacle à l'affiche.</p>
+            </c:when>
+            <%-- Sinon, affichage du tableau. --%>
+            <c:otherwise>
+            <table>
+                <tr>
+                    <th>Nom</th>
+                    <th>Recette</th>                    
+                </tr>
+                <%-- Parcours de la listes des spectacles en requête, et utilisation de l'objet varStatus. --%>
+                <c:forEach items="${ requestScope.listeSpectacleRentable }" var="spectacle" varStatus="boucle">
+                <%-- Simple test de parité sur l'index de parcours, pour alterner la couleur de fond de chaque ligne du tableau. --%>
+                <tr class="${boucle.index % 2 == 0 ? 'pair' : 'impair'}">
+                    <%-- Affichage du nom des spectacles --%>
+                    <td><c:out value="${ spectacle.nom }"/></td>
+                    <%-- Places vendues --%>
+                    <td><c:out value="${ spectacle.recette }"/></td>
+                </tr>
+                </c:forEach>
+            </table>
+            </c:otherwise>
+        </c:choose>
+        </div>
+        <div id=menu>
+        Spectacle le plus rentable de la saison : ${nomSpectacle }</div>
        
        
 

@@ -5,6 +5,7 @@ public class Spectacle {
     private String nom;
     private float  basePrix;
     private int    placesVendues;
+    private float  recette;
 
     public int getId() {
         return id;
@@ -36,5 +37,13 @@ public class Spectacle {
 
     public void setPlacesVendues( int placesVendues ) {
         this.placesVendues = placesVendues;
+    }
+
+    public float getRecette() {
+        return recette;
+    }
+
+    public void setRecette( float recette ) {
+        this.recette = recette;
     }
 }
