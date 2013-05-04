@@ -92,13 +92,20 @@ DELETE FROM projweb_db.reservation where id_reservation = ? -- Gilles pense qu'i
 DELETE FROM projweb_db.spectacle where id_spectacle = ?;
 
 -- - statistiques paaaaas opï¿½rationnel
--- spectacle le plus rentable sur la saison
+-- TOTAL PLACES VENDUES 
+select count(*) from projweb_db.achat a ; 
+-- TOTAL PLACES VENDUES PAR SPECTACLE
+select s.nom_spectacle,count(*) from projweb_db.achat a , projweb_db.spectacle s, projweb_db.representation r
+ where a.id_representation = r.id_representation and r.id_spectacle = s.id_spectacle group by s.nom_spectacle; 
 
-SELECT (s.nom_spectacle, (SUM(recette_i),0)) AS total_recettes
-FROM (SELECT (SUM(paye_i),0) AS recette_i
-	FROM (SELECT nb_achats*s.base_prix*z.base_pourcentage_prix AS paye_i
-		 FROM ((SELECT COUNT(*) 
-				FROM projweb_db.achat projweb_db.spectacle s, representation re, projweb_db.place p, projweb_db.zone z
-				WHERE p.id_zone = z.id_zone AND p.id_place = a.id_place AND re.id_representation = a.id_representation AND re.id_spectacle = s.id_spectacle) 
-		
-	GROUP BY s.nom_spectacle)
+-- TOTAL recette par spectacle dans l'ordre de rentabilité décroissant
+select s.nom_spectacle,(sum(s.base_prix*z.base_pourcentage_prix/100)) as tc from projweb_db.zone z, projweb_db.place p, projweb_db.achat a , projweb_db.spectacle s, projweb_db.representation r
+ where a.id_representation = r.id_representation and
+ r.id_spectacle = s.id_spectacle and  p.id_zone = z.id_zone and a.id_place = p.id_place group by s.nom_spectacle order by tc DESC; 
+
+
+ -- spectacle le plus rentable sur la saison
+select s.nom_spectacle from projweb_db.zone z, projweb_db.place p, projweb_db.achat a , projweb_db.spectacle s, projweb_db.representation r
+ where a.id_representation = r.id_representation and
+ r.id_spectacle = s.id_spectacle and  p.id_zone = z.id_zone and a.id_place = p.id_place group by s.nom_spectacle order by  (sum(s.base_prix*z.base_pourcentage_prix/100)) DESC; 
+
