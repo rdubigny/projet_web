@@ -9,12 +9,13 @@
 </head>
 <body>
 	<c:import url="/inc/header.jsp" />
-<div id=menu>
+	<fieldset>
+<legend> Total de places vendues sur la saison </legend>
 <p> Total de places vendues sur la saison : <c:out value="${placesVendues }"/></p>
-</div>
+</fieldset>
 
-<div id=menu>
-<p> Total de places vendues par spectacle </p>
+<fieldset>
+<legend> Total de places vendues par spectacle </legend>
 <c:choose>
             <%-- Si aucun spectacle n'est transmit en requète, affichage d'un message par défaut. --%>
             <c:when test="${ empty requestScope.placesVenduesParSpectacle }">
@@ -40,9 +41,9 @@
             </table>
             </c:otherwise>
         </c:choose>
-        </div>
-        <div id=menu>
-        <p> Liste des recettes pour chaque spectacle par ordre décroissant de rentabilité </p>
+        </fieldset>
+        <fieldset>
+        <legend> Liste des recettes pour chaque spectacle par ordre décroissant de rentabilité </legend>
         
         
         <c:choose>
@@ -70,12 +71,15 @@
             </table>
             </c:otherwise>
         </c:choose>
-        </div>
-        <div id=menu>
-        Spectacle le plus rentable de la saison : <c:out value="${nomSpectacle }"/> </div>
-        <div id = menu>
-        Client en Or : <c:out value="${clientOr.prenom } ${clientOr.nom }" /> </div>
-       
+        </fieldset>
+        <fieldset>
+        <legend>Spectacle le plus rentable de la saison</legend>
+         <c:out value="${nomSpectacle }"/> 
+        </fieldset>
+        <fieldset>
+        <legend>Client en Or</legend>
+        <c:out value="${clientOr.prenom } ${clientOr.nom }" /> 
+       </fieldset>
        
 
 </body>
