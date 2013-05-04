@@ -119,3 +119,11 @@ select s.nom_spectacle from projweb_db.zone z, projweb_db.place p, projweb_db.ac
  where a.id_representation = r.id_representation and
  r.id_spectacle = s.id_spectacle and  p.id_zone = z.id_zone and a.id_place = p.id_place group by s.nom_spectacle order by  (sum(s.base_prix*z.base_pourcentage_prix/100)) DESC; 
 
+ 
+ -- Client or
+
+select  u.nom, u.prenom, ((sum(s.base_prix*z.base_pourcentage_prix/100))) as montant_total from projweb_db.utilisateur u, projweb_db.zone z, projweb_db.place p, projweb_db.achat a , projweb_db.spectacle s, projweb_db.representation r
+ where a.id_representation = r.id_representation and
+ r.id_spectacle = s.id_spectacle and u.id_utilisateur = a.id_utilisateur and p.id_zone = z.id_zone 
+and a.id_place = p.id_place group by u.id_utilisateur order by  (sum(s.base_prix*z.base_pourcentage_prix/100)) desc limit 1 ;
+
