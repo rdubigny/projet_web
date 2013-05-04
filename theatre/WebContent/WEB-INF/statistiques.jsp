@@ -10,7 +10,7 @@
 <body>
 	<c:import url="/inc/header.jsp" />
 <div id=menu>
-<p> Total de places vendues sur la saison : ${placesVendues }</p>
+<p> Total de places vendues sur la saison : <c:out value="${placesVendues }"/></p>
 </div>
 
 <div id=menu>
@@ -72,7 +72,9 @@
         </c:choose>
         </div>
         <div id=menu>
-        Spectacle le plus rentable de la saison : ${nomSpectacle }</div>
+        Spectacle le plus rentable de la saison : <c:out value="${nomSpectacle }"/> </div>
+        <div id = menu>
+        Client en Or : <c:out value="${clientOr.prenom } ${clientOr.nom }" /> </div>
        
        
 

@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.gr15.beans.Spectacle;
+import com.gr15.beans.Utilisateur;
 
 public class StatistiquesDaoImpl implements StatistiquesDao {
 
@@ -43,8 +44,45 @@ public class StatistiquesDaoImpl implements StatistiquesDao {
                                                                                +
                                                                                "order by  (sum(s.base_prix*z.base_pourcentage_prix/100)) DESC";
 
+    private static final String SQL_CLIENT_OR                          = "select  u.nom, u.prenom, ((sum(s.base_prix*z.base_pourcentage_prix/100))) "
+                                                                               +
+                                                                               "as montant_total from projweb_db.utilisateur u, projweb_db.zone z, "
+                                                                               +
+                                                                               "projweb_db.place p, projweb_db.achat a , projweb_db.spectacle s, projweb_db.representation r "
+                                                                               +
+                                                                               "where a.id_representation = r.id_representation and r.id_spectacle = s.id_spectacle "
+                                                                               +
+                                                                               "and u.id_utilisateur = a.id_utilisateur and p.id_zone = z.id_zone  and a.id_place = p.id_place group by u.id_utilisateur order by  (sum(s.base_prix*z.base_pourcentage_prix/100)) desc limit 1";
+
     StatistiquesDaoImpl( DAOFactory daoFactory ) {
         this.daoFactory = daoFactory;
+    }
+
+    public Utilisateur clientOr() {
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Utilisateur utilisateur = null;
+        try {
+            /* R�cup�ration d'une connexion depuis la Factory */
+            connexion = daoFactory.getConnection();
+            preparedStatement = initialisationRequetePreparee( connexion,
+                    SQL_CLIENT_OR, false );
+            resultSet = preparedStatement.executeQuery();
+            /*
+             * Parcours de la ligne de donn�es de l'�ventuel ResulSet
+             * retourn�
+             */
+            while ( resultSet.next() ) {
+                utilisateur = mapClient( resultSet );
+            }
+
+            return utilisateur;
+        } catch ( SQLException e ) {
+            throw new DAOException( e );
+        } finally {
+            fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+        }
     }
 
     public String spectacleLePlusRentable() {
@@ -169,6 +207,13 @@ public class StatistiquesDaoImpl implements StatistiquesDao {
         spectacle.setNom( resultSet.getString( "nom_spectacle" ) );
         spectacle.setPlacesVendues( resultSet.getInt( "total" ) );
         return spectacle;
+    }
+
+    private static Utilisateur mapClient( ResultSet resultSet ) throws SQLException {
+        Utilisateur utilisateur = new Utilisateur();
+        utilisateur.setNom( resultSet.getString( "nom" ) );
+        utilisateur.setPrenom( resultSet.getString( "prenom" ) );
+        return utilisateur;
     }
 
 }

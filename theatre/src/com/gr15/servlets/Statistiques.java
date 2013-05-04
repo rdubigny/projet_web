@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.gr15.beans.Spectacle;
+import com.gr15.beans.Utilisateur;
 import com.gr15.dao.DAOFactory;
 import com.gr15.dao.StatistiquesDao;
 
@@ -26,6 +27,7 @@ public class Statistiques extends HttpServlet {
     public static final String ATT_PLACES_VENDUES_PAR_SPECTACLE = "placesVenduesParSpectacle";
     public static final String ATT_SPECTACLE_RENTABLE           = "listeSpectacleRentable";
     public static final String ATT_SPECTACLE_LE_PLUS_RENTABLE   = "nomSpectacle";
+    public static final String ATT_CLIENT_OR                    = "clientOr";
 
     private StatistiquesDao    statistiquesDao;
 
@@ -59,6 +61,10 @@ public class Statistiques extends HttpServlet {
         /* Spectacle le plus rentable */
         String spectacle = statistiquesDao.spectacleLePlusRentable();
         request.setAttribute( ATT_SPECTACLE_LE_PLUS_RENTABLE, spectacle );
+
+        /* Meilleur client */
+        Utilisateur utilisateur = statistiquesDao.clientOr();
+        request.setAttribute( ATT_CLIENT_OR, utilisateur );
 
         // TODO Auto-generated method stub
         this.getServletContext().getRequestDispatcher( VUE )
