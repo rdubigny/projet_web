@@ -87,6 +87,16 @@ SELECT s.nom_spectacle, r.moment_representation FROM projweb_db.spectacle s, pro
 WHERE r.id_spectacle = s.id_spectacle ORDER BY r.moment_representation;
 
 -- suppression reservation
+
+SELECT rs.id_reservation, u.nom, u.prenom, rp.moment_representation, s.nom_spectacle, p.numero_rang, p.numero_siege, z.categorie_prix,(s.base_prix*z.base_pourcentage_prix)/100
+FROM  projweb_db.reservation rs, projweb_db.utilisateur u, projweb_db.representation rp, projweb_db.spectacle s, projweb_db.place p, projweb_db.zone z
+WHERE rs.id_place = p.id_place AND rs.id_representation = rp.id_representation
+							   AND rs.id_utilisateur = u.id_utilisateur
+                               AND rp.id_spectacle = s.id_spectacle
+                               AND p.id_zone = z.id_zone group by rs.id_reservation order by rp.moment_representation;
+
+
+
 DELETE FROM projweb_db.reservation where id_reservation = ? -- Gilles pense qu'il manque ;
 -- suppression spectacle -> repr�sentations supprim�es aussi ok
 DELETE FROM projweb_db.spectacle where id_spectacle = ?;
