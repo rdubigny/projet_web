@@ -76,24 +76,25 @@ public class ReservationsClient extends HttpServlet {
 		.forward(request, response);
     }
 
-    /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-     *      response)
-     */
-    protected void doPost(HttpServletRequest request,
-	    HttpServletResponse response) throws ServletException, IOException {
-	/*
-	 * récupération de la liste des idReservations par les checkbox
-	 * seulement les reservations qui ont choisis d'être payer reservation
-	 */
-	String[] idReservationString = request
-		.getParameterValues(PARAM_RESERVATION_ID);
-	int[] idReservations = new int[idReservationString.length];
-	for (int i = 0; i < idReservationString.length; i++) {
-	    idReservations[i] = Integer.parseInt(idReservationString[i]);
-	}
-	/* récupération des idPlaces correspondantes */
-	// reservationDao.acheterReservation(idReservations);
-    }
+    // TODO à supprimer
+    // /**
+    // * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+    // * response)
+    // */
+    // protected void doPost(HttpServletRequest request,
+    // HttpServletResponse response) throws ServletException, IOException {
+    // /*
+    // * récupération de la liste des idReservations par les checkbox
+    // * seulement les reservations qui ont choisis d'être payer reservation
+    // */
+    // String[] idReservationString = request
+    // .getParameterValues(PARAM_RESERVATION_ID);
+    // int[] idReservations = new int[idReservationString.length];
+    // for (int i = 0; i < idReservationString.length; i++) {
+    // idReservations[i] = Integer.parseInt(idReservationString[i]);
+    // }
+    // /* récupération des idPlaces correspondantes */
+    // // reservationDao.acheterReservation(idReservations);
+    // }
 
 }

@@ -15,7 +15,7 @@
 		<legend>Votre Espace Réservation</legend>
 		
 		<div id="corps">
-					<p id="message" class="erreur"><c:out value="${ messageAnnulation }" /></p>
+					<p id="message" class="info"><c:out value="${ messageAnnulation }" /></p>
 					</div>
 		<h3>Choisissez les réservations que vous voulez payer ou annuler.</h3>
 		<div id="corps">
@@ -77,6 +77,8 @@
 					<p>
 					<span id="nbPlace">Nombre de places : 0</span><span>&nbsp; &nbsp; &nbsp; &nbsp;</span><span id="total">Prix Total : 00,00 euro(s)</span>
 					</p>
+					<!-- parametre utilisé pour distinguer le cas d'un paiement de réservation du cas d'un achat ou de celui d'une réservation -->
+					<input type="hidden" name="action" value="paiement">
 					<%-- Lien vers la page de confirmation Submit --%>
 					<input type="submit" value="Payer le total">
 				</form>

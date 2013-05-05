@@ -21,12 +21,22 @@
 			<c:when test="${ ! empty requestScope.form.erreur }">
 				<p class="erreur">${ requestScope.form.erreur }</p>				
 				<p>
-					<input type="button" value="Retour au choix de places" 
-						onclick="self.location.href=
-							'<c:url value='/choixPlace'>
-								<c:param name='id' value='${ sessionScope.representation.id }'/>
-							</c:url>'"
-					/>
+					<c:choose>
+						<c:when test="${ ! empty sessionScope.representation }"> 
+							<input type="button" value="Retour au choix de places" 
+								onclick="self.location.href=
+									'<c:url value='/choixPlace'>
+										<c:param name='id' value='${ sessionScope.representation.id }'/>
+									</c:url>'"
+							>
+						</c:when>
+						<c:otherwise>
+							<input type="button" value="Retour à l'espace réservation" 
+								onclick="self.location.href=
+									'<c:url value='/reservationsClient'/>'"
+							>
+						</c:otherwise>
+					</c:choose>
 				<p>
 			</c:when>
 			<c:otherwise>
