@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet Filter implementation class RestrictionFilter. Filtre l'accès à
+ * Servlet Filter implementation class RestrictionFilter. Filtre l'accï¿½s ï¿½
  * l'application.
  */
 
@@ -35,28 +35,37 @@ public class RestrictionFilter implements Filter {
 	/* Non-filtrage des ressources statiques et de la page de login */
 	String chemin = request.getRequestURI().substring(
 		request.getContextPath().length());
-	if (chemin.startsWith("/inc") || chemin.contentEquals(ACCES_CONNEXION)
-		|| chemin.contentEquals("/")) {
+	// System.out.print(chemin);
+	if (chemin.startsWith("/inc") || chemin.startsWith(ACCES_CONNEXION)
+		|| chemin.equals("/")) {
+
+	    // System.out.println(" --> PUBLIC");
 	    chain.doFilter(request, response);
 	    return;
 	}
+	// System.out.println(" --> RESTREINT");
 
-	/* Récupération de la session depuis la requête */
+	/* RÃ©cuperation de la session depuis la requÃªte */
 	HttpSession session = request.getSession();
 
-	/*
-	 * Si l'objet utilisateur n'existe pas dans la session en cours, alors
-	 * l'utilisateur n'est pas connecté.
-	 */
-	if (session.getAttribute(ATT_SESSION_USER) == null) {
-
-	    /* Redirection vers la page d'identification */
+	if (session.isNew()) {
+	    /*
+	     * si la session vient d'Ãªtre crÃ©Ã©e, redirection vers la page
+	     * d'identification
+	     */
+	    response.sendRedirect(request.getContextPath() + ACCES_CONNEXION
+		    + "?redirect=0");
+	} else if (session.getAttribute(ATT_SESSION_USER) == null) {
+	    /*
+	     * Si l'objet utilisateur n'existe pas dans la session en cours,
+	     * redirection vers la page d'identification
+	     */
 	    response.sendRedirect(request.getContextPath() + ACCES_CONNEXION
 		    + "?redirect=1");
 
 	} else {
 
-	    /* accès à la zone restreinte */
+	    /* accÃ¨s Ã  la zone restreinte */
 	    chain.doFilter(request, response);
 
 	}
@@ -71,6 +80,5 @@ public class RestrictionFilter implements Filter {
     @Override
     public void init(FilterConfig arg0) throws ServletException {
 	// TODO Auto-generated method stub
-
     }
 }

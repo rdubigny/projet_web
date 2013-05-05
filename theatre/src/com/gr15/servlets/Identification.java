@@ -42,10 +42,6 @@ public class Identification extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request,
 	    HttpServletResponse response) throws ServletException, IOException {
-	/* initialisation */
-	HttpSession session = request.getSession();
-	session.setAttribute(ATT_SESSION_USER, null);
-
 	/* Affichage de la page de connexion */
 	this.getServletContext().getRequestDispatcher(VUE)
 		.forward(request, response);
@@ -57,7 +53,7 @@ public class Identification extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request,
 	    HttpServletResponse response) throws ServletException, IOException {
-	/* Pr�paration de l'objet formulaire */
+	/* Préparation de l'objet formulaire */
 	IdentificationForm form = new IdentificationForm(utilisateurDao);
 
 	/* Traitement de la requête et récupération du bean en résultant */
@@ -70,7 +66,7 @@ public class Identification extends HttpServlet {
 
 	/**
 	 * Si aucune erreur de validation n'a eu lieu, alors ajout du bean
-	 * Utilisateur � la session puis redirection vers l'espace client, sinon
+	 * Utilisateur à la session puis redirection vers l'espace client, sinon
 	 * suppression du bean de la session et redirection vers la page
 	 * d'identification.
 	 */

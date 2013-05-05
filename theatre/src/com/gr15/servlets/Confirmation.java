@@ -31,7 +31,7 @@ public class Confirmation extends HttpServlet {
     private PlaceDao placeDao;
 
     public void init() throws ServletException {
-	/* Récupération d'une instance des DAO place */
+	/* Rï¿½cupï¿½ration d'une instance des DAO place */
 	this.placeDao = ((DAOFactory) getServletContext().getAttribute(
 		CONF_DAO_FACTORY)).getPlaceDao();
     }
@@ -42,15 +42,15 @@ public class Confirmation extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request,
 	    HttpServletResponse response) throws ServletException, IOException {
-	/* préparation de l'objet metier */
+	/* prÃ©paration de l'objet metier */
 	PlaceForm form = new PlaceForm(placeDao);
 
-	/* traitement de la réservation ou de l'achat */
+	/* traitement de la rÃ©servation ou de l'achat */
 	List<Ticket> listeTickets = form.reserver(request);
 
 	/*
-	 * passage en attribut du réultat de l'opération et de la liste
-	 * éventuelle des tickets
+	 * passage en attribut du rÃ©sultat de l'opÃ©ration et de la liste
+	 * Ã©ventuelle des tickets
 	 */
 	request.setAttribute(ATT_FORM, form);
 	request.setAttribute(ATT_LISTE_TICKETS, listeTickets);
