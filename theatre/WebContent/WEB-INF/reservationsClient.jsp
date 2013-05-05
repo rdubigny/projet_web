@@ -13,12 +13,15 @@
 	<c:import url="/inc/header.jsp" />
 	<fieldset>
 		<legend>Votre Espace Réservation</legend>
+		
+		<div id="corps">
+					<p id="message" class="erreur"><c:out value="${ messageAnnulation }" /></p>
+					</div>
 		<h3>Choisissez les réservations que vous voulez payer ou annuler.</h3>
 		<div id="corps">
 			<p>Attention, vos éventuelles réservations de places pour des
 				représentations qui ont déjà eu lieu, ou qui ont lieu dans moins
 				d'une heure, ont été annulées.</p>
-		</div>
 		<c:choose>
 			<%-- Si aucune réservation n'est transmise --%>
 			<c:when test="${ empty requestScope.reservations }">
@@ -32,8 +35,8 @@
 						<tr>
 							<th>Représentation</th>
 							<th>Spectacle</th>
-							<th>Numéro de Rang</th>
-							<th>Numéro de Siège</th>
+							<th>Rang</th>
+							<th>Siège</th>
 							<th>Zone</th>
 							<th>Prix</th>
 							<th class="action">Annuler</th>
@@ -44,7 +47,7 @@
 							<%-- Simple test de parité sur l'index de parcours, pour alterner la couleur de fond de chaque ligne du tableau. --%>
 							<tr class="${boucle.index % 2 == 0 ? 'pair' : 'impair'}">
 								<%-- Colonne Représenation --%>
-								<td><c:out value="${ reservation.representation }" /></td>
+								<td><joda:format value="${ reservation.date }" pattern="'le' dd/MM/yyyy 'à' HH'h'"/></td>
 								<%-- Colonne Spectacle --%>
 								<td><c:out value="${ reservation.spectacle }" /></td>
 								<%-- Colonne Numéro de Rang --%>
@@ -71,18 +74,20 @@
 						</c:forEach>	
 					</table>
 					<%-- Affichage nombre de places  et prix total  --%>
+					<p>
 					<span id="nbPlace">Nombre de places : 0</span><span>&nbsp; &nbsp; &nbsp; &nbsp;</span><span id="total">Prix Total : 00,00 euro(s)</span>
-					<p id="message"><c:out value="${ messageAnnulation }" /><p>
+					</p>
 					<%-- Lien vers la page de confirmation Submit --%>
 					<input type="submit" value="Payer le total">
 				</form>
 			</c:otherwise>
 		</c:choose>
+		</div>
 	</fieldset>
 	
 	<script type="text/javascript">
 	// destruction de la balise message après 1 seconde
-	var delay = 2;
+	var delay = 4;
 	function masquerMessage(){
 		document.getElementById("message").remove();
 	}
