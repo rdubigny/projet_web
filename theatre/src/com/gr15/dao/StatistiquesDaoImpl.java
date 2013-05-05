@@ -33,16 +33,18 @@ public class StatistiquesDaoImpl implements StatistiquesDao {
                                                                                "and  p.id_zone = z.id_zone and a.id_place = p.id_place "
                                                                                +
                                                                                "group by s.nom_spectacle order by tc DESC";
+	private static final String SQL_SPECTACLE_LE_PLUS_RENTABLE         = "select s.id_spectacle, s.nom_spectacle,(sum(s.base_prix*z.base_pourcentage_prix/100)) as tc "
+																		  +
+																		  "from projweb_db.zone z, projweb_db.place p, projweb_db.achat a , projweb_db.spectacle s, projweb_db.representation r "
+																          +
+																          "where a.id_representation = r.id_representation "
+																          +
+																          "and r.id_spectacle = s.id_spectacle "
+																          +
+																          "and  p.id_zone = z.id_zone and a.id_place = p.id_place "
+																          +
+																          "group by s.nom_spectacle order by tc DESC limit 1";
 
-    private static final String SQL_SPECTACLE_LE_PLUS_RENTABLE         = "select s.nom_spectacle from projweb_db.zone z, projweb_db.place p, projweb_db.achat a , "
-                                                                               +
-                                                                               "projweb_db.spectacle s, projweb_db.representation r where a.id_representation = r.id_representation "
-                                                                               +
-                                                                               "and r.id_spectacle = s.id_spectacle and  p.id_zone = z.id_zone "
-                                                                               +
-                                                                               "and a.id_place = p.id_place group by s.nom_spectacle "
-                                                                               +
-                                                                               "order by  (sum(s.base_prix*z.base_pourcentage_prix/100)) DESC";
 
     private static final String SQL_CLIENT_OR                          = "select  u.nom, u.prenom, ((sum(s.base_prix*z.base_pourcentage_prix/100))) "
                                                                                +
@@ -52,7 +54,7 @@ public class StatistiquesDaoImpl implements StatistiquesDao {
                                                                                +
                                                                                "where a.id_representation = r.id_representation and r.id_spectacle = s.id_spectacle "
                                                                                +
-                                                                               "and u.id_utilisateur = a.id_utilisateur and p.id_zone = z.id_zone  and a.id_place = p.id_place group by u.id_utilisateur order by  (sum(s.base_prix*z.base_pourcentage_prix/100)) desc limit 1";
+                                                                               "and u.id_utilisateur = a.id_utilisateur and u.type_utilisateur != 'guichet' and p.id_zone = z.id_zone  and a.id_place = p.id_place group by u.id_utilisateur order by  (sum(s.base_prix*z.base_pourcentage_prix/100)) desc limit 1";
 
     StatistiquesDaoImpl( DAOFactory daoFactory ) {
         this.daoFactory = daoFactory;
