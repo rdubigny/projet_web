@@ -105,6 +105,7 @@ tr.impair{
     background-color: #fff; 
 }
 th{
+	text-align: center;
     color: #0568CD;
     border: 1px solid #0568CD;
     padding: 5px;

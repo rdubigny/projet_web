@@ -9,62 +9,63 @@
 </head>
 <body>
 	<c:import url="/inc/header.jsp" />
-
-	<c:choose>
-		<%-- Si aucune représentation n'est transmise en requète, affichage d'un message par défaut. --%>
-		<c:when
-			test="${ empty requestScope.reservationsAdmin && suppression != 1}">
-			<p class="erreur">Aucune réservations pour le moment.</p>
-		</c:when>
-		<%-- Sinon, affichage du tableau. --%>
-		<c:otherwise>
-			<c:if test="${ param.suppression == 1 }">
-				<p class="succes">La réservation a bien été annulée</p>
-			</c:if>
-			<table>
-				<%-- Titre des colonnes --%>
-				<tr>
-					<th>Client</th>
-					<th>Représentation</th>
-					<th>Spectacle</th>
-					<th>Numéro de Rang</th>
-					<th>Numéro de Siège</th>
-					<th>Zone</th>
-					<th>Prix</th>
-					<th class="action">Annuler</th>
-				</tr>
-				<%-- Parcours de la listes des reservations en requête, et utilisation de l'objet varStatus. --%>
-				<c:forEach items="${requestScope.reservationsAdmin }"
-					var="reservation" varStatus="boucle">
-					<%-- Simple test de parité sur l'index de parcours, pour alterner la couleur de fond de chaque ligne du tableau. --%>
-					<tr class="${boucle.index % 2 == 0 ? 'pair' : 'impair'}">
-						<%-- Colonne Client --%>
-						<td><c:out
-								value="${ reservation.prenomClient} ${reservation.nomClient}" /></td>
-						<%-- Colonne Représenation --%>
-						<td><joda:format value="${ reservation.date }"
-								pattern="EEEE dd MMMM yyyy 'à' HH 'heures'" /></td>
-						<%-- Colonne Spectacle --%>
-						<td><c:out value="${ reservation.spectacle }" /></td>
-						<%-- Colonne Numéro de Rang --%>
-						<td><c:out value="${ reservation.rang }" /></td>
-						<%-- Colonne Numéro de Siège --%>
-						<td><c:out value="${ reservation.siege }" /></td>
-						<%-- Colonne Zone --%>
-						<td><c:out value="${ reservation.zone }" /></td>
-						<%-- Colonne Prix --%>
-						<td><c:out value="${ reservation.prix }" /></td>
-						<%-- Colonne Annuler --%>
-						<td>
-							<%-- Bouton pour annuler --%> <input type="button"
-							value="Annuler"
-							onclick="self.location.href='<c:url value='/admin/annulationReservation'><c:param name='idReservation' value='${ reservation.id }' /></c:url>'" />
-						</td>
-
+	<fieldset>
+		<legend>Gestion des réservations</legend>
+		<c:choose>
+			<%-- Si aucune représentation n'est transmise en requète, affichage d'un message par défaut. --%>
+			<c:when
+				test="${ empty requestScope.reservationsAdmin && suppression != 1}">
+				<p class="erreur">Aucune réservations pour le moment.</p>
+			</c:when>
+			<%-- Sinon, affichage du tableau. --%>
+			<c:otherwise>
+				<c:if test="${ param.suppression == 1 }">
+					<p class="succes">La réservation a bien été annulée</p>
+				</c:if>
+				<table>
+					<%-- Titre des colonnes --%>
+					<tr>
+						<th>Client</th>
+						<th>Représentation</th>
+						<th>Spectacle</th>
+						<th>Rang</th>
+						<th>Siège</th>
+						<th>Zone</th>
+						<th>Prix</th>
+						<th class="action">Annuler</th>
 					</tr>
-				</c:forEach>
-			</table>
-		</c:otherwise>
-	</c:choose>
+					<%-- Parcours de la listes des reservations en requête, et utilisation de l'objet varStatus. --%>
+					<c:forEach items="${requestScope.reservationsAdmin }"
+						var="reservation" varStatus="boucle">
+						<%-- Simple test de parité sur l'index de parcours, pour alterner la couleur de fond de chaque ligne du tableau. --%>
+						<tr class="${boucle.index % 2 == 0 ? 'pair' : 'impair'}">
+							<%-- Colonne Client --%>
+							<td><c:out
+									value="${ reservation.prenomClient} ${reservation.nomClient}" /></td>
+							<%-- Colonne Représenation --%>
+							<td><joda:format value="${ reservation.date }"
+									pattern="dd/MM/yyyy 'à' HH'h'" /></td>
+							<%-- Colonne Spectacle --%>
+							<td><c:out value="${ reservation.spectacle }" /></td>
+							<%-- Colonne Numéro de Rang --%>
+							<td><c:out value="${ reservation.rang }" /></td>
+							<%-- Colonne Numéro de Siège --%>
+							<td><c:out value="${ reservation.siege }" /></td>
+							<%-- Colonne Zone --%>
+							<td><c:out value="${ reservation.zone }" /></td>
+							<%-- Colonne Prix --%>
+							<td><c:out value="${ reservation.prix }" /></td>
+							<%-- Colonne Annuler --%>
+							<td>
+								<%-- Bouton pour annuler --%> <input type="button"
+								value="Annuler"
+								onclick="self.location.href='<c:url value='/admin/annulationReservation'><c:param name='idReservation' value='${ reservation.id }' /></c:url>'" />
+							</td>		
+						</tr>
+					</c:forEach>
+				</table>
+			</c:otherwise>
+		</c:choose>
+	</fieldset>
 </body>
 </html>
