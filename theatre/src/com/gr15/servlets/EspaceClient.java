@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.gr15.beans.Spectacle;
 import com.gr15.dao.DAOFactory;
@@ -21,6 +22,7 @@ import com.gr15.dao.SpectacleDao;
 public class EspaceClient extends HttpServlet {
     private static final long serialVersionUID = 1L;
     public static final String ATT_SPECTACLES = "spectacles";
+    public static final String ATT_SESSION_REPRESENTATION_CHOISIE = "representation";
     public static final String VUE = "/WEB-INF/espaceClient.jsp";
     public static final String CONF_DAO_FACTORY = "daofactory";
 
@@ -44,6 +46,10 @@ public class EspaceClient extends HttpServlet {
 	spectacleDao.lister(listeSpectacle);
 
 	request.setAttribute(ATT_SPECTACLES, listeSpectacle);
+
+	/* supression de la variable de session de repréentation si elle existe */
+	HttpSession session = request.getSession();
+	session.setAttribute(ATT_SESSION_REPRESENTATION_CHOISIE, null);
 
 	/* Affichage de la page d'acceuil client */
 	this.getServletContext().getRequestDispatcher(VUE)

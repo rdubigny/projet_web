@@ -10,24 +10,26 @@
 <title>Espace Admin</title>
 </head>
 <body>
-	<c:import url="/inc/header.jsp" />
-	<div id="menu">Espace Administrateur</div>
-	<div id="corps">
-		<p class="action"><input type="button" value="Gérer les réservations"
-			onclick="self.location.href=
-                        	'<c:url value='/admin/reservationsAdmin'>
-                        	</c:url>'" />
-		</p>
-		<p class="action"><input type="button" value="Gérer les représentations"
-			onclick="self.location.href=
-                        	'<c:url value='/admin/gererRepresentationsAdmin'>
-                        	</c:url>'" />
-		</p>
-				<p class="action"><input type="button" value="Statistiques"
-			onclick="self.location.href=
-                        	'<c:url value='/admin/statistiques'>
-                        	</c:url>'" />
-		</p>
-	</div>
+	<c:import url="/inc/header.jsp" />	
+	<fieldset>
+	<legend>Espace Administrateur</legend>
+		<div id="corps">
+			<p class="action"><input type="button" value="Gérer les réservations"
+				onclick="self.location.href=
+                        		'<c:url value='/admin/reservationsAdmin'>
+                        		</c:url>'" />
+			</p>
+			<p class="action"><input type="button" value="Gérer les représentations"
+				onclick="self.location.href=
+        	                	'<c:url value='/admin/gererRepresentationsAdmin'>
+                        		</c:url>'" />
+			</p>
+					<p class="action"><input type="button" value="Statistiques"
+				onclick="self.location.href=
+                        		'<c:url value='/admin/statistiques'>
+                        		</c:url>'" />
+			</p>
+		</div>
+	</fieldset>
 </body>
 </html>
