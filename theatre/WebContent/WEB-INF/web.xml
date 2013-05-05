@@ -9,7 +9,7 @@
 		<welcome-file>/WEB-INF/identification.jsp</welcome-file>
 	</welcome-file-list>
 	<session-config>
-		<session-timeout>1</session-timeout>
+		<session-timeout>15</session-timeout>
 	</session-config>
 	<jsp-config>
 		<jsp-property-group>
