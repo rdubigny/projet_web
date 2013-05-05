@@ -13,6 +13,10 @@
 	<fieldset>
 		<legend>Identification</legend>			
 			<c:choose>
+				<c:when test="${ param.redirect == 0 }">
+					<!-- Si on a été redirigé parce qu'on a essayé d'accéder à une page restreinte -->
+					<p class ="erreur">Votre session à expiré. Veuillez vous identifier à nouveau</p>
+				</c:when>
 				<c:when test="${ param.redirect == 1 }">
 					<!-- Si on a été redirigé parce qu'on a essayé d'accéder à une page restreinte -->
 					<p class ="erreur">Vous devez vous identifier pour accéder à votre espace</p>
@@ -24,7 +28,7 @@
 							<!-- ne sont pas valides -->
     						<p class="erreur">${form.resultat}</p>
     					</c:when>
-      					<c:otherwise>
+      					<c:otherwise>      						
 							<!-- Message d'acceuil par défaut -->
       						<h3>Identifiez vous pour réserver vos places</h3>
       					</c:otherwise>
