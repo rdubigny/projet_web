@@ -14,10 +14,10 @@ import com.gr15.dao.RepresentationDao;
 /**
  * Servlet implementation class AnnulationRepresentation
  */
-@WebServlet( "/admin/annulationRepresentation" )
+@WebServlet( "/responsable/annulationRepresentation" )
 public class AnnulationRepresentation extends HttpServlet {
     private static final long  serialVersionUID        = 1L;
-    public static final String VUE                     = "/admin/gererRepresentationsAdmin";
+    public static final String VUE                     = "/responsable/gererRepresentationsResponsable";
     public static final String PARAM_ID_REPRESENTATION = "idRepresentation";
     public static final String CONF_DAO_FACTORY        = "daofactory";
 

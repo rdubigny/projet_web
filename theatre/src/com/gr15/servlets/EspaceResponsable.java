@@ -9,12 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class espaceAdmin
+ * Servlet implementation class espaceResponsable
  */
-@WebServlet( "/admin/espaceAdmin" )
-public class EspaceAdmin extends HttpServlet {
+@WebServlet( "/responsable/espaceResponsable" )
+public class EspaceResponsable extends HttpServlet {
     private static final long  serialVersionUID = 1L;
-    public static final String VUE              = "/WEB-INF/espaceAdmin.jsp";
+    public static final String VUE              = "/WEB-INF/espaceResponsable.jsp";
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse

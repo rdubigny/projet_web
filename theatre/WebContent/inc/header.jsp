@@ -5,7 +5,7 @@
  			<input type="button" value="Déconnexion" onclick="self.location.href='<c:url value='/deconnexion'/>'" />
  			<c:choose>
  				<c:when test="${ sessionScope.sessionUtilisateur.estResponsable() }">
- 					<input type="button" value="Espace Administrateur" onclick="self.location.href='<c:url value='/admin/espaceAdmin'/>'" />
+ 					<input type="button" value="Espace Responsable" onclick="self.location.href='<c:url value='/responsable/espaceResponsable'/>'" />
  				</c:when>
  				<c:otherwise>
 					<input type="button" value="Espace Client" onclick="self.location.href='<c:url value='/espaceClient'/>'" />

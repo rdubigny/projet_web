@@ -54,7 +54,7 @@ public class Confirmation extends HttpServlet {
 	    matricePlace = placeDao.genererPlan();
 
 	/* calcul la matrice des places */
-	placeDao.updateDisponibilite(matricePlace, representation);
+	// placeDao.updateDisponibilite(matricePlace, representation);
 
 	request.setAttribute("placesRestantes", null);
 

@@ -49,9 +49,12 @@ public class RepresentationDaoImpl implements RepresentationDao {
             preparedStatement = initialisationRequetePreparee( connexion,
                     SQL_SELECT_CHRONO, false );
             resultSet = preparedStatement.executeQuery();
-            /* Parcours de la ligne de donn�es de l'�ventuel ResulSet retourn� */
+            /*
+             * Parcours de la ligne de donn�es de l'�ventuel ResulSet
+             * retourn�
+             */
             while ( resultSet.next() ) {
-                listeRepresentation.add( map_admin( resultSet ) );
+                listeRepresentation.add( map_responsable( resultSet ) );
             }
         } catch ( SQLException e ) {
             throw new DAOException( e );
@@ -76,7 +79,7 @@ public class RepresentationDaoImpl implements RepresentationDao {
                     idUtilisateur );
             resultSet = preparedStatement.executeQuery();
             while ( resultSet.next() ) {
-                listeRepresentation.add( map_admin( resultSet ) );
+                listeRepresentation.add( map_responsable( resultSet ) );
             }
         } catch ( SQLException e ) {
             throw new DAOException( e );
@@ -98,9 +101,12 @@ public class RepresentationDaoImpl implements RepresentationDao {
             preparedStatement = initialisationRequetePreparee( connexion,
                     SQL_SELECT_PAR_ID, false, id );
             resultSet = preparedStatement.executeQuery();
-            /* Parcours de la ligne de donn�es de l'�ventuel ResulSet retourn� */
+            /*
+             * Parcours de la ligne de donn�es de l'�ventuel ResulSet
+             * retourn�
+             */
             if ( resultSet.next() ) {
-                representation = map_admin( resultSet );
+                representation = map_responsable( resultSet );
             }
         } catch ( SQLException e ) {
             throw new DAOException( e );
@@ -133,7 +139,7 @@ public class RepresentationDaoImpl implements RepresentationDao {
         }
     }
 
-    private static Representation map_admin( ResultSet resultSet )
+    private static Representation map_responsable( ResultSet resultSet )
 
             throws SQLException {
         Representation representation = new Representation();
