@@ -190,7 +190,7 @@ public class PlaceDaoImpl implements PlaceDao {
 		associeplacerepresentations.add(new AssociePlaceRepresentation(
 			idRepresentation, ids[i]));
 	    } else {
-		// achat de places avec reservation préalable (représenation
+		// achat de places avec reservation préalable (représentation
 		// peuvent être différent)
 		// ici ids[i] est un id_reservation
 		// on recupère id_place et id_representation associés
