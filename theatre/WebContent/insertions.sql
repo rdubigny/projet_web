@@ -1,46 +1,60 @@
--- Spectacle -----------
 
-INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('L\'Ecole des Femmes de Moliere','20.00');
-INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('Troilus et Cressida de William Shakespeare','30.00');
-INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('Ce que j\'appelle oubli de Laurent Mauvignier','10.00');
+-- -----------------------------------------------------------------------------
+-- ----------------------------- Spectacle -------------------------------------
+-- -----------------------------------------------------------------------------
 
--- Utilisateur ---------
+INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('L\'Ecole des Femmes - Moliere','20.00');
+INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('Troilus et Cressida - William Shakespeare','30.00');
+INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('Ce que j\'appelle oubli - Laurent Mauvignier','10.00');
 
-INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('root', 'root', 'nomRoot', 'prenomRoot', 'root@root.fr', 'client');
-INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('responsable', 'responsable', 'nomResponsable', 'prenomResponsable', 'responsable@responsable.fr', 'responsable');
-INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('guichet', 'guichet', 'nomGuichet', 'prenomGuichet', 'guichet@guichet.fr', 'guichet');
+
+-- -----------------------------------------------------------------------------
+-- ----------------------------- Utilisateur -----------------------------------
+-- ------------------------------------------------------------------------------
+
+INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('root', 'root', 'root', 'root', 'root@root.root', 'client');
+INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('responsable', 'responsable', 'responsable', 'responsable', 'responsable@responsable.fr', 'responsable');
+INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('admin', 'admin', 'admin', 'admin', 'admin@admin.fr', 'admin');
+INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('guichet', 'guichet', 'guichet', 'guichet', 'guichet@guichet.fr', 'guichet');
 INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('legouxg', 'legouxg', 'Legoux', 'Gilles', 'legouxg@legouxg.fr', 'client');
-INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('dubignyr', 'dubignyr', 'Dubigny', 'Raphaël', 'dubignyr@dubignyr.fr', 'client');
+INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('dubignyr', 'dubignyr', 'Dubigny', 'Raphael', 'dubignyr@dubignyr.fr', 'client');
 INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('pailloue', 'pailloue', 'Paillous', 'Emilie', 'pailloue@pailloue.fr', 'client');
 INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('milloura', 'milloura', 'Millour', 'Alice', 'milloura@milloura.fr', 'client');
 
--- Repr�sentation ------
+
+-- -----------------------------------------------------------------------------
+-- -------------------------- Representation -----------------------------------
+-- -----------------------------------------------------------------------------
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1',NOW());
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-05-29 20:00:00');
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-05-27 20:00:00');
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1','2013-05-26 20:00:00');
-INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1',ADDTIME( TIME(NOW()), '00:50:00'));
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES 
+('1',ADDTIME( TIME(NOW()), '00:50:00'));
 
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('2',ADDTIME( TIME(NOW()), '5:50:00'));
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('2','2013-05-30 20:00:00');
-INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('3','2013-05-30 18:00:00');
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('2','2013-05-30 18:00:00');
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('2','2013-05-26 16:00:00');
-INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('2',ADDTIME( TIME(NOW()), '00:03:00'));
+INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('2',ADDTIME( TIME(NOW()), '03:00:00'));
 
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('3',ADDTIME( TIME(NOW()), '9:50:00'));
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('3','2013-05-29 14:00:00');
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('3','2013-05-27 14:00:00');
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('3','2013-05-26 14:00:00');
 
--- Zones --------------
-
+-- -----------------------------------------------------------------------------
+-- ----------------------------- Zone ------------------------------------------
+-- -----------------------------------------------------------------------------
 INSERT INTO projweb_db.zone (categorie_prix, base_pourcentage_prix) VALUES ('Platine',100);
 INSERT INTO projweb_db.zone (categorie_prix, base_pourcentage_prix) VALUES ('Or',80);
 INSERT INTO projweb_db.zone (categorie_prix, base_pourcentage_prix) VALUES ('Argent',50);
 INSERT INTO projweb_db.zone (categorie_prix, base_pourcentage_prix) VALUES ('Cuivre',30);
 
--- Places --------------
 
+-- -----------------------------------------------------------------------------
+-- ---------------------------- Place ------------------------------------------
+-- -----------------------------------------------------------------------------
 INSERT INTO projweb_db.place (numero_rang, numero_siege, id_zone) VALUES (1,1,2);
 INSERT INTO projweb_db.place (numero_rang, numero_siege, id_zone) VALUES (1,2,2);
 INSERT INTO projweb_db.place (numero_rang, numero_siege, id_zone) VALUES (1,3,2);
@@ -641,11 +655,3 @@ INSERT INTO projweb_db.place (numero_rang, numero_siege, id_zone) VALUES (20,27,
 INSERT INTO projweb_db.place (numero_rang, numero_siege, id_zone) VALUES (20,28,4);
 INSERT INTO projweb_db.place (numero_rang, numero_siege, id_zone) VALUES (20,29,4);
 INSERT INTO projweb_db.place (numero_rang, numero_siege, id_zone) VALUES (20,30,4);
-
--- reservations 
-INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('2','1','4');
-INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('3','1','4');
-INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('3','2','4');
-INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('3','3','4');
-
-
