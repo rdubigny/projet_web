@@ -43,7 +43,7 @@
 				<%--  sinon affichage de la liste des tickets si elle existe --%>
 				<c:if test="${requestScope.tickets != null }">
 					<p>
-						Veuillez trouver si dessous
+						Veuillez trouver ci-dessous
 						${fn:length(tickets) > 1 ? 
 							"les tickets vous donnant accès aux places achetées" : 
 							"le ticket vous donnant accès à la place achetée"}.

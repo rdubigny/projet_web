@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.gr15.dao.DAOException;
 import com.gr15.dao.DAOFactory;
 import com.gr15.dao.ReservationDao;
 
@@ -39,15 +40,22 @@ public class AnnulationReservation extends HttpServlet {
 	    HttpServletResponse response) throws ServletException, IOException {
 
 	/* Récupération du paramêtre */
-	int idReservation = Integer.parseInt(getValeurParametre(request,
-		PARAM_ID_RESERVATION));
-	// recupération de l'identificateur de l'utilisateur connecté
-	reservationDao.annulerReservation(idReservation);
+	String id = getValeurParametre(request, PARAM_ID_RESERVATION);
+	if (id != null) {
+	    int idReservation = Integer.parseInt(id);
+	    try {
+		/* recupération de l'identificateur de l'utilisateur connecté */
+		reservationDao.annulerReservation(idReservation);
 
-	// TODO Auto-generated method stub
-	/* Redirection vers la page des reservations */
-	response.sendRedirect(request.getContextPath() + VUE + "?suppression=1");
-
+		/* Redirection vers la page des reservations */
+		response.sendRedirect(request.getContextPath() + VUE
+			+ "?suppression=1");
+	    } catch (DAOException e) {
+		response.sendRedirect(request.getContextPath() + VUE
+			+ "?suppression=0");
+	    }
+	} else
+	    response.sendRedirect(request.getContextPath() + VUE);
     }
 
     /**
