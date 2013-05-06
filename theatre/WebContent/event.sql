@@ -1,4 +1,4 @@
-/* pas facile à tester ... */
+SET GLOBAL event_scheduler = ON;
 
 CREATE EVENT projweb_db.maj_reservations 
 ON SCHEDULE 
