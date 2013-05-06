@@ -182,41 +182,48 @@ public class PlaceDaoImpl implements PlaceDao {
     public void associer(int[] ids,
 	    LinkedList<AssociePlaceRepresentation> associeplacerepresentations,
 	    boolean estReserve, int idRepresentation) {
-	for (int i = 0; i < ids.length; i++) {
-	    if (!estReserve) {
+	if (!estReserve)
+	    for (int id : ids)
 		// achat de places direct sans reservation préalable
 		// (représentation unique)
-		// ici ids[i] est un id_place
+		// ici id est un id_place
 		associeplacerepresentations.add(new AssociePlaceRepresentation(
-			idRepresentation, ids[i]));
-	    } else {
-		// achat de places avec reservation préalable (représenation
-		// peuvent être différent)
-		// ici ids[i] est un id_reservation
-		// on recupère id_place et id_representation associés
-		Connection connexion = null;
-		PreparedStatement preparedStatement = null;
-		ResultSet resultSet = null;
-		try {
-		    connexion = daoFactory.getConnection();
-		    preparedStatement = initialisationRequetePreparee(
-			    connexion, SQL_SELECT_ASSOCIER, false, ids[i]);
-		    resultSet = preparedStatement.executeQuery();
-		    if (resultSet.next()) {
-			associeplacerepresentations
-				.add(new AssociePlaceRepresentation(resultSet
-					.getInt("id_representation"), resultSet
-					.getInt("id_place")));
-		    } else
-			throw new DAOException(
-				"la réservation n'a pas été trouvée");
-		} catch (SQLException e) {
-		    throw new DAOException(e);
-		} finally {
-		    fermetureSilencieuse(resultSet);
-		    fermetureSilencieuse(preparedStatement);
-		    fermetureSilencieuse(connexion);
+			idRepresentation, id));
+	else {
+	    // achat de places avec reservation préalable (représenation
+	    // peuvent être différent)
+	    // ici id est un id_reservation
+	    // on recupère id_place et id_representation associés
+	    Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    try {
+		connexion = daoFactory.getConnection();
+		for (int id : ids) {
+		    try {
+			preparedStatement = initialisationRequetePreparee(
+				connexion, SQL_SELECT_ASSOCIER, false, id);
+			resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+			    associeplacerepresentations
+				    .add(new AssociePlaceRepresentation(
+					    resultSet
+						    .getInt("id_representation"),
+					    resultSet.getInt("id_place")));
+			} else
+			    throw new DAOException(
+				    "la réservation n'a pas été trouvée");
+		    } catch (SQLException e) {
+			throw new DAOException(e);
+		    } finally {
+			fermetureSilencieuse(resultSet);
+			fermetureSilencieuse(preparedStatement);
+		    }
 		}
+	    } catch (SQLException e) {
+		throw new DAOException(e);
+	    } finally {
+		fermetureSilencieuse(connexion);
 	    }
 	}
     }
@@ -298,20 +305,6 @@ public class PlaceDaoImpl implements PlaceDao {
 
 		// création d'un achat
 		try {
-		    // TODO a supprimer
-		    // System.out.println("requete achat : ");
-		    // System.out.print("id_representation :");
-		    // System.out.print(associeplacerepresentations.get(i)
-		    // .getIdRepresentation());
-		    // System.out.print(", id_place : ");
-		    // System.out.print(associeplacerepresentations.get(i)
-		    // .getIdPlace());
-		    // System.out.print(", id_dossier :");
-		    // System.out.print(idDossier);
-		    // System.out.print(", id_ticket :");
-		    // System.out.print(idTicket);
-		    // System.out.print(", id_user :");
-		    // System.out.println(idUtilisateur);
 		    preparedStatement = initialisationRequetePreparee(
 			    connexion, SQL_ACHAT, true,
 			    associeplacerepresentations.get(i)

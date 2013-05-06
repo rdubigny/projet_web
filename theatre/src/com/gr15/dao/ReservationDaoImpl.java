@@ -76,7 +76,7 @@ public class ReservationDaoImpl implements ReservationDao {
 	    statut = preparedStatement.executeUpdate();
 	    if (statut == 0)
 		throw new DAOException(
-			"Erreur la reservation n'a pas ete supprimee.");
+			"Erreur : la reservation n'a pas été supprimée.");
 	} catch (SQLException e) {
 	    throw new DAOException(e);
 	} finally {
@@ -100,7 +100,7 @@ public class ReservationDaoImpl implements ReservationDao {
 	    statut = preparedStatement.executeUpdate();
 	    if (statut == 0)
 		throw new DAOException(
-			"Erreur la reservation n'a pas ete supprimee.");
+			"Erreur : la reservation n'a pas été supprimée.");
 	} catch (SQLException e) {
 	    throw new DAOException(e);
 	} finally {

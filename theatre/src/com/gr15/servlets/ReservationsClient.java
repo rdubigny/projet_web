@@ -53,13 +53,12 @@ public class ReservationsClient extends HttpServlet {
 		request.setAttribute(ATT_MESSAGE_ANNULATION,
 			"Votre annulation a réussi !");
 	    } catch (DAOException e) {
-		e.printStackTrace();
 		/*
 		 * si on recharge la page alors qu'on avait annulé ou qu'une
 		 * annulation ne marche pas
 		 */
-		request.setAttribute(ATT_MESSAGE_ANNULATION,
-			"Votre annulation a échoué ou vous avez rechargé la page !");
+		request.setAttribute(ATT_MESSAGE_ANNULATION, e.getMessage());
+		// "Votre annulation a échoué ou vous avez rechargé la page !");
 	    }
 	}
 	/* creation de liste de réservation */
