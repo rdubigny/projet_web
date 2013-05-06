@@ -14,12 +14,10 @@ public class Reservation {
     private String nomClient;
     private DateTime date;
 
-    // Le constructeur
     public Reservation() {
 	super();
     }
 
-    // Les Getters et Setters
     public int getId() {
 	return id;
     }

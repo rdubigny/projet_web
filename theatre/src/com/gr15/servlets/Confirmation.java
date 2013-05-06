@@ -84,7 +84,8 @@ public class Confirmation extends HttpServlet {
 	}
 
 	/* traitement de la réservation ou de l'achat */
-	List<Ticket> listeTickets = form.reserver(request, placesRestantes);
+	List<Ticket> listeTickets = form.reserverAcheter(request,
+		placesRestantes);
 
 	/*
 	 * passage en attribut du résultat de l'opération et de la liste

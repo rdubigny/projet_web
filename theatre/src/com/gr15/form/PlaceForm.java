@@ -38,8 +38,8 @@ public class PlaceForm {
 	return erreur;
     }
 
-    // Nom à changer de la fonction
-    public List<Ticket> reserver(HttpServletRequest request, int placesRestantes) {
+    public List<Ticket> reserverAcheter(HttpServletRequest request,
+	    int placesRestantes) {
 	List<Ticket> listeTickets = new ArrayList<Ticket>();
 
 	/* boolean spécifiant s'il s'agit d'une réservation */
@@ -85,9 +85,9 @@ public class PlaceForm {
 			listeTickets = null;
 		    } else {
 			// si de reservationsClients/ -> confirmation/
-			// estReserve =
-			// true
-			// si de choixPlace/ -> confirmation/ estReserve = false
+			// estReserve = true
+			// si de choixPlace/ -> confirmation/
+			// estReserve = false
 			LinkedList<AssociePlaceRepresentation> associePlaceRepresentations = new LinkedList<AssociePlaceRepresentation>();
 			placeDao.associer(ids, associePlaceRepresentations,
 				estReserve, idRepresentation);

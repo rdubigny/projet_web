@@ -54,14 +54,12 @@ public class ReservationsClient extends HttpServlet {
 			"Votre annulation a réussi !");
 	    } catch (DAOException e) {
 		/*
-		 * si on recharge la page alors qu'on avait annulé ou qu'une
-		 * annulation ne marche pas
+		 * si l'annulation ne fonctionne pas une exception est levée
 		 */
 		request.setAttribute(ATT_MESSAGE_ANNULATION, e.getMessage());
-		// "Votre annulation a échoué ou vous avez rechargé la page !");
 	    }
 	}
-	/* creation de liste de réservation */
+	/* création de liste de réservation */
 	List<Reservation> listeReservation = new ArrayList<Reservation>();
 
 	reservationDao.listerParReservation(idUtilisateur, listeReservation);
@@ -74,26 +72,4 @@ public class ReservationsClient extends HttpServlet {
 		.getRequestDispatcher("/WEB-INF/reservationsClient.jsp")
 		.forward(request, response);
     }
-
-    // TODO à supprimer
-    // /**
-    // * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-    // * response)
-    // */
-    // protected void doPost(HttpServletRequest request,
-    // HttpServletResponse response) throws ServletException, IOException {
-    // /*
-    // * récupération de la liste des idReservations par les checkbox
-    // * seulement les reservations qui ont choisis d'être payer reservation
-    // */
-    // String[] idReservationString = request
-    // .getParameterValues(PARAM_RESERVATION_ID);
-    // int[] idReservations = new int[idReservationString.length];
-    // for (int i = 0; i < idReservationString.length; i++) {
-    // idReservations[i] = Integer.parseInt(idReservationString[i]);
-    // }
-    // /* récupération des idPlaces correspondantes */
-    // // reservationDao.acheterReservation(idReservations);
-    // }
-
 }

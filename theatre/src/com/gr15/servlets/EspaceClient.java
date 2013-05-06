@@ -41,7 +41,6 @@ public class EspaceClient extends HttpServlet {
     protected void doGet(HttpServletRequest request,
 	    HttpServletResponse response) throws ServletException, IOException {
 	/* calcule la liste des spectacles disponibles */
-	/* TODO � faire dans un objet m�tier non ? */
 	List<Spectacle> listeSpectacle = new ArrayList<Spectacle>();
 	spectacleDao.lister(listeSpectacle);
 

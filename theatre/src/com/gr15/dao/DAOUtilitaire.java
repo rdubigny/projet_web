@@ -9,8 +9,8 @@ import java.sql.Statement;
 public final class DAOUtilitaire {
 
     /*
-     * Initialise la requête préparée basée sur la connexion passée en argument,
-     * avec la requête SQL et les objets donnés.
+     * Initialise la requÃªte prÃ©parÃ©e basÃ©e sur la connexion passÃ©e en argument,
+     * avec la requÃªte SQL et les objets donnÃ©s.
      */
     public static PreparedStatement initialisationRequetePreparee(
 	    Connection connexion, String sql, boolean returnGeneratedKeys,
@@ -30,7 +30,7 @@ public final class DAOUtilitaire {
 	    try {
 		resultSet.close();
 	    } catch (SQLException e) {
-		System.out.println("Échec de la fermeture du ResultSet : "
+		System.out.println("Echec de la fermeture du ResultSet : "
 			+ e.getMessage());
 	    }
 	}
@@ -42,7 +42,7 @@ public final class DAOUtilitaire {
 	    try {
 		statement.close();
 	    } catch (SQLException e) {
-		System.out.println("Échec de la fermeture du Statement : "
+		System.out.println("Echec de la fermeture du Statement : "
 			+ e.getMessage());
 	    }
 	}
@@ -54,7 +54,7 @@ public final class DAOUtilitaire {
 	    try {
 		connexion.close();
 	    } catch (SQLException e) {
-		System.out.println("Échec de la fermeture de la connexion : "
+		System.out.println("Echec de la fermeture de la connexion : "
 			+ e.getMessage());
 	    }
 	}

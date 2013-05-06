@@ -17,47 +17,33 @@ import com.gr15.dao.ReservationDao;
 /**
  * Servlet implementation class reservationsResponsable
  */
-@WebServlet( "/responsable/reservationsResponsable" )
+@WebServlet("/responsable/reservationsResponsable")
 public class ReservationsResponsable extends HttpServlet {
-    private static final long  serialVersionUID = 1L;
-    public static final String VUE              = "/WEB-INF/reservationsResponsable.jsp";
+    private static final long serialVersionUID = 1L;
+    public static final String VUE = "/WEB-INF/reservationsResponsable.jsp";
     public static final String CONF_DAO_FACTORY = "daofactory";
     public static final String ATT_RESERVATIONS = "reservationsResponsable";
-    private ReservationDao     reservationDao;
+    private ReservationDao reservationDao;
 
     public void init() throws ServletException {
-        /* R�cup�ration d'une instance du DAO spectacle */
-        this.reservationDao = ( (DAOFactory) getServletContext().getAttribute(
-                CONF_DAO_FACTORY ) ).getReservationDao();
+	/* Récupération d'une instance du DAO spectacle */
+	this.reservationDao = ((DAOFactory) getServletContext().getAttribute(
+		CONF_DAO_FACTORY)).getReservationDao();
     }
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
      *      response)
      */
-    protected void doGet( HttpServletRequest request,
-            HttpServletResponse response ) throws ServletException, IOException {
-        /* calcule la liste des reservations disponibles */
-        List<Reservation> listeReservation = new ArrayList<Reservation>();
-        reservationDao.lister( listeReservation );
-        request.setAttribute( ATT_RESERVATIONS, listeReservation );
+    protected void doGet(HttpServletRequest request,
+	    HttpServletResponse response) throws ServletException, IOException {
+	/* calcule la liste des reservations disponibles */
+	List<Reservation> listeReservation = new ArrayList<Reservation>();
+	reservationDao.lister(listeReservation);
+	request.setAttribute(ATT_RESERVATIONS, listeReservation);
 
-        /* Affichage de la page de reservations pour le responsable */
-        this.getServletContext().getRequestDispatcher( VUE )
-                .forward( request, response );
+	/* Affichage de la page de reservations pour le responsable */
+	this.getServletContext().getRequestDispatcher(VUE)
+		.forward(request, response);
     }
-
-    // TODO a supprimer
-    // /**
-    // * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-    // * response)
-    // */
-    // protected void doPost( HttpServletRequest request, HttpServletResponse
-    // response ) throws ServletException,
-    // IOException {
-    // /* Affichage de la page d'acceuil client */
-    // this.getServletContext().getRequestDispatcher( VUE )
-    // .forward( request, response );
-    // }
-
 }

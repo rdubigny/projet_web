@@ -30,7 +30,7 @@ public class IdentificationForm {
     }
 
     public Utilisateur connecterUtilisateur(HttpServletRequest request) {
-	/* Récuperation des champs du formulaire */
+	/* Récupération des champs du formulaire */
 	String login = getValeurChamp(request, CHAMP_LOGIN);
 	String motDePasse = getValeurChamp(request, CHAMP_PASS);
 

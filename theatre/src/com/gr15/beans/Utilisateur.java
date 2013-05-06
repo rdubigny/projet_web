@@ -54,7 +54,6 @@ public class Utilisateur {
      * @return true si le mot de passe est correct
      */
     public boolean ValidateMotdepasse(String motdepasse) {
-	// Remarque : on pourrai utiliser de l'encriptage pour plus de s�curit�
 	return this.motdepasse.equals(motdepasse);
     }
 

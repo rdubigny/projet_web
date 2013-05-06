@@ -22,6 +22,9 @@ import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationExceptio
 
 public class PlaceDaoImpl implements PlaceDao {
     private DAOFactory daoFactory;
+    private static final int NB_RANG = 20;
+    private static final int NB_SIEGE = 30;
+
     private static final String SQL_ZONES = "SELECT id_place, numero_rang, numero_siege, id_zone FROM place";
     private static final String SQL_SELECT_PLACES_RESERVEES = "SELECT p.numero_rang , p.numero_siege "
 	    + "FROM projweb_db.place p, projweb_db.reservation r "
@@ -56,18 +59,14 @@ public class PlaceDaoImpl implements PlaceDao {
 	Connection connexion = null;
 	PreparedStatement preparedStatement = null;
 	ResultSet resultSet = null;
-	/*
-	 * WARNING : les dimensions du tableau sont impl�ment�es de mani�re
-	 * statique, c'est mal.
-	 */
-	Place[][] res = new Place[20][30];
+	Place[][] res = new Place[NB_RANG][NB_SIEGE];
 	try {
 	    /* Récupération d'une connexion depuis la Factory */
 	    connexion = daoFactory.getConnection();
 	    preparedStatement = initialisationRequetePreparee(connexion,
 		    SQL_ZONES, false);
 	    resultSet = preparedStatement.executeQuery();
-	    /* Parcours de la ligne de donn�es de l'éventuel ResulSet retourné */
+	    /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	    while (resultSet.next()) {
 		res[resultSet.getInt("numero_rang") - 1][resultSet
 			.getInt("numero_siege") - 1] = new Place(
@@ -323,8 +322,6 @@ public class PlaceDaoImpl implements PlaceDao {
 			throw new DAOException(
 				"Erreur lors de l'achat, l'achat n'a pas été enregistré.");
 		} catch (MySQLIntegrityConstraintViolationException e) {
-		    // TODO supprimer la ligne suivante
-		    e.printStackTrace();
 		    throw new DAOException(
 			    "Une des places que vous avez sélectionnées a déjà été réservée. Veuillez recommencez votre choix.");
 		} catch (SQLException e) {

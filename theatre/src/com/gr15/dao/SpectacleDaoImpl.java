@@ -15,7 +15,7 @@ public class SpectacleDaoImpl implements SpectacleDao {
     private DAOFactory daoFactory;
     private static final String SQL_SELECT = "SELECT * FROM spectacle";
     private static final String SQL_SELECT_PAR_ID = "SELECT * FROM spectacle WHERE id_spectacle=?";
-   
+
     SpectacleDaoImpl(DAOFactory daoFactory) {
 	this.daoFactory = daoFactory;
     }
@@ -27,12 +27,12 @@ public class SpectacleDaoImpl implements SpectacleDao {
 	ResultSet resultSet = null;
 
 	try {
-	    /* R�cup�ration d'une connexion depuis la Factory */
+	    /* Récupération d'une connexion depuis la Factory */
 	    connexion = daoFactory.getConnection();
 	    preparedStatement = initialisationRequetePreparee(connexion,
 		    SQL_SELECT, false);
 	    resultSet = preparedStatement.executeQuery();
-	    /* Parcours de la ligne de donn�es de l'�ventuel ResulSet retourn� */
+	    /* Parcours de la ligne de données de l'Eventuel ResulSet retourné */
 	    while (resultSet.next()) {
 		listeSpectacle.add(map(resultSet));
 	    }
@@ -51,12 +51,12 @@ public class SpectacleDaoImpl implements SpectacleDao {
 	Spectacle spectacle = null;
 
 	try {
-	    /* R�cup�ration d'une connexion depuis la Factory */
+	    /* Récupération d'une connexion depuis la Factory */
 	    connexion = daoFactory.getConnection();
 	    preparedStatement = initialisationRequetePreparee(connexion,
 		    SQL_SELECT_PAR_ID, false, id);
 	    resultSet = preparedStatement.executeQuery();
-	    /* Parcours de la ligne de donn�es de l'�ventuel ResulSet retourn� */
+	    /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	    if (resultSet.next()) {
 		spectacle = map(resultSet);
 	    }
@@ -69,7 +69,7 @@ public class SpectacleDaoImpl implements SpectacleDao {
     }
 
     /*
-     * Simple m�thode utilitaire permettant de faire la correspondance (le
+     * Simple méthode utilitaire permettant de faire la correspondance (le
      * mapping) entre une ligne issue de la table des Spectacle (un ResultSet)
      * et un bean Spectacle.
      */
@@ -80,5 +80,4 @@ public class SpectacleDaoImpl implements SpectacleDao {
 	spectacle.setBasePrix(resultSet.getFloat("base_prix"));
 	return spectacle;
     }
-
 }

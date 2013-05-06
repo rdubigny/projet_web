@@ -14,7 +14,6 @@ INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('Ce que j\'a
 
 INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('root', 'root', 'root', 'root', 'root@root.root', 'client');
 INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('responsable', 'responsable', 'responsable', 'responsable', 'responsable@responsable.fr', 'responsable');
-INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('admin', 'admin', 'admin', 'admin', 'admin@admin.fr', 'admin');
 INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('guichet', 'guichet', 'guichet', 'guichet', 'guichet@guichet.fr', 'guichet');
 INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('legouxg', 'legouxg', 'Legoux', 'Gilles', 'legouxg@legouxg.fr', 'client');
 INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('dubignyr', 'dubignyr', 'Dubigny', 'Raphael', 'dubignyr@dubignyr.fr', 'client');

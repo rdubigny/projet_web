@@ -39,7 +39,6 @@ public class ReservationDaoImpl implements ReservationDao {
 	    + "AND p.id_zone = z.id_zone group by rs.id_reservation "
 	    + "order by rp.moment_representation";
 
-    // Le constructeur
     public ReservationDaoImpl(DAOFactory daoFactory) {
 	this.daoFactory = daoFactory;
     }

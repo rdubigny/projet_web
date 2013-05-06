@@ -35,15 +35,11 @@ public class RestrictionFilter implements Filter {
 	/* Non-filtrage des ressources statiques et de la page de login */
 	String chemin = request.getRequestURI().substring(
 		request.getContextPath().length());
-	// System.out.print(chemin);
 	if (chemin.startsWith("/inc") || chemin.startsWith(ACCES_CONNEXION)
 		|| chemin.equals("/")) {
-
-	    // System.out.println(" --> PUBLIC");
 	    chain.doFilter(request, response);
 	    return;
 	}
-	// System.out.println(" --> RESTREINT");
 
 	/* Récuperation de la session depuis la requête */
 	HttpSession session = request.getSession();
@@ -73,12 +69,9 @@ public class RestrictionFilter implements Filter {
 
     @Override
     public void destroy() {
-	// TODO Auto-generated method stub
-
     }
 
     @Override
     public void init(FilterConfig arg0) throws ServletException {
-	// TODO Auto-generated method stub
     }
 }

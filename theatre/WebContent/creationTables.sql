@@ -25,7 +25,7 @@ mot_de_passe VARCHAR( 56 ) NOT NULL,
 nom VARCHAR( 20 ) NOT NULL,
 prenom VARCHAR( 20 ) NOT NULL,
 mail VARCHAR( 60 ) NOT NULL,
-type_utilisateur ENUM ("client" , "responsable", "guichet", "admin"),
+type_utilisateur ENUM ("client" , "responsable", "guichet"),
 UNIQUE (login),
 PRIMARY KEY ( id_utilisateur )
 ) ENGINE = INNODB;
@@ -83,8 +83,8 @@ BEGIN
   IF (DATEDIFF(NEW.moment_representation, DATE('2012-09-01')) < 0) ||
    (DATEDIFF(NEW.moment_representation, DATE('2013-05-31')) > 0) THEN
     SIGNAL SQLSTATE '02000' SET MESSAGE_TEXT = 
-    'Les représentations doivent se dérouler entre septembre 
-    et juin de l\'année en cours ';
+    'Les reprï¿½sentations doivent se dï¿½rouler entre septembre 
+    et juin de l\'annï¿½e en cours ';
   END IF;
 END$$
 

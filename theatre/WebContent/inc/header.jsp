@@ -1,8 +1,10 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <div id="menu">	
 	<c:choose>
 		<c:when test="${! empty sessionScope.sessionUtilisateur}">
-   			<span class="info">Vous êtes connecté(e) en tant que ${sessionScope.sessionUtilisateur.login}</span>
- 			<input type="button" value="Déconnexion" onclick="self.location.href='<c:url value='/deconnexion'/>'" />
+   			<span class="info">Vous Ãªtes connectÃ©(e) en tant que ${sessionScope.sessionUtilisateur.login}</span>
+ 			<input type="button" value="DÃ©connexion" onclick="self.location.href='<c:url value='/deconnexion'/>'" />
  			<c:choose>
  				<c:when test="${ sessionScope.sessionUtilisateur.estResponsable() }">
  					<input type="button" value="Espace Responsable" onclick="self.location.href='<c:url value='/responsable/espaceResponsable'/>'" />
@@ -13,7 +15,7 @@
  			</c:choose>
 		</c:when>
 		<c:otherwise>
-			<span class="info">Vous n'êtes pas connecté(e).</span>
+			<span class="info">Vous n'Ãªtes pas connectÃ©(e).</span>
 		</c:otherwise>
 	</c:choose>
 </div>
