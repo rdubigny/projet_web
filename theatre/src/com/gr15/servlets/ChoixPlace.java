@@ -99,17 +99,6 @@ public class ChoixPlace extends HttpServlet {
 	/* calcul la matrice des places */
 	placeDao.updateDisponibilite(matricePlace, representation);
 
-	/* on transmet la matrice en attribut */
-	request.setAttribute(ATT_PLACES, matricePlace);
-
-	/*
-	 * on transmet le type d'utilisateur en attribut pour pouvoir empêcher
-	 * la réservation par le guichet
-	 */
-	Utilisateur utilisateur = (Utilisateur) session
-		.getAttribute(ATT_SESSION_UTILISATEUR);
-	request.setAttribute(ATT_EST_GUICHET, utilisateur.estGuichet());
-
 	/* calcul du nombre de places restantes et transmission à la JSP */
 	int placesRestantes = NB_PLACES;
 	for (Place[] i : matricePlace) {
@@ -118,8 +107,13 @@ public class ChoixPlace extends HttpServlet {
 		    placesRestantes--;
 	    }
 	}
-	if (!utilisateur.estGuichet())
+	if (!((Utilisateur) session.getAttribute(ATT_SESSION_UTILISATEUR))
+		.estGuichet())
 	    placesRestantes -= NB_PLACES_GUICHET;
+
+	/* on transmet la matrice en attribut */
+	request.setAttribute(ATT_PLACES, matricePlace);
+	/* on transmet le nombre de places restantes en attribut */
 	request.setAttribute(ATT_PLACES_RESTANTES, placesRestantes);
 
 	/* Transmettre les Zones */
@@ -131,5 +125,4 @@ public class ChoixPlace extends HttpServlet {
 	this.getServletContext().getRequestDispatcher(VUE)
 		.forward(request, response);
     }
-
 }

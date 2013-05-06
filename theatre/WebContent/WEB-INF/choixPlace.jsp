@@ -75,7 +75,7 @@ deux boutons input = submit : un pour acheter, un pour reserver -->
 						</p>
        				<br/>
        					<input type="submit" value="Acheter/Réserver">
-       				<c:if test="${! estGuichet}">
+       				<c:if test="${! sessionUtilisateur.estGuichet()}">
         				<input type="checkbox" name="action" value="reservation" > je veux seulement réserver, je paierai plus tard
         			</c:if>	
        				</form>
