@@ -61,34 +61,33 @@ deux boutons input = submit : un pour acheter, un pour reserver -->
             										<c:when test="${place.zone == 4}">"#CD853F"</c:when>
             										<c:otherwise>"#BC8F8F"</c:otherwise>
             									</c:choose>>
-											<c:if test="${! place.occupe}">
-												<input type="checkbox" name="id" value="${ place.id }" onclick="calculPrix(this);">
-											</c:if>
-										</td>
-									</c:forEach>
-								</tr>
-							</c:forEach>
-						</table>
-						<%-- Affichage nombre de places  et prix total  --%>
+            							<c:if test="${! place.occupe}">
+            								<input type="checkbox" name="id" value="${ place.id }"  onclick="calculPrix(this);">
+            							</c:if>
+                        			</td>
+            					</c:forEach>
+            				</tr>
+        				</c:forEach>
+       				</table>
+       				<%-- Affichage nombre de places  et prix total  --%>
 						<p>
 							<span id="nbPlace">Nombre de places : 0</span><span>&nbsp; &nbsp; &nbsp; &nbsp;</span><span id="total">Prix Total : 00,00 euro(s)</span>
 						</p>
-						<br /> <input type="submit" value="Acheter">
-						<c:if test="${! estGuichet}">
-							<input type="checkbox" name="action" value="reservation"> je veux seulement réserver, je paierai plus tard
-        			</c:if>
-					</form>
-				</c:when>
-				<c:otherwise>
-					<p class="erreur">
-						La représentation du
-						<joda:format value="${ sessionScope.representation.date }"
-							pattern="EEEE dd MMMM yyyy 'à' HH 'heures'" />
-						est complête.
-					</p>
-					<p>
-						<input type="button" value="Retour au choix de la représentation"
-							onclick="self.location.href=
+       				<br/>
+       					<input type="submit" value="Acheter/Réserver">
+       				<c:if test="${! estGuichet}">
+        				<input type="checkbox" name="action" value="reservation" > je veux seulement réserver, je paierai plus tard
+        			</c:if>	
+       				</form>
+       			</c:when>
+       			<c:otherwise>
+       				<p class="erreur">
+       					La représentation du <joda:format value="${ sessionScope.representation.date }" pattern="EEEE dd MMMM yyyy 'à' HH 'heures'"/>
+       					est complête.
+       				</p>
+       				<p>       					
+    					<input type="button" value="Retour au choix de la représentation" 
+                        	onclick="self.location.href=
                         	'<c:url value='/choixRepresentation'>
                         		<c:param name='id' value='${ sessionScope.representation.idSpectacle }' />						
                         	</c:url>'" />

@@ -11,6 +11,7 @@
 	<c:import url="/inc/header.jsp" />
 	<fieldset>
 		<legend>Gestion des représentations</legend>
+		<div id="corps">
 		<c:choose>
 			<%-- Si aucune représentation n'est transmise en requète, affichage d'un message par défaut. --%>
 			<c:when test="${ empty requestScope.representationsAdmin && suppression != 1}">
@@ -48,6 +49,7 @@
 				</table>
 			</c:otherwise>
 		</c:choose>
+		</div>
 	</fieldset>
 </body>
 </html>

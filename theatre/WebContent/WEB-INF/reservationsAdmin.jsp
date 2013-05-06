@@ -11,6 +11,7 @@
 	<c:import url="/inc/header.jsp" />
 	<fieldset>
 		<legend>Gestion des réservations</legend>
+		<div id="corps">
 		<c:choose>
 			<%-- Si aucune représentation n'est transmise en requète, affichage d'un message par défaut. --%>
 			<c:when
@@ -19,6 +20,9 @@
 			</c:when>
 			<%-- Sinon, affichage du tableau. --%>
 			<c:otherwise>
+				<c:if test="${ param.suppression == 0 }">
+					<p class="erreur">Echec de l'annulation</p>
+				</c:if>
 				<c:if test="${ param.suppression == 1 }">
 					<p class="succes">La réservation a bien été annulée</p>
 				</c:if>
@@ -66,6 +70,7 @@
 				</table>
 			</c:otherwise>
 		</c:choose>
+		</div>
 	</fieldset>
 </body>
 </html>
