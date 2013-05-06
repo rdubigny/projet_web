@@ -85,8 +85,7 @@
 			</c:otherwise>
 		</c:choose>
 		</div>
-	</fieldset>
-	
+	</fieldset>	
 	<script type="text/javascript">
 	// destruction de la balise message après 1 seconde
 	var delay = 4;

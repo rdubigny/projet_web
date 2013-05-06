@@ -1,6 +1,8 @@
 package com.gr15.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,10 +13,13 @@ import javax.servlet.http.HttpSession;
 
 import com.gr15.beans.Place;
 import com.gr15.beans.Representation;
+import com.gr15.beans.Reservation;
 import com.gr15.beans.Utilisateur;
 import com.gr15.dao.DAOFactory;
 import com.gr15.dao.PlaceDao;
 import com.gr15.dao.RepresentationDao;
+import com.gr15.beans.Zone;
+
 
 /**
  * Servlet implementation class ChoixPlace
@@ -118,9 +123,16 @@ public class ChoixPlace extends HttpServlet {
 	if (!utilisateur.estGuichet())
 	    placesRestantes -= NB_PLACES_GUICHET;
 	request.setAttribute(ATT_PLACES_RESTANTES, placesRestantes);
+	
+	/* Transmettre les Zones */
+	List<Zone> listeZone = new ArrayList<Zone>();
+	placeDao.listerZone(listeZone, Integer.parseInt(id_representation));
+	request.setAttribute("zones", listeZone);
 
 	/* Affichage de la page de sélection des places */
 	this.getServletContext().getRequestDispatcher(VUE)
 		.forward(request, response);
     }
+    
+
 }
