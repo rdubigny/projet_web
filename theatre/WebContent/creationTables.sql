@@ -1,7 +1,10 @@
- DROP DATABASE projweb_db;
- CREATE DATABASE projweb_db DEFAULT CHARACTER SET utf8 COLLATE
- utf8_general_ci;
-
+-- -------------------- CREATION DE LA BASE DE DONNEES -------------------------
+-- DROP DATABASE projweb_db;
+CREATE DATABASE projweb_db DEFAULT CHARACTER SET utf8 COLLATE
+utf8_general_ci;
+-- -----------------------------------------------------------------------------
+-- ----------------------------- Spectacle -------------------------------------
+-- -----------------------------------------------------------------------------
 CREATE TABLE projweb_db.spectacle (
 id_spectacle INTEGER AUTO_INCREMENT,
 nom_spectacle VARCHAR( 200 ) NOT NULL,
@@ -12,6 +15,9 @@ CHECK (base_prix > 0),
 PRIMARY KEY ( id_spectacle )
 ) ENGINE = INNODB;
 
+-- -----------------------------------------------------------------------------
+-- ----------------------------- Utilisateur -----------------------------------
+-- ------------------------------------------------------------------------------
 CREATE TABLE projweb_db.utilisateur (
 id_utilisateur INTEGER AUTO_INCREMENT,
 login VARCHAR( 56 ) NOT NULL,
@@ -19,7 +25,7 @@ mot_de_passe VARCHAR( 56 ) NOT NULL,
 nom VARCHAR( 20 ) NOT NULL,
 prenom VARCHAR( 20 ) NOT NULL,
 mail VARCHAR( 60 ) NOT NULL,
-type_utilisateur ENUM ("client" , "responsable", "guichet"),
+type_utilisateur ENUM ("client" , "responsable", "guichet", "admin"),
 UNIQUE (login),
 PRIMARY KEY ( id_utilisateur )
 ) ENGINE = INNODB;
@@ -38,6 +44,9 @@ BEGIN
 END$$
 DELIMITER ;
 
+-- -----------------------------------------------------------------------------
+-- ----------------------------- Zone ------------------------------------------
+-- -----------------------------------------------------------------------------
 CREATE TABLE projweb_db.zone(
 id_zone INTEGER AUTO_INCREMENT,
 categorie_prix VARCHAR (60) NOT NULL,
@@ -46,6 +55,9 @@ CHECK (base_pourcentage_prix >= 0 && base_pourcentage_prix <= 100),
 PRIMARY KEY (id_zone)
 ) ENGINE = INNODB;
 
+-- -----------------------------------------------------------------------------
+-- ---------------------------- Dossier ----------------------------------------
+-- -----------------------------------------------------------------------------
 CREATE TABLE projweb_db.dossier(
 id_dossier INTEGER AUTO_INCREMENT,
 PRIMARY KEY (id_dossier)
@@ -68,16 +80,19 @@ BEFORE INSERT
 ON projweb_db.representation
 FOR EACH ROW
 BEGIN
-  IF (DATEDIFF(NEW.moment_representation, DATE('2012-09-01')) < 0)  || (DATEDIFF(NEW.moment_representation, DATE('2013-05-31')) > 0) THEN
-    SIGNAL SQLSTATE '02000' SET MESSAGE_TEXT = 'Les reprï¿½sentations doivent se dï¿½rouler entre septembre et juin de l\'annï¿½e en cours ';
+  IF (DATEDIFF(NEW.moment_representation, DATE('2012-09-01')) < 0) ||
+   (DATEDIFF(NEW.moment_representation, DATE('2013-05-31')) > 0) THEN
+    SIGNAL SQLSTATE '02000' SET MESSAGE_TEXT = 
+    'Les représentations doivent se dérouler entre septembre 
+    et juin de l\'année en cours ';
   END IF;
 END$$
 
 DELIMITER ;
 
-
-
-
+-- -----------------------------------------------------------------------------
+-- ---------------------------- Dossier ----------------------------------------
+-- -----------------------------------------------------------------------------
 CREATE TABLE projweb_db.place(
 id_place INTEGER AUTO_INCREMENT,
 numero_rang INTEGER,
@@ -90,6 +105,9 @@ PRIMARY KEY ( id_place),
 FOREIGN KEY (id_zone) REFERENCES zone(id_zone) ON DELETE CASCADE
 ) ENGINE = INNODB;
 
+-- -----------------------------------------------------------------------------
+-- ---------------------------- Ticket -----------------------------------------
+-- -----------------------------------------------------------------------------
 CREATE TABLE projweb_db.ticket(
 id_ticket INTEGER AUTO_INCREMENT,
 moment_vente DATETIME,
@@ -97,21 +115,27 @@ CHECK ( id_ticket > 0 ),
 PRIMARY KEY (id_ticket)
 ) ENGINE = INNODB;
 
--- Associations --------------
-
+-- -----------------------------------------------------------------------------
+-- -------------------------- Reservation --------------------------------------
+-- -----------------------------------------------------------------------------
 CREATE TABLE projweb_db.reservation(
 id_reservation INTEGER AUTO_INCREMENT,
 id_representation INTEGER,
 id_place INTEGER,
 id_utilisateur INTEGER,
 PRIMARY KEY ( id_reservation ),
-UNIQUE (id_representation, id_place),
-FOREIGN KEY (id_representation) REFERENCES representation(id_representation) ON DELETE CASCADE,
-FOREIGN KEY (id_place) REFERENCES place(id_place) ON DELETE CASCADE,
-FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id_utilisateur) ON DELETE CASCADE
+FOREIGN KEY (id_representation) REFERENCES 
+	representation(id_representation) ON DELETE CASCADE,
+FOREIGN KEY (id_place) REFERENCES 
+	place(id_place) ON DELETE CASCADE,
+FOREIGN KEY (id_utilisateur) REFERENCES 
+	utilisateur(id_utilisateur) ON DELETE CASCADE
 ) ENGINE = INNODB;
 
 
+-- -----------------------------------------------------------------------------
+-- -------------------------- achat --------------------------------------
+-- -----------------------------------------------------------------------------
 CREATE TABLE projweb_db.achat(
 id_achat INTEGER AUTO_INCREMENT,
 id_representation INTEGER,
@@ -120,10 +144,13 @@ id_dossier INTEGER,
 id_ticket INTEGER,
 id_utilisateur INTEGER,
 PRIMARY KEY ( id_achat ),
-UNIQUE (id_representation, id_place),
 FOREIGN KEY (id_place) REFERENCES place(id_place) ON DELETE CASCADE,
-FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id_utilisateur) ON DELETE CASCADE,
-FOREIGN KEY (id_representation) REFERENCES representation(id_representation) ON DELETE CASCADE,
+FOREIGN KEY (id_utilisateur) REFERENCES 
+	 utilisateur(id_utilisateur) ON DELETE CASCADE,
+FOREIGN KEY (id_representation) REFERENCES
+	 representation(id_representation) ON DELETE CASCADE,
 FOREIGN KEY (id_dossier) REFERENCES dossier(id_dossier) ON DELETE CASCADE,
 FOREIGN KEY (id_ticket) REFERENCES ticket(id_ticket) ON DELETE CASCADE
 ) ENGINE = INNODB;
+
+

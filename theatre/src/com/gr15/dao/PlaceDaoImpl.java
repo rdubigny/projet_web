@@ -263,7 +263,7 @@ public class PlaceDaoImpl implements PlaceDao {
 		int statut = preparedStatement.executeUpdate();
 		if (statut == 0)
 		    throw new DAOException(
-			    "Erreur lors de la création de dossier, aucun dossier n'a été crée.");
+			    "Erreur lors de la création de dossier, aucun dossier n'a été créé.");
 		valeursAutoGenerees = preparedStatement.getGeneratedKeys();
 		if (valeursAutoGenerees.next()) {
 		    idDossier = valeursAutoGenerees.getInt(1);
