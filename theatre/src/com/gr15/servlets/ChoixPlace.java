@@ -1,6 +1,8 @@
 package com.gr15.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import com.gr15.beans.Place;
 import com.gr15.beans.Representation;
 import com.gr15.beans.Utilisateur;
+import com.gr15.beans.Zone;
 import com.gr15.dao.DAOFactory;
 import com.gr15.dao.PlaceDao;
 import com.gr15.dao.RepresentationDao;
@@ -77,7 +80,7 @@ public class ChoixPlace extends HttpServlet {
 		.trouver(id_representation);
 	if (representation == null) {
 	    request.setAttribute(ATT_ERREUR,
-		    "Erreur : La repr�sentation n'est pas accessible");
+		    "Erreur : La représentation n'est pas accessible");
 
 	    /* Affichage de la page d'espace client */
 	    this.getServletContext().getRequestDispatcher(ESPACE_CLIENT)
@@ -96,17 +99,6 @@ public class ChoixPlace extends HttpServlet {
 	/* calcul la matrice des places */
 	placeDao.updateDisponibilite(matricePlace, representation);
 
-	/* on transmet la matrice en attribut */
-	request.setAttribute(ATT_PLACES, matricePlace);
-
-	/*
-	 * on transmet le type d'utilisateur en attribut pour pouvoir empêcher
-	 * la r�servation par le guichet
-	 */
-	Utilisateur utilisateur = (Utilisateur) session
-		.getAttribute(ATT_SESSION_UTILISATEUR);
-	request.setAttribute(ATT_EST_GUICHET, utilisateur.estGuichet());
-
 	/* calcul du nombre de places restantes et transmission à la JSP */
 	int placesRestantes = NB_PLACES;
 	for (Place[] i : matricePlace) {
@@ -115,9 +107,19 @@ public class ChoixPlace extends HttpServlet {
 		    placesRestantes--;
 	    }
 	}
-	if (!utilisateur.estGuichet())
+	if (!((Utilisateur) session.getAttribute(ATT_SESSION_UTILISATEUR))
+		.estGuichet())
 	    placesRestantes -= NB_PLACES_GUICHET;
+
+	/* on transmet la matrice en attribut */
+	request.setAttribute(ATT_PLACES, matricePlace);
+	/* on transmet le nombre de places restantes en attribut */
 	request.setAttribute(ATT_PLACES_RESTANTES, placesRestantes);
+
+	/* Transmettre les Zones */
+	List<Zone> listeZone = new ArrayList<Zone>();
+	placeDao.listerZone(listeZone, Integer.parseInt(id_representation));
+	request.setAttribute("zones", listeZone);
 
 	/* Affichage de la page de sélection des places */
 	this.getServletContext().getRequestDispatcher(VUE)

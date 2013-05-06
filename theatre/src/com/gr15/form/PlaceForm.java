@@ -39,7 +39,7 @@ public class PlaceForm {
     }
 
     // Nom à changer de la fonction
-    public List<Ticket> reserver(HttpServletRequest request) {
+    public List<Ticket> reserver(HttpServletRequest request, int placesRestantes) {
 	List<Ticket> listeTickets = new ArrayList<Ticket>();
 
 	/* boolean spécifiant s'il s'agit d'une réservation */
@@ -72,20 +72,29 @@ public class PlaceForm {
 		    ids[i] = Integer.parseInt(idss[i]);
 		}
 
-		/* enregistrement de la réservation, de l'achat ou du paiement */
-		if (isReservation) {
-		    placeDao.reserver(idUtilisateur, idRepresentation, ids);
-		    listeTickets = null;
-		} else {
-		    // si de reservationsClients/ -> confirmation/ estReserve =
-		    // true
-		    // si de choixPlace/ -> confirmation/ estReserve = false
-		    LinkedList<AssociePlaceRepresentation> associePlaceRepresentations = new LinkedList<AssociePlaceRepresentation>();
-		    placeDao.associer(ids, associePlaceRepresentations,
-			    estReserve, idRepresentation);
-		    placeDao.acheter(idUtilisateur,
-			    associePlaceRepresentations, listeTickets,
-			    estReserve);
+		// vérification du nombre de place disponibles
+		if (!estReserve && placesRestantes - ids.length < 0)
+		    erreur = "Vous avez sélectionné plus de place qu'il n'en reste pour la vente";
+		else {
+		    /*
+		     * enregistrement de la réservation, de l'achat ou du
+		     * paiement
+		     */
+		    if (isReservation) {
+			placeDao.reserver(idUtilisateur, idRepresentation, ids);
+			listeTickets = null;
+		    } else {
+			// si de reservationsClients/ -> confirmation/
+			// estReserve =
+			// true
+			// si de choixPlace/ -> confirmation/ estReserve = false
+			LinkedList<AssociePlaceRepresentation> associePlaceRepresentations = new LinkedList<AssociePlaceRepresentation>();
+			placeDao.associer(ids, associePlaceRepresentations,
+				estReserve, idRepresentation);
+			placeDao.acheter(idUtilisateur,
+				associePlaceRepresentations, listeTickets,
+				estReserve);
+		    }
 		}
 	    }
 	    if (erreur == null) {

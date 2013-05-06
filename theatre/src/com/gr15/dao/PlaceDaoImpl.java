@@ -17,6 +17,7 @@ import com.gr15.beans.AssociePlaceRepresentation;
 import com.gr15.beans.Place;
 import com.gr15.beans.Representation;
 import com.gr15.beans.Ticket;
+import com.gr15.beans.Zone;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 public class PlaceDaoImpl implements PlaceDao {
@@ -38,7 +39,13 @@ public class PlaceDaoImpl implements PlaceDao {
 	    + " VALUES (?,?,?);";
     private static final String SQL_SUPPRESSION_RESERVATION = "DELETE FROM projweb_db.reservation "
 	    + "WHERE id_representation = ? AND id_place = ?";
-    private static final String SQL_SELECT_ASSOCIER = "SELECT id_representation, id_place FROM projweb_db.reservation WHERE id_reservation=?";
+    private static final String SQL_SELECT_ASSOCIER = "SELECT id_representation, id_place "
+	    + "FROM projweb_db.reservation WHERE id_reservation=?";
+    private static final String SQL_SELECT_SPECTACLE = "SELECT id_spectacle "
+	    + "FROM projweb_db.representation " + "WHERE id_representation = ?";
+    private static final String SQL_SELECT_ZONE = "SELECT z.categorie_prix, (s.base_prix*z.base_pourcentage_prix)/100 "
+	    + "FROM  projweb_db.spectacle s, projweb_db.zone z "
+	    + "WHERE id_spectacle = ?";
 
     PlaceDaoImpl(DAOFactory daoFactory) {
 	this.daoFactory = daoFactory;
@@ -256,7 +263,7 @@ public class PlaceDaoImpl implements PlaceDao {
 		int statut = preparedStatement.executeUpdate();
 		if (statut == 0)
 		    throw new DAOException(
-			    "Erreur lors de la création de dossier, aucun dossier n'a été crée.");
+			    "Erreur lors de la création de dossier, aucun dossier n'a été créé.");
 		valeursAutoGenerees = preparedStatement.getGeneratedKeys();
 		if (valeursAutoGenerees.next()) {
 		    idDossier = valeursAutoGenerees.getInt(1);
@@ -366,4 +373,35 @@ public class PlaceDaoImpl implements PlaceDao {
 	    fermetureSilencieuse(connexion);
 	}
     }
+
+    public void listerZone(List<Zone> zones, int idRepresentation) {
+	Connection connexion = null;
+	PreparedStatement preparedStatement = null;
+	ResultSet resultSet = null;
+	int idSpectacle = 0;
+	try {
+	    connexion = daoFactory.getConnection();
+	    /* récupération de l'idSpectacle à partir de la representation */
+	    preparedStatement = initialisationRequetePreparee(connexion,
+		    SQL_SELECT_SPECTACLE, false, idRepresentation);
+	    resultSet = preparedStatement.executeQuery();
+	    if (resultSet.next()) {
+		idSpectacle = resultSet.getInt(1);
+	    }
+	    preparedStatement = initialisationRequetePreparee(connexion,
+		    SQL_SELECT_ZONE, false, idSpectacle);
+	    resultSet = preparedStatement.executeQuery();
+	    while (resultSet.next()) {
+		zones.add(new Zone(resultSet.getString(1), resultSet
+			.getFloat(2)));
+	    }
+	} catch (SQLException e) {
+	    throw new DAOException(e);
+	} finally {
+	    fermetureSilencieuse(resultSet);
+	    fermetureSilencieuse(preparedStatement);
+	    fermetureSilencieuse(connexion);
+	}
+    }
+
 }
