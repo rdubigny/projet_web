@@ -15,14 +15,14 @@ import com.gr15.dao.DAOFactory;
 import com.gr15.dao.RepresentationDao;
 
 /**
- * Servlet implementation class gererRepresentationsAdmin
+ * Servlet implementation class gererRepresentationsResponsable
  */
-@WebServlet( "/admin/gererRepresentationsAdmin" )
-public class GererRepresentationsAdmin extends HttpServlet {
+@WebServlet( "/responsable/gererRepresentationsResponsable" )
+public class GererRepresentationsResponsable extends HttpServlet {
     private static final long  serialVersionUID   = 1L;
-    public static final String VUE                = "/WEB-INF/gererRepresentationsAdmin.jsp";
+    public static final String VUE                = "/WEB-INF/gererRepresentationsResponsable.jsp";
     public static final String CONF_DAO_FACTORY   = "daofactory";
-    public static final String ATT_REPRESENTATION = "representationsAdmin";
+    public static final String ATT_REPRESENTATION = "representationsResponsable";
 
     private RepresentationDao  representationDao;
 

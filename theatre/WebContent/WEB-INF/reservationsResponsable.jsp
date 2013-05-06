@@ -11,14 +11,18 @@
 	<c:import url="/inc/header.jsp" />
 	<fieldset>
 		<legend>Gestion des réservations</legend>
+		<div id="corps">
 		<c:choose>
 			<%-- Si aucune représentation n'est transmise en requète, affichage d'un message par défaut. --%>
 			<c:when
-				test="${ empty requestScope.reservationsAdmin && suppression != 1}">
+				test="${ empty requestScope.reservationsResponsable && suppression != 1}">
 				<p class="erreur">Aucune réservations pour le moment.</p>
 			</c:when>
 			<%-- Sinon, affichage du tableau. --%>
 			<c:otherwise>
+				<c:if test="${ param.suppression == 0 }">
+					<p class="erreur">Echec de l'annulation</p>
+				</c:if>
 				<c:if test="${ param.suppression == 1 }">
 					<p class="succes">La réservation a bien été annulée</p>
 				</c:if>
@@ -35,7 +39,7 @@
 						<th class="action">Annuler</th>
 					</tr>
 					<%-- Parcours de la listes des reservations en requête, et utilisation de l'objet varStatus. --%>
-					<c:forEach items="${requestScope.reservationsAdmin }"
+					<c:forEach items="${requestScope.reservationsResponsable }"
 						var="reservation" varStatus="boucle">
 						<%-- Simple test de parité sur l'index de parcours, pour alterner la couleur de fond de chaque ligne du tableau. --%>
 						<tr class="${boucle.index % 2 == 0 ? 'pair' : 'impair'}">
@@ -59,13 +63,14 @@
 							<td>
 								<%-- Bouton pour annuler --%> <input type="button"
 								value="Annuler"
-								onclick="self.location.href='<c:url value='/admin/annulationReservation'><c:param name='idReservation' value='${ reservation.id }' /></c:url>'" />
+								onclick="self.location.href='<c:url value='/responsable/annulationReservation'><c:param name='idReservation' value='${ reservation.id }' /></c:url>'" />
 							</td>		
 						</tr>
 					</c:forEach>
 				</table>
 			</c:otherwise>
 		</c:choose>
+		</div>
 	</fieldset>
 </body>
 </html>

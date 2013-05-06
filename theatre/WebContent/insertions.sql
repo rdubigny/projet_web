@@ -1,18 +1,18 @@
 -- Spectacle -----------
 
-INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('L\'Ecole des Femmes - Moliere','20.00');
-INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('Troilus et Cressida - William Shakespeare','30.00');
-INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('Ce que j\'appelle oubli - Laurent Mauvignier','10.00');
+INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('L\'Ecole des Femmes de Moliere','20.00');
+INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('Troilus et Cressida de William Shakespeare','30.00');
+INSERT INTO projweb_db.spectacle (nom_spectacle, base_prix) VALUES ('Ce que j\'appelle oubli de Laurent Mauvignier','10.00');
 
 -- Utilisateur ---------
 
-INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('root', 'root', 'root', 'root', 'root@root.root', 'client');
-INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('responsable', 'responsable', 'responsable', 'responsable', 'responsable@responsable.fr', 'responsable');
-INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('guichet', 'guichet', 'guichet', 'guichet', 'guichet@guichet.fr', 'guichet');
-INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('legouxg', 'legouxg', 'legouxg', 'legouxg', 'legouxg@legouxg.fr', 'client');
-INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('dubignyr', 'dubignyr', 'dubignyr', 'dubignyr', 'dubignyr@dubignyr.fr', 'client');
-INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('pailloue', 'pailloue', 'pailloue', 'pailloue', 'pailloue@pailloue.fr', 'client');
-INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('milloura', 'milloura', 'milloura', 'milloura', 'milloura@milloura.fr', 'client');
+INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('root', 'root', 'nomRoot', 'prenomRoot', 'root@root.fr', 'client');
+INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('responsable', 'responsable', 'nomResponsable', 'prenomResponsable', 'responsable@responsable.fr', 'responsable');
+INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('guichet', 'guichet', 'nomGuichet', 'prenomGuichet', 'guichet@guichet.fr', 'guichet');
+INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('legouxg', 'legouxg', 'Legoux', 'Gilles', 'legouxg@legouxg.fr', 'client');
+INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('dubignyr', 'dubignyr', 'Dubigny', 'Raphaël', 'dubignyr@dubignyr.fr', 'client');
+INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('pailloue', 'pailloue', 'Paillous', 'Emilie', 'pailloue@pailloue.fr', 'client');
+INSERT INTO projweb_db.Utilisateur (login, mot_de_passe, nom, prenom, mail, type_utilisateur) VALUES ('milloura', 'milloura', 'Millour', 'Alice', 'milloura@milloura.fr', 'client');
 
 -- Repr�sentation ------
 INSERT INTO projweb_db.representation (id_spectacle, moment_representation) VALUES ('1',NOW());
@@ -643,8 +643,6 @@ INSERT INTO projweb_db.place (numero_rang, numero_siege, id_zone) VALUES (20,29,
 INSERT INTO projweb_db.place (numero_rang, numero_siege, id_zone) VALUES (20,30,4);
 
 -- reservations 
--- gilles  : id_utilisateur=2 pas de reservation c'est le responsable
--- legouxg : id_utilisateur=4 
 INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('2','1','4');
 INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('3','1','4');
 INSERT INTO projweb_db.reservation (id_representation, id_place, id_utilisateur) VALUES ('3','2','4');

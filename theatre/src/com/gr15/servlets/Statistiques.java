@@ -18,7 +18,7 @@ import com.gr15.dao.StatistiquesDao;
 /**
  * Servlet implementation class Statistiques
  */
-@WebServlet( "/admin/statistiques" )
+@WebServlet( "/responsable/statistiques" )
 public class Statistiques extends HttpServlet {
     private static final long  serialVersionUID                 = 1L;
     public static final String VUE                              = "/WEB-INF/statistiques.jsp";
