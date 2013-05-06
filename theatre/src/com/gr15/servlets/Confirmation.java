@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.gr15.beans.Place;
 import com.gr15.beans.Ticket;
 import com.gr15.dao.DAOFactory;
 import com.gr15.dao.PlaceDao;
@@ -23,6 +24,7 @@ public class Confirmation extends HttpServlet {
 
     public static final String ATT_LISTE_TICKETS = "tickets";
     public static final String ATT_FORM = "form";
+    public static final String ATT_PLACES = "places";
 
     public static final String VUE = "/WEB-INF/confirmation.jsp";
 
@@ -31,7 +33,7 @@ public class Confirmation extends HttpServlet {
     private PlaceDao placeDao;
 
     public void init() throws ServletException {
-	/* R�cup�ration d'une instance des DAO place */
+	/* Récuperation d'une instance des DAO place */
 	this.placeDao = ((DAOFactory) getServletContext().getAttribute(
 		CONF_DAO_FACTORY)).getPlaceDao();
     }
@@ -44,6 +46,17 @@ public class Confirmation extends HttpServlet {
 	    HttpServletResponse response) throws ServletException, IOException {
 	/* préparation de l'objet metier */
 	PlaceForm form = new PlaceForm(placeDao);
+
+	/* récupération de la répartition des zones */
+	Place matricePlace[][] = (Place[][]) request.getSession().getAttribute(
+		ATT_PLACES);
+	if (matricePlace == null)
+	    matricePlace = placeDao.genererPlan();
+
+	/* calcul la matrice des places */
+	// placeDao.updateDisponibilite(matricePlace, representation);
+
+	request.setAttribute("placesRestantes", null);
 
 	/* traitement de la réservation ou de l'achat */
 	List<Ticket> listeTickets = form.reserver(request);
