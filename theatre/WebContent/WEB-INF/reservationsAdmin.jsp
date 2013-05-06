@@ -21,7 +21,7 @@
 			<%-- Sinon, affichage du tableau. --%>
 			<c:otherwise>
 				<c:if test="${ param.suppression == 0 }">
-					<p class="erreur">Echec de l'annulation</p>
+					<p class="erreur">Erreur : la réservation n'a pas été trouvée</p>
 				</c:if>
 				<c:if test="${ param.suppression == 1 }">
 					<p class="succes">La réservation a bien été annulée</p>

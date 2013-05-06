@@ -77,7 +77,7 @@ public class ChoixPlace extends HttpServlet {
 		.trouver(id_representation);
 	if (representation == null) {
 	    request.setAttribute(ATT_ERREUR,
-		    "Erreur : La repr�sentation n'est pas accessible");
+		    "Erreur : La représentation n'est pas accessible");
 
 	    /* Affichage de la page d'espace client */
 	    this.getServletContext().getRequestDispatcher(ESPACE_CLIENT)
@@ -101,7 +101,7 @@ public class ChoixPlace extends HttpServlet {
 
 	/*
 	 * on transmet le type d'utilisateur en attribut pour pouvoir empêcher
-	 * la r�servation par le guichet
+	 * la réservation par le guichet
 	 */
 	Utilisateur utilisateur = (Utilisateur) session
 		.getAttribute(ATT_SESSION_UTILISATEUR);

@@ -72,6 +72,11 @@ public class PlaceForm {
 		    ids[i] = Integer.parseInt(idss[i]);
 		}
 
+		if (!estReserve || isReservation) {
+		    // vérification du nombre de place disponibles
+		    // cette solution ne gère pas les accès concurentiels
+		}
+
 		/* enregistrement de la réservation, de l'achat ou du paiement */
 		if (isReservation) {
 		    placeDao.reserver(idUtilisateur, idRepresentation, ids);
