@@ -7,26 +7,26 @@
 <link type="text/css" rel="stylesheet"
 	href="<c:url value="/inc/style.css"/>" />
 
-<title>Espace Admin</title>
+<title>Espace Responsable</title>
 </head>
 <body>
 	<c:import url="/inc/header.jsp" />	
 	<fieldset>
-	<legend>Espace Administrateur</legend>
+	<legend>Espace Responsable de la Programmation</legend>
 		<div id="corps">
 			<p class="action"><input type="button" value="Gérer les réservations"
 				onclick="self.location.href=
-                        		'<c:url value='/admin/reservationsAdmin'>
+                        		'<c:url value='/responsable/reservationsResponsable'>
                         		</c:url>'" />
 			</p>
 			<p class="action"><input type="button" value="Gérer les représentations"
 				onclick="self.location.href=
-        	                	'<c:url value='/admin/gererRepresentationsAdmin'>
+        	                	'<c:url value='/responsable/gererRepresentationsResponsable'>
                         		</c:url>'" />
 			</p>
 					<p class="action"><input type="button" value="Statistiques"
 				onclick="self.location.href=
-                        		'<c:url value='/admin/statistiques'>
+                        		'<c:url value='/responsable/statistiques'>
                         		</c:url>'" />
 			</p>
 		</div>

@@ -14,7 +14,7 @@
 		<div id="corps">
 		<c:choose>
 			<%-- Si aucune représentation n'est transmise en requète, affichage d'un message par défaut. --%>
-			<c:when test="${ empty requestScope.representationsAdmin && suppression != 1}">
+			<c:when test="${ empty requestScope.representationsResponsable && suppression != 1}">
 				<p class="erreur">Aucune représentation prévue pour le moment.</p>
 			</c:when>
 			<%-- Sinon, affichage du tableau. --%>
@@ -29,7 +29,7 @@
 						<th class="action">Annuler une représentation</th>
 					</tr>	
 					<%-- Parcours de la listes des représentations en requête, et utilisation de l'objet varStatus. --%>
-					<c:forEach items="${ requestScope.representationsAdmin }"
+					<c:forEach items="${ requestScope.representationsResponsable }"
 						var="representation" varStatus="boucle">
 						<%-- Simple test de parité sur l'index de parcours, pour alterner la couleur de fond de chaque ligne du tableau. --%>
 						<tr class="${boucle.index % 2 == 0 ? 'pair' : 'impair'}">
@@ -40,7 +40,7 @@
 							<%-- Lien vers la page de réservation de la représentation appropriée. --%>
 							<td class="action"><input type="button" value="Annuler"
 								onclick="self.location.href=
-                        		'<c:url value="/admin/annulationRepresentation">
+                        		'<c:url value="/responsable/annulationRepresentation">
                         		<c:param name="idRepresentation" value="${ representation.id }"/>
                         		</c:url>'" />
 							</td>
