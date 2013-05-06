@@ -18,7 +18,7 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 	this.daoFactory = daoFactory;
     }
 
-    /* Impl�mentation de la m�thode d�finie dans l'interface UtilisateurDao */
+    /* Implémentation de la méthode définie dans l'interface UtilisateurDao */
     @Override
     public Utilisateur trouver(String login) throws DAOException {
 	Connection connexion = null;
@@ -27,12 +27,12 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 	Utilisateur utilisateur = null;
 
 	try {
-	    /* R�cup�ration d'une connexion depuis la Factory */
+	    /* Récupération d'une connexion depuis la Factory */
 	    connexion = daoFactory.getConnection();
 	    preparedStatement = initialisationRequetePreparee(connexion,
 		    SQL_SELECT_PAR_LOGIN, false, login);
 	    resultSet = preparedStatement.executeQuery();
-	    /* Parcours de la ligne de donn�es de l'�ventuel ResulSet retourn� */
+	    /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	    if (resultSet.next()) {
 		utilisateur = map(resultSet);
 	    }
@@ -46,7 +46,7 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
     }
 
     /*
-     * Simple m�thode utilitaire permettant de faire la correspondance (le
+     * Simple méthode utilitaire permettant de faire la correspondance (le
      * mapping) entre une ligne issue de la table des utilisateurs (un
      * ResultSet) et un bean Utilisateur.
      */

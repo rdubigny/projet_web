@@ -30,7 +30,7 @@ public class IdentificationForm {
     }
 
     public Utilisateur connecterUtilisateur(HttpServletRequest request) {
-	/* Récupération des champs du formulaire */
+	/* RÃ©cuperation des champs du formulaire */
 	String login = getValeurChamp(request, CHAMP_LOGIN);
 	String motDePasse = getValeurChamp(request, CHAMP_PASS);
 
@@ -39,12 +39,12 @@ public class IdentificationForm {
 	try {
 	    utilisateur = traiterIdentifiants(login, motDePasse);
 	    if (erreurs.isEmpty()) {
-		resultat = "Succès de l'identification.";
+		resultat = "SuccÃ¨s de l'identification.";
 	    } else {
-		resultat = "Échec de l'identification.";
+		resultat = "Echec de l'identification.";
 	    }
 	} catch (DAOException e) {
-	    resultat = "Échec de l'identification : une erreur imprévue est survenue, merci de réessayer dans quelques instants.";
+	    resultat = "Echec de l'identification : une erreur imprÃ©vue est survenue, merci de rÃ©essayer dans quelques instants.";
 	    e.printStackTrace();
 	}
 
@@ -96,14 +96,14 @@ public class IdentificationForm {
     }
 
     /*
-     * Ajoute un message correspondant au champ spécifié à la map des erreurs.
+     * Ajoute un message correspondant au champ spÃ©cifiÃ© Ã  la map des erreurs.
      */
     private void setErreur(String champ, String message) {
 	erreurs.put(champ, message);
     }
 
     /*
-     * Méthode utilitaire qui retourne null si un champ est vide, et son contenu
+     * MÃ©thode utilitaire qui retourne null si un champ est vide, et son contenu
      * sinon.
      */
     private static String getValeurChamp(HttpServletRequest request,

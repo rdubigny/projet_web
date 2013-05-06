@@ -188,7 +188,7 @@ public class PlaceDaoImpl implements PlaceDao {
 		// (représentation unique)
 		// ici ids[i] est un id_place
 		associeplacerepresentations.add(new AssociePlaceRepresentation(
-			ids[i], idRepresentation));
+			idRepresentation, ids[i]));
 	    } else {
 		// achat de places avec reservation préalable (représenation
 		// peuvent être différent)
@@ -298,6 +298,20 @@ public class PlaceDaoImpl implements PlaceDao {
 
 		// création d'un achat
 		try {
+		    // TODO a supprimer
+		    // System.out.println("requete achat : ");
+		    // System.out.print("id_representation :");
+		    // System.out.print(associeplacerepresentations.get(i)
+		    // .getIdRepresentation());
+		    // System.out.print(", id_place : ");
+		    // System.out.print(associeplacerepresentations.get(i)
+		    // .getIdPlace());
+		    // System.out.print(", id_dossier :");
+		    // System.out.print(idDossier);
+		    // System.out.print(", id_ticket :");
+		    // System.out.print(idTicket);
+		    // System.out.print(", id_user :");
+		    // System.out.println(idUtilisateur);
 		    preparedStatement = initialisationRequetePreparee(
 			    connexion, SQL_ACHAT, true,
 			    associeplacerepresentations.get(i)
@@ -309,6 +323,8 @@ public class PlaceDaoImpl implements PlaceDao {
 			throw new DAOException(
 				"Erreur lors de l'achat, l'achat n'a pas été enregistré.");
 		} catch (MySQLIntegrityConstraintViolationException e) {
+		    // TODO supprimer la ligne suivante
+		    e.printStackTrace();
 		    throw new DAOException(
 			    "Une des places que vous avez sélectionnées a déjà été réservée. Veuillez recommencez votre choix.");
 		} catch (SQLException e) {
