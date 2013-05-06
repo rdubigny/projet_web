@@ -181,10 +181,6 @@ public class PlaceDaoImpl implements PlaceDao {
     }
 
     @Override
-    // construit l'association des places à acheter en fonction de la
-    // representation
-    // en fonction d'un tableau d'identifiant qui est considéré non-vide
-    // si estReserve vaut faux le parametre idRepresentation ne sert à rien
     public void associer(int[] ids,
 	    LinkedList<AssociePlaceRepresentation> associeplacerepresentations,
 	    boolean estReserve, int idRepresentation) {
@@ -235,13 +231,6 @@ public class PlaceDaoImpl implements PlaceDao {
     }
 
     @Override
-    // Actes d'achat
-    // Au niveau des requêtes
-    // En une seule transaction :
-    // 1. création d'un dossier
-    // 2. création des tickets avec moment de la représentation
-    // 3. création des achats avec id de la représentation
-    // 4. si estReserve vaut vrai supprime les reservations
     public void acheter(int idUtilisateur,
 	    LinkedList<AssociePlaceRepresentation> associeplacerepresentations,
 	    List<Ticket> tickets, boolean estReserve) {

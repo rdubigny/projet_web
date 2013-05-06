@@ -6,13 +6,37 @@ import com.gr15.beans.Representation;
 
 public interface RepresentationDao {
 
-    public void lister( List<Representation> listeRepresentation );
+    /**
+     * liste les représentations contenue dans la table representation
+     * 
+     * @param listeRepresentation
+     */
+    public void lister(List<Representation> listeRepresentation);
 
-    public Representation trouver( String id );
+    /**
+     * retourne la représentation correspondant à l'id en paramêtre
+     * 
+     * @param id
+     * @return
+     */
+    public Representation trouver(String id);
 
-    public void supprimer( String idRepresentation );
+    /**
+     * Supprime la représentation correspondant à l'id en paramêtre
+     * 
+     * @param idRepresentation
+     */
+    public void supprimer(String idRepresentation);
 
-	void listerParSpectacle(String idSpectacle, int idUtilisateur,
-			List<Representation> listeRepresentation);
+    /**
+     * liste les représentations du spectacle fournis en paramêtre. Si en
+     * fonction du type d'utilisateur certaine représentation sont cachées.
+     * 
+     * @param idSpectacle
+     * @param idUtilisateur
+     * @param listeRepresentation
+     */
+    void listerParSpectacle(String idSpectacle, int idUtilisateur,
+	    List<Representation> listeRepresentation);
 
 }
